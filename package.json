@@ -1,0 +1,55 @@
+{
+    "name": "tool-belt",
+    "version": "1.0.0",
+    "description": "Type Safe and Performant Utilities",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Goldziher/tool-belt.git"
+    },
+    "keywords": [
+        "utilities"
+    ],
+    "author": "Na'aman Hirschfeld",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Goldziher/tool-belt/issues"
+    },
+    "homepage": "https://github.com/Goldziher/tool-belt#readme",
+    "main": "dist/index.js",
+    "typings": "dist/index",
+    "files": [
+        "dist/"
+    ],
+    "scripts": {
+        "build": "rimraf dist && tsc -p ./tsconfig.build.json",
+        "contributors:add": "all-contributors add",
+        "contributors:generate": "all-contributors generate",
+        "format": "prettier --write '**/*.{js,md,json,yaml,yml}'",
+        "lint": "eslint --fix '**/*.ts'",
+        "prepare": "husky install",
+        "test": "jest",
+        "test:coverage": "jest --coverage",
+        "test:watch": "jest --watch"
+    },
+    "devDependencies": {
+        "@sprylab/eslint-config": "^1.5.4",
+        "@types/jest": "^26.0.24",
+        "@types/node": "^16.4.7",
+        "all-contributors-cli": "^6.20.0",
+        "eslint": "^7.31.0",
+        "eslint-plugin-tsdoc": "^0.2.14",
+        "expect-type": "^0.12.0",
+        "husky": ">=7",
+        "jest": "^27.0.6",
+        "lint-staged": ">=11",
+        "prettier": "^2.3.2",
+        "rimraf": "^3.0.2",
+        "ts-jest": "^27.0.4",
+        "ts-node": "^10.1.0",
+        "typescript": "^4.3.5"
+    },
+    "lint-staged": {
+        "*.ts": "eslint --fix",
+        "*.{js,md,json,yaml,yml}": "prettier --write"
+    }
+}
