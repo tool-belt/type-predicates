@@ -10,9 +10,11 @@ import {
     isAsyncFunction,
     isAsyncGenerator,
     isAsyncGeneratorFunction,
+    isBoolean,
     isFunction,
     isGenerator,
     isGeneratorFunction,
+    isMap,
     isNull,
     isNumber,
     isObject,
@@ -40,6 +42,11 @@ const stringArray = ['xyz', 'abc', '123'];
 const numberArray = [1, 2, 3];
 const symbolArray = [Symbol(), Symbol(), Symbol()];
 const recordArray = [{ name: 1 }, { name: 2 }, { name: 3 }];
+const stringMap = new Map([['xzy', 'abc']]);
+const numberMap = new Map([[100, 100]]);
+const symbolMap = new Map([[Symbol('x'), Symbol('y')]]);
+const booleanMap = new Map([[false, true]]);
+const recordMap = new Map([[{ key: 1 }, { value: 1 }]]);
 
 describe('isString', () => {
     it('returns true for string values', () => {
@@ -80,6 +87,26 @@ describe('isNumber', () => {
     });
     it('guards type correctly', () => {
         expectTypeOf(isNumber).guards.toBeNumber();
+    });
+});
+
+describe('isBoolean', () => {
+    it('returns true for number values', () => {
+        expect(isBoolean(true)).toBeTruthy();
+        expect(isBoolean(false)).toBeTruthy();
+    });
+    it('returns false for non-number values', () => {
+        expect(isBoolean(null)).toBeFalsy();
+        expect(isBoolean(1)).toBeFalsy();
+        expect(isBoolean([])).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() => isBoolean(null, { throwError: true })).toThrow();
+        expect(() => isBoolean(undefined, { throwError: true })).toThrow();
+        expect(() => isBoolean([], { throwError: true })).toThrow();
+    });
+    it('guards type correctly', () => {
+        expectTypeOf(isBoolean).guards.toBeBoolean();
     });
 });
 
@@ -167,6 +194,30 @@ describe('isObject', () => {
     });
     it('guards type correctly', () => {
         expectTypeOf(isObject).guards.toBeObject();
+    });
+});
+
+describe('isPromise', () => {
+    it('returns true for promise values', () => {
+        expect(isPromise(new Promise((resolve) => resolve(null)))).toBeTruthy();
+    });
+    it('returns false for non-promise values', () => {
+        expect(isPromise(generator)).toBeFalsy();
+        expect(isPromise(asyncFunction)).toBeFalsy();
+        expect(isPromise([])).toBeFalsy();
+        expect(isPromise({})).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() =>
+            isPromise(asyncGeneratorFunction, { throwError: true }),
+        ).toThrow();
+        expect(() => isPromise(generator, { throwError: true })).toThrow();
+        expect(() => isPromise({}, { throwError: true })).toThrow();
+    });
+    it('guards type correctly', () => {
+        expectTypeOf(isPromise).guards.toMatchTypeOf<Promise<any>>(
+            Promise.resolve(null),
+        );
     });
 });
 
@@ -470,26 +521,66 @@ describe('isSet', () => {
     });
 });
 
-describe('isPromise', () => {
-    it('returns true for promise values', () => {
-        expect(isPromise(new Promise((resolve) => resolve(null)))).toBeTruthy();
+describe('isMap', () => {
+    it('returns true for positively tested map values', () => {
+        expect(
+            isMap<string, string>(stringMap, {
+                valueGuard: isString,
+                keyGuard: isString,
+            }),
+        ).toBeTruthy();
+        expect(
+            isMap<number, number>(numberMap, {
+                valueGuard: isNumber,
+                keyGuard: isNumber,
+            }),
+        ).toBeTruthy();
+        expect(
+            isMap<symbol, symbol>(symbolMap, {
+                valueGuard: isSymbol,
+                keyGuard: isSymbol,
+            }),
+        ).toBeTruthy();
+        expect(
+            isMap<string | number | symbol, string | number | symbol>(
+                new Map<string | number | symbol, string | number | symbol>([
+                    ...stringMap,
+                    ...numberMap,
+                    ...symbolMap,
+                ]),
+                {
+                    valueGuard: isUnion<string | number | symbol>(
+                        isString,
+                        isNumber,
+                        isSymbol,
+                    ),
+                    keyGuard: isUnion<string | number | symbol>(
+                        isString,
+                        isNumber,
+                        isSymbol,
+                    ),
+                },
+            ),
+        ).toBeTruthy();
+        expect(
+            isMap<object | boolean, object | boolean>(
+                new Map<object | boolean, object | boolean>([
+                    ...recordMap,
+                    ...booleanMap,
+                ]),
+                {
+                    valueGuard: isUnion<object | boolean>(isObject, isBoolean),
+                    keyGuard: isUnion<object | boolean>(isObject, isBoolean),
+                },
+            ),
+        ).toBeTruthy();
     });
-    it('returns false for non-promise values', () => {
-        expect(isPromise(generator)).toBeFalsy();
-        expect(isPromise(asyncFunction)).toBeFalsy();
-        expect(isPromise([])).toBeFalsy();
-        expect(isPromise({})).toBeFalsy();
-    });
+    it('returns false for negatively tested map values', () => {});
+    it('returns false for non-map values', () => {});
     it('throws error when throwError = true', () => {
-        expect(() =>
-            isPromise(asyncGeneratorFunction, { throwError: true }),
-        ).toThrow();
-        expect(() => isPromise(generator, { throwError: true })).toThrow();
-        expect(() => isPromise({}, { throwError: true })).toThrow();
+        expect(() => isMap('', { throwError: true })).toThrow();
+        expect(() => isMap(null, { throwError: true })).toThrow();
+        expect(() => isMap(123, { throwError: true })).toThrow();
     });
-    it('guards type correctly', () => {
-        expectTypeOf(isPromise).guards.toMatchTypeOf<Promise<any>>(
-            Promise.resolve(null),
-        );
-    });
+    it('guards type correctly', () => {});
 });

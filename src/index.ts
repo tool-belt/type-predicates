@@ -2,6 +2,8 @@
 import {
     AsyncFunction,
     BaseTypeGuard,
+    BaseTypeGuardOptions,
+    RecordKeyTypes,
     TypeValidator,
     TypedAsyncGeneratorFunction,
     TypedGeneratorFunction,
@@ -13,7 +15,7 @@ const toObjectString = (value: unknown): string =>
 const createGuard = <T>(validator: TypeValidator, label: string) => {
     return (
         input: unknown,
-        { throwError = false }: { throwError?: boolean } = {},
+        { throwError = false }: BaseTypeGuardOptions = {},
     ): input is T => {
         if (!validator(input)) {
             if (throwError) {
@@ -28,7 +30,7 @@ const createGuard = <T>(validator: TypeValidator, label: string) => {
 export function isUnion<T>(...guards: BaseTypeGuard[]) {
     return function (
         input: unknown,
-        { throwError = false }: { throwError?: boolean } = {},
+        { throwError = false }: BaseTypeGuardOptions = {},
     ): input is T {
         const errors: string[] = [];
         for (const guard of guards) {
@@ -53,18 +55,22 @@ export function isUnion<T>(...guards: BaseTypeGuard[]) {
  * Checks that input is string primitive
  *
  * @param input - value to be tested
- * @param throwError - throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isString("xyz") // true
+ * // true
+ * isString("xyz")
  *
- * isString(new String("xyz")) // false
+ * // false, because String constructor returns object
+ * isString(new String("xyz"))
  *
- * isString(1) // false
+ * // false
+ * isString(1)
  *
- * isString([], true) // throws TypeError
+ * // throws TypeError
+ * isString([], { throwError: true })
  * ```
  */
 export const isString = createGuard<string>(
@@ -76,18 +82,22 @@ export const isString = createGuard<string>(
  * Checks that input is number primitive
  *
  * @param input - value to be tested
- * @param throwError -throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isNumber(1) // true
+ *  // true
+ * isNumber(1)
  *
- * isNumber(new Number(1)) // false
+ * // false, because Number constructor returns object
+ * isNumber(new Number(1))
  *
- * isNumber("xyz") // false
+ * // false
+ * isNumber("xyz")
  *
- * isNumber([], true) // throws TypeError
+ * // throws TypeError
+ * isNumber([], { throwError: true })
  * ```
  */
 export const isNumber = createGuard<number>(
@@ -96,19 +106,49 @@ export const isNumber = createGuard<number>(
 );
 
 /**
- * Checks that input is symbol primitive
+ * Checks that input is boolean primitive
  *
  * @param input - value to be tested
- * @param throwError -throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isSymbol(Symbol("My Symbol")) // true
+ *  // true
+ * isBoolean(false)
  *
- * isSymbol("My Symbol") // false
+ * // false
+ * isBoolean(1)
  *
- * isSymbol([], true) // throws TypeError
+ * // false
+ * isBoolean("xyz")
+ *
+ * // throws TypeError
+ * isBoolean([], { throwError: true })
+ * ```
+ */
+export const isBoolean = createGuard<boolean>(
+    (value) => typeof value === 'boolean',
+    'boolean',
+);
+
+/**
+ * Checks that input is symbol primitive
+ *
+ * @param input - value to be tested
+ * @param options - throwError
+ * @returns boolean
+ * @throws TypeError
+ * @example
+ * ```typescript
+ * // true
+ * isSymbol(Symbol("My Symbol"))
+ *
+ * // false
+ * isSymbol("My Symbol")
+ *
+ * // throws TypeError
+ * isSymbol([], { throwError: true })
  * ```
  */
 export const isSymbol = createGuard<symbol>(
@@ -120,16 +160,19 @@ export const isSymbol = createGuard<symbol>(
  * Checks that input is undefined
  *
  * @param input - value to be tested
- * @param throwError -throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isUndefined(undefined) // true
+ * // true
+ * isUndefined(undefined)
  *
- * isUndefined(null) // false
+ * // false
+ * isUndefined(null)
  *
- * isUndefined("", true) // throws TypeError
+ * // throws TypeError
+ * isUndefined("", { throwError: true })
  * ```
  */
 export const isUndefined = createGuard<undefined>(
@@ -141,16 +184,19 @@ export const isUndefined = createGuard<undefined>(
  * Checks that input is null
  *
  * @param input - value to be tested
- * @param throwError -throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isNull(null) // true
+ * // true
+ * isNull(null)
  *
- * isNull(undefined) // false
+ * // false
+ * isNull(undefined)
  *
- * isNull("", true) // throws TypeError
+ * // throws TypeError
+ * isNull("", { throwError: true })
  * ```
  */
 export const isNull = createGuard<null>((value) => value === null, 'null');
@@ -164,13 +210,20 @@ export const isNull = createGuard<null>((value) => value === null, 'null');
  * @throws TypeError
  * @example
  * ```typescript
- * isObject({}) // true
+ * // true
+ * isObject({})
  *
- * isObject([]) // true
+ * // true
+ * isObject([])
  *
- * isObject(1) // false
+ * // false
+ * isObject(() => null)
  *
- * isObject("xyz", true) // throws TypeError
+ * // false
+ * isObject(1)
+ *
+ * // throws TypeError
+ * isObject("xyz", { throwError: true })
  * ```
  */
 export const isObject = createGuard<object>(
@@ -180,30 +233,36 @@ export const isObject = createGuard<object>(
 
 /**
  * Checks that input is function
- *
+ * @remarks - this function excludes class declarations
  * @typeParam T - function type, defaults to "Function"
  * @param input - value to be tested
- * @param throwError -throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isFunction(() => null) // true
+ *  // true
+ * isFunction(() => null)
  *
- * isFunction(async () => Promise.resolve(null)) // true
+ * // false
+ * isFunction(async () => Promise.resolve(null))
  *
- * isFunction(function* () {}) // true
+ * // false
+ * isFunction(function* () {})
  *
- * isFunction(async function* () {}) // true
+ * // false
+ * isFunction(async function* () {})
  *
- * isFunction(() => null)) // false
+ * // false
+ * isFunction(MyClass)
  *
- * isFunction([], true) // throws TypeError
+ * // throws TypeError
+ * isFunction([], { throwError: true })
  * ```
  */
 export function isFunction<T extends Function = Function>(
     input: unknown,
-    { throwError = false }: { throwError?: boolean } = {},
+    { throwError = false }: BaseTypeGuardOptions = {},
 ): input is T {
     return createGuard<T>(
         (value) =>
@@ -218,21 +277,24 @@ export function isFunction<T extends Function = Function>(
  *
  * @typeParam T - type of Promise return value, defaults to "any"
  * @param input - value to be tested
- * @param throwError -throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isAsyncFunction(async () => await Promise.resolve()) // true
+ * // true
+ * isAsyncFunction(async () => await Promise.resolve())
  *
- * isAsyncFunction(() => null)) // false
+ * // false
+ * isAsyncFunction(() => null))
  *
- * isAsyncFunction(() => null, true) // throws TypeError
+ * // throws TypeError
+ * isAsyncFunction(() => null, { throwError: true })
  * ```
  */
 export function isAsyncFunction<T = any>(
     input: unknown,
-    { throwError = false }: { throwError?: boolean } = {},
+    { throwError = false }: BaseTypeGuardOptions = {},
 ): input is AsyncFunction<T> {
     return createGuard<AsyncFunction<T>>((value) => {
         const { constructor: AsyncFunctionConstructor } = Object.getPrototypeOf(
@@ -249,7 +311,7 @@ export function isAsyncFunction<T = any>(
 
 /**
  * Checks that input is promise
- *
+ * @remarks - works with custom promises as well, e.g. AxiosPromise or Bluebird
  * @typeParam T - type of promise value, defaults to "any"
  * @param input - value to be tested
  * @param throwError - throw error if check fails
@@ -257,16 +319,19 @@ export function isAsyncFunction<T = any>(
  * @throws TypeError
  * @example
  * ```typescript
- * isPromise<string>(Promise.resolve("hi")) // true
+ * // true
+ * isPromise<string>(Promise.resolve("hi"))
  *
- * isPromise<string>({}) // false
+ * // false
+ * isPromise<string>({})
  *
- * isPromise<string>([], true) // throws type error
+ * // throws type error
+ * isPromise<string>([], { throwError: true })
  * ```
  */
 export function isPromise<T = any>(
     input: unknown,
-    { throwError = false }: { throwError?: boolean } = {},
+    { throwError = false }: BaseTypeGuardOptions = {},
 ): input is Promise<T> {
     return createGuard<Promise<T>>(
         (value) =>
@@ -283,21 +348,24 @@ export function isPromise<T = any>(
  * @typeParam R - type of return value, defaults to unknown
  * @typeParam N - type of .next() args, defaults to unknown
  * @param input - value to be tested
- * @param throwError -throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isGeneratorFunction(function * () {}) // true
+ * // true
+ * isGeneratorFunction(function * () {})
  *
- * isGeneratorFunction(async function * () {}) // false
+ * // false
+ * isGeneratorFunction(async function * () {})
  *
- * isGeneratorFunction(() => null, true) // throws TypeError
+ * // throws TypeError
+ * isGeneratorFunction(() => null, { throwError: true })
  * ```
  */
 export function isGeneratorFunction<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
-    { throwError = false }: { throwError?: boolean } = {},
+    { throwError = false }: BaseTypeGuardOptions = {},
 ): input is TypedGeneratorFunction<Y, R, N> {
     return createGuard<TypedGeneratorFunction<Y, R, N>>((value) => {
         const { constructor: GeneratorFunctionConstructor } =
@@ -320,21 +388,24 @@ export function isGeneratorFunction<Y = unknown, R = unknown, N = unknown>(
  * @typeParam R - type of return value, defaults to unknown
  * @typeParam N - type of .next() args, defaults to unknown
  * @param input - value to be tested
- * @param throwError -throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isAsyncGeneratorFunction(async function * () {}) // true
+ * // true
+ * isAsyncGeneratorFunction(async function * () {})
  *
- * isAsyncGeneratorFunction(function * () {}) // false
+ * // false
+ * isAsyncGeneratorFunction(function * () {})
  *
- * isAsyncGeneratorFunction(() => null, true) // throws TypeError
+ * // throws TypeError
+ * isAsyncGeneratorFunction(() => null, { throwError: true })
  * ```
  */
 export function isAsyncGeneratorFunction<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
-    { throwError = false }: { throwError?: boolean } = {},
+    { throwError = false }: BaseTypeGuardOptions = {},
 ): input is TypedAsyncGeneratorFunction<Y, R, N> {
     return createGuard<TypedAsyncGeneratorFunction<Y, R, N>>((value) => {
         const { constructor: AsyncGeneratorFunctionConstructor } =
@@ -357,21 +428,24 @@ export function isAsyncGeneratorFunction<Y = unknown, R = unknown, N = unknown>(
  * @typeParam R - type of return value, defaults to unknown
  * @typeParam N - type of .next() args, defaults to unknown
  * @param input - value to be tested
- * @param throwError -throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isGenerator<boolean>((function * () { yield true })()) // true
+ * // true
+ * isGenerator<boolean>((function * () { yield true })())
  *
- * isGenerator((async function * () { yield true })()) // false
+ * // false
+ * isGenerator((async function * () { yield true })())
  *
- * isGenerator({}, true) // throws TypeError
+ * // throws TypeError
+ * isGenerator({}, { throwError: true })
  * ```
  */
 export function isGenerator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
-    { throwError = false }: { throwError?: boolean } = {},
+    { throwError = false }: BaseTypeGuardOptions = {},
 ): input is Generator<Y, R, N> {
     return createGuard<Generator<Y, R, N>>(
         (value) =>
@@ -387,21 +461,24 @@ export function isGenerator<Y = unknown, R = unknown, N = unknown>(
  * @typeParam R - type of return value, defaults to unknown
  * @typeParam N - type of .next() args, defaults to unknown
  * @param input - value to be tested
- * @param throwError -throw error if check fails
+ * @param options - throwError
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isGenerator<boolean>((async function * () { yield Promise.resolve(true) })()) // true
+ * // true
+ * isGenerator<boolean>((async function * () { yield Promise.resolve(true) })())
  *
- * isGenerator((function * () { yield true })()) // false
+ * // false
+ * isGenerator((function * () { yield true })())
  *
- * isGenerator({}, true) // throws TypeError
+ * // throws TypeError
+ * isGenerator({}, { throwError: true })
  * ```
  */
 export function isAsyncGenerator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
-    { throwError = false }: { throwError?: boolean } = {},
+    { throwError = false }: BaseTypeGuardOptions = {},
 ): input is AsyncGenerator<Y, R, N> {
     return createGuard<AsyncGenerator<Y, R, N>>(
         (value) =>
@@ -416,33 +493,40 @@ export function isAsyncGenerator<Y = unknown, R = unknown, N = unknown>(
  *
  * @typeParam T - type of array value
  * @param input - value to be tested
- * @param valueGuard - guard function to validate array is of type T
- * @param throwError - throw error if check fails
+ * @param options - throwError, valueGuard
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isArray<string>(["xyz"], isString) // true
+ * // true, typed as unknown[]
+ * isArray(["xyz"])
  *
- * isArray<string>(["xyz", 1], isString) // false
+ * // true, typed as unknown[]
+ * isArray<string>(["xyz"])
  *
- * isArray<string | number>(["xyz", 1], (value) => isString(value) || isNumber(value)) // true
+ * // true, typed as string[]
+ * isArray<string>(["xyz"], { valueGuard: isString })
  *
- * isArray<string>(["xyz", 1], isString, true) // throws type error
+ * // false
+ * isArray<string>(["xyz", 1], { valueGuard: isString })
+ *
+ * // true, typed as string | number[]
+ * isArray<string | number>(["xyz", 1], { valueGuard: isUnion(isString, isNumber) })
+ *
+ * // throws type error
+ * isArray<string>(["xyz", 1], { valueGuard: isString, throwError: true })
  * ```
  */
 export function isArray(
     input: unknown,
-    options?: {
+    options?: BaseTypeGuardOptions & {
         valueGuard: undefined;
-        throwError?: boolean;
     },
 ): input is unknown[];
 export function isArray<T>(
     input: unknown,
-    options?: {
+    options?: BaseTypeGuardOptions & {
         valueGuard: TypeValidator;
-        throwError?: boolean;
     },
 ): input is T[];
 export function isArray<T>(
@@ -450,7 +534,7 @@ export function isArray<T>(
     {
         throwError = false,
         valueGuard,
-    }: { throwError?: boolean; valueGuard?: TypeValidator } = {},
+    }: BaseTypeGuardOptions & { valueGuard?: TypeValidator } = {},
 ): input is T[] {
     return createGuard<T[]>(
         (value) =>
@@ -464,33 +548,40 @@ export function isArray<T>(
  *
  * @typeParam T - type of set value
  * @param input - value to be tested
- * @param valueGuard - guard function to validate set is of type T
- * @param throwError - throw error if check fails
+ * @param options - throwError, valueGuard
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
- * isSet<string>(new Set(["xyz"]), isString) // true
+ * // true, typed as Set<unknown>
+ * isSet(new Set(["xyz"]))
  *
- * isSet<string>(new Set(["xyz", 1]), isString) // false
+ * // true, typed as Set<unknown>
+ * isSet<string>(new Set(["xyz"]))
  *
- * isSet<string | number>(new Set(["xyz", 1]), (value) => isString(value) || isNumber(value)) // true
+ * // true, typed as Set<string>
+ * isSet<string>(new Set(["xyz"]), { valueGuard: isString })
  *
- * isSet<string>(new Set(["xyz", 1]), isString, true) // throws type error
+ * // false
+ * isSet<string>(new Set(["xyz", 1]), { valueGuard: isString })
+ *
+ * // true, typed as Set<string | number>
+ * isSet<string | number>(new Set(["xyz", 1]), { valueGuard: isUnion(isString, isNumber) })
+ *
+ * // throws type error
+ * isSet<string>(new Set(["xyz", 1]), { valueGuard: isString, throwError: true })
  * ```
  */
 export function isSet(
     input: unknown,
-    options?: {
+    options?: BaseTypeGuardOptions & {
         valueGuard: undefined;
-        throwError?: boolean;
     },
 ): input is Set<unknown>;
 export function isSet<T>(
     input: unknown,
-    options?: {
+    options?: BaseTypeGuardOptions & {
         valueGuard: TypeValidator;
-        throwError?: boolean;
     },
 ): input is Set<T>;
 export function isSet<T>(
@@ -498,7 +589,7 @@ export function isSet<T>(
     {
         throwError = false,
         valueGuard,
-    }: { throwError?: boolean; valueGuard?: TypeValidator } = {},
+    }: BaseTypeGuardOptions & { valueGuard?: TypeValidator } = {},
 ): input is Set<T> {
     return createGuard<Set<T>>(
         (value) =>
@@ -515,43 +606,52 @@ export function isSet<T>(
  *
  * @typeParam T - type of map value
  * @param input - value to be tested
- * @param keyGuard - guard function to validate map keys are of type T
- * @param valueGuard - guard function to validate map values are of type T
- * @param throwError - throw error if check fails
+ * @param options - throwError, keyGuard, valueGuard
  * @returns boolean
  * @throws TypeError
  * @example
  * ```typescript
+ * // true, typed as Map<unknown, unknown>
+ * isMap(new Map([["xyz", "abc"]]))
+ *
+ * // true, typed as Map<unknown, string>
+ * isMap<string>(new Map([["xyz", "abc"]]), { valueGuard: isString })
+ *
+ * // true, typed as Map<string, unknown>
+ * isMap<string>(new Map([["xyz", "abc"]]), { keyGuard: isString })
+ *
+ * // true, typed as Map<string, string>
+ * isMap<string, string>(new Map([["xyz", "abc"]]), { keyGuard: isString, valueGuard: isString })
+ *
+ * // false
+ * isMap<string, string>(new Map([["abc", "def"], ["xyz", 100]]), { keyGuard: isString, valueGuard: isString })
+ *
+ * // true, typed as Map<string, string | number>
+ * isMap<string, string>(new Map([["abc", "def"], ["xyz", 100]]), { keyGuard: isString, valueGuard: isUnion(isString, isNumber) })
+ *
+ * // throws type error
+ * isMap<string, string>(new Map([["abc", "def"], ["xyz", 100]]), { keyGuard: isString, valueGuard: isString, throwError: true })
  * ```
  */
-export function isMap<K, V>(
+export function isMap(
     input: unknown,
-    options?: {
-        throwError?: boolean;
-        valueGuard: undefined;
-        keyGuard: undefined;
-    },
+    options?: BaseTypeGuardOptions,
 ): input is Map<unknown, unknown>;
-export function isMap<K, V>(
+export function isMap<K>(
     input: unknown,
-    options?: {
-        throwError?: boolean;
-        valueGuard: undefined;
+    options?: BaseTypeGuardOptions & {
         keyGuard: TypeValidator;
     },
 ): input is Map<K, unknown>;
-export function isMap<K, V>(
+export function isMap<V>(
     input: unknown,
-    options?: {
-        throwError?: boolean;
+    options?: BaseTypeGuardOptions & {
         valueGuard: TypeValidator;
-        keyGuard: undefined;
     },
 ): input is Map<unknown, V>;
 export function isMap<K, V>(
     input: unknown,
-    options?: {
-        throwError?: boolean;
+    options?: BaseTypeGuardOptions & {
         valueGuard: TypeValidator;
         keyGuard: TypeValidator;
     },
@@ -562,8 +662,7 @@ export function isMap<K, V>(
         throwError = false,
         valueGuard,
         keyGuard,
-    }: {
-        throwError?: boolean;
+    }: BaseTypeGuardOptions & {
         valueGuard?: TypeValidator;
         keyGuard?: TypeValidator;
     } = {},
@@ -583,4 +682,85 @@ export function isMap<K, V>(
         }
         return false;
     }, 'map')(input, { throwError });
+}
+
+/**
+ * Checks that input is record
+ * @remarks - The Record interface is construed here as representing an object literal
+ * @typeParam T - type of map value
+ * @param input - value to be tested
+ * @param options - throwError, keyGuard, valueGuard
+ * @returns boolean
+ * @throws TypeError
+ * @example
+ * ```typescript
+ * // true, typed as Map<unknown, unknown>
+ * isRecord(new Map([["xyz", "abc"]]))
+ *
+ * // true, typed as Map<unknown, string>
+ * isRecord<string>(new Map([["xyz", "abc"]]), { valueGuard: isString })
+ *
+ * // true, typed as Map<string, unknown>
+ * isRecord<string>(new Map([["xyz", "abc"]]), { keyGuard: isString })
+ *
+ * // true, typed as Map<string, string>
+ * isRecord<string, string>(new Map([["xyz", "abc"]]), { keyGuard: isString, valueGuard: isString })
+ *
+ * // false
+ * isRecord<string, string>(new Map([["abc", "def"], ["xyz", 100]]), { keyGuard: isString, valueGuard: isString })
+ *
+ * // true, typed as Map<string, string | number>
+ * isRecord<string, string>(new Map([["abc", "def"], ["xyz", 100]]), { keyGuard: isString, valueGuard: isUnion(isString, isNumber) })
+ *
+ * // throws type error
+ * isRecord<string, string>(new Map([["abc", "def"], ["xyz", 100]]), { keyGuard: isString, valueGuard: isString, throwError: true })
+ * ```
+ */
+export function isRecord(
+    input: unknown,
+    options?: BaseTypeGuardOptions & {
+        valueGuard: undefined;
+        keyGuard: undefined;
+    },
+): input is Record<string, unknown>;
+export function isRecord<K extends RecordKeyTypes>(
+    input: unknown,
+    options?: BaseTypeGuardOptions & {
+        valueGuard: undefined;
+        keyGuard: TypeValidator;
+    },
+): input is Record<K, unknown>;
+export function isRecord<V>(
+    input: unknown,
+    options?: BaseTypeGuardOptions & {
+        valueGuard: TypeValidator;
+        keyGuard: undefined;
+    },
+): input is Record<string, V>;
+export function isRecord<K extends RecordKeyTypes, V>(
+    input: unknown,
+    options?: BaseTypeGuardOptions & {
+        valueGuard: TypeValidator;
+        keyGuard: TypeValidator;
+    },
+): input is Record<K, V>;
+export function isRecord<K extends RecordKeyTypes, V>(
+    input: unknown,
+    {
+        throwError = false,
+        valueGuard,
+        keyGuard,
+    }: BaseTypeGuardOptions & {
+        valueGuard?: TypeValidator;
+        keyGuard?: TypeValidator;
+    } = {},
+): input is Record<K, V> {
+    return createGuard<Record<K, V>>(
+        (value) =>
+            isObject(value) &&
+            toObjectString(value) === '[object Object]' &&
+            (!valueGuard || Object.values(value).every(valueGuard)) &&
+            (!keyGuard || Object.keys(value).every(keyGuard)),
+        'map',
+    )(input, { throwError });
 }
