@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types,eslint-comments/disable-enable-pair */
 import {
     AsyncFunction,
     TypedAsyncGeneratorFunction,
@@ -52,9 +53,9 @@ describe('isString', () => {
         expect(isString([])).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isString(1, true)).toThrow();
-        expect(() => isString(true, true)).toThrow();
-        expect(() => isString([], true)).toThrow();
+        expect(() => isString(1, { throwError: true })).toThrow();
+        expect(() => isString(true, { throwError: true })).toThrow();
+        expect(() => isString([], { throwError: true })).toThrow();
     });
     it('guards type correctly', () => {
         expectTypeOf(isString).guards.toBeString();
@@ -73,9 +74,9 @@ describe('isNumber', () => {
         expect(isNumber([])).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isNumber('xyz', true)).toThrow();
-        expect(() => isNumber(true, true)).toThrow();
-        expect(() => isNumber([], true)).toThrow();
+        expect(() => isNumber('xyz', { throwError: true })).toThrow();
+        expect(() => isNumber(true, { throwError: true })).toThrow();
+        expect(() => isNumber([], { throwError: true })).toThrow();
     });
     it('guards type correctly', () => {
         expectTypeOf(isNumber).guards.toBeNumber();
@@ -92,9 +93,9 @@ describe('isSymbol', () => {
         expect(isSymbol([])).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isSymbol('xyz', true)).toThrow();
-        expect(() => isSymbol(true, true)).toThrow();
-        expect(() => isSymbol([], true)).toThrow();
+        expect(() => isSymbol('xyz', { throwError: true })).toThrow();
+        expect(() => isSymbol(true, { throwError: true })).toThrow();
+        expect(() => isSymbol([], { throwError: true })).toThrow();
     });
     it('guards type correctly', () => {
         expectTypeOf(isSymbol).guards.toBeSymbol();
@@ -112,9 +113,9 @@ describe('isUndefined', () => {
         expect(isUndefined(false)).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isUndefined('xyz', true)).toThrow();
-        expect(() => isUndefined(true, true)).toThrow();
-        expect(() => isUndefined([], true)).toThrow();
+        expect(() => isUndefined('xyz', { throwError: true })).toThrow();
+        expect(() => isUndefined(true, { throwError: true })).toThrow();
+        expect(() => isUndefined([], { throwError: true })).toThrow();
     });
     it('guards type correctly', () => {
         expectTypeOf(isUndefined).guards.toBeUndefined();
@@ -132,9 +133,9 @@ describe('isNull', () => {
         expect(isNull(false)).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isNull('xyz', true)).toThrow();
-        expect(() => isNull(true, true)).toThrow();
-        expect(() => isNull([], true)).toThrow();
+        expect(() => isNull('xyz', { throwError: true })).toThrow();
+        expect(() => isNull(true, { throwError: true })).toThrow();
+        expect(() => isNull([], { throwError: true })).toThrow();
     });
     it('guards type correctly', () => {
         expectTypeOf(isNull).guards.toBeNull();
@@ -160,9 +161,9 @@ describe('isObject', () => {
         expect(isObject(false)).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isObject('xyz', true)).toThrow();
-        expect(() => isObject(true, true)).toThrow();
-        expect(() => isObject(1, true)).toThrow();
+        expect(() => isObject('xyz', { throwError: true })).toThrow();
+        expect(() => isObject(true, { throwError: true })).toThrow();
+        expect(() => isObject(1, { throwError: true })).toThrow();
     });
     it('guards type correctly', () => {
         expectTypeOf(isObject).guards.toBeObject();
@@ -180,12 +181,15 @@ describe('isFunction', () => {
         expect(isFunction({})).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isFunction(asyncFunction, true)).toThrow();
-        expect(() => isFunction(generatorFunction, true)).toThrow();
-        expect(() => isFunction(asyncGeneratorFunction, true)).toThrow();
+        expect(() => isFunction(asyncFunction, { throwError: true })).toThrow();
+        expect(() =>
+            isFunction(generatorFunction, { throwError: true }),
+        ).toThrow();
+        expect(() =>
+            isFunction(asyncGeneratorFunction, { throwError: true }),
+        ).toThrow();
     });
     it('guards type correctly', () => {
-        // eslint-disable-next-line @typescript-eslint/ban-types
         expectTypeOf(isFunction).guards.toMatchTypeOf<Function>(
             regularFunction,
         );
@@ -206,9 +210,15 @@ describe('isAsyncFunction', () => {
         expect(isAsyncFunction({})).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isAsyncFunction(regularFunction, true)).toThrow();
-        expect(() => isAsyncFunction(generatorFunction, true)).toThrow();
-        expect(() => isAsyncFunction(asyncGeneratorFunction, true)).toThrow();
+        expect(() =>
+            isAsyncFunction(regularFunction, { throwError: true }),
+        ).toThrow();
+        expect(() =>
+            isAsyncFunction(generatorFunction, { throwError: true }),
+        ).toThrow();
+        expect(() =>
+            isAsyncFunction(asyncGeneratorFunction, { throwError: true }),
+        ).toThrow();
     });
     it('guards type correctly', () => {
         expectTypeOf(isAsyncFunction).guards.toMatchTypeOf<AsyncFunction>(
@@ -228,10 +238,14 @@ describe('isGeneratorFunction', () => {
         expect(isGeneratorFunction({})).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isGeneratorFunction(regularFunction, true)).toThrow();
-        expect(() => isGeneratorFunction(asyncFunction, true)).toThrow();
         expect(() =>
-            isGeneratorFunction(asyncGeneratorFunction, true),
+            isGeneratorFunction(regularFunction, { throwError: true }),
+        ).toThrow();
+        expect(() =>
+            isGeneratorFunction(asyncFunction, { throwError: true }),
+        ).toThrow();
+        expect(() =>
+            isGeneratorFunction(asyncGeneratorFunction, { throwError: true }),
         ).toThrow();
     });
     it('guards type correctly', () => {
@@ -252,10 +266,14 @@ describe('isAsyncGeneratorFunction', () => {
         expect(isAsyncGeneratorFunction({})).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isAsyncGeneratorFunction(regularFunction, true)).toThrow();
-        expect(() => isAsyncGeneratorFunction(asyncFunction, true)).toThrow();
         expect(() =>
-            isAsyncGeneratorFunction(generatorFunction, true),
+            isAsyncGeneratorFunction(regularFunction, { throwError: true }),
+        ).toThrow();
+        expect(() =>
+            isAsyncGeneratorFunction(asyncFunction, { throwError: true }),
+        ).toThrow();
+        expect(() =>
+            isAsyncGeneratorFunction(generatorFunction, { throwError: true }),
         ).toThrow();
     });
     it('guards type correctly', () => {
@@ -276,9 +294,13 @@ describe('isGenerator', () => {
         expect(isGenerator([])).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isGenerator(asyncGenerator, true)).toThrow();
-        expect(() => isGenerator({}, true)).toThrow();
-        expect(() => isGenerator(generatorFunction, true)).toThrow();
+        expect(() =>
+            isGenerator(asyncGenerator, { throwError: true }),
+        ).toThrow();
+        expect(() => isGenerator({}, { throwError: true })).toThrow();
+        expect(() =>
+            isGenerator(generatorFunction, { throwError: true }),
+        ).toThrow();
     });
     it('guards type correctly', () => {
         expectTypeOf(isGenerator).guards.toMatchTypeOf<
@@ -298,9 +320,13 @@ describe('isAsyncGenerator', () => {
         expect(isAsyncGenerator({})).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isAsyncGenerator(asyncGeneratorFunction, true)).toThrow();
-        expect(() => isAsyncGenerator(generator, true)).toThrow();
-        expect(() => isAsyncGenerator({}, true)).toThrow();
+        expect(() =>
+            isAsyncGenerator(asyncGeneratorFunction, { throwError: true }),
+        ).toThrow();
+        expect(() =>
+            isAsyncGenerator(generator, { throwError: true }),
+        ).toThrow();
+        expect(() => isAsyncGenerator({}, { throwError: true })).toThrow();
     });
     it('guards type correctly', () => {
         expectTypeOf(isAsyncGenerator).guards.toMatchTypeOf<
@@ -311,89 +337,132 @@ describe('isAsyncGenerator', () => {
 
 describe('isArray', () => {
     it('returns true for positively tested array values', () => {
-        expect(isArray<string>(stringArray, isString)).toBeTruthy();
-        expect(isArray<number>(numberArray, isNumber)).toBeTruthy();
-        expect(isArray<symbol>(symbolArray, isSymbol)).toBeTruthy();
-        expect(isArray<object>(recordArray, isObject)).toBeTruthy();
         expect(
-            isArray<string | number>(
-                [...stringArray, ...numberArray],
-                isUnion<string | number>(isString, isNumber),
-            ),
+            isArray<string>(stringArray, { valueGuard: isString }),
+        ).toBeTruthy();
+        expect(
+            isArray<number>(numberArray, { valueGuard: isNumber }),
+        ).toBeTruthy();
+        expect(
+            isArray<symbol>(symbolArray, { valueGuard: isSymbol }),
+        ).toBeTruthy();
+        expect(
+            isArray<object>(recordArray, { valueGuard: isObject }),
+        ).toBeTruthy();
+        expect(
+            isArray<string | number>([...stringArray, ...numberArray], {
+                valueGuard: isUnion<string | number>(isString, isNumber),
+            }),
         ).toBeTruthy();
     });
     it('returns false for negatively tested array values', () => {
-        expect(isArray<string>(stringArray, isNumber)).toBeFalsy();
-        expect(isArray<number>(numberArray, isString)).toBeFalsy();
-        expect(isArray<symbol>(symbolArray, isObject)).toBeFalsy();
-        expect(isArray<object>(recordArray, isSymbol)).toBeFalsy();
         expect(
-            isArray<string | number>(
-                [...symbolArray, ...recordArray],
-                isUnion<string | number>(isString, isNumber),
-            ),
+            isArray<string>(stringArray, { valueGuard: isNumber }),
+        ).toBeFalsy();
+        expect(
+            isArray<number>(numberArray, { valueGuard: isString }),
+        ).toBeFalsy();
+        expect(
+            isArray<symbol>(symbolArray, { valueGuard: isObject }),
+        ).toBeFalsy();
+        expect(
+            isArray<object>(recordArray, { valueGuard: isSymbol }),
+        ).toBeFalsy();
+        expect(
+            isArray<string | number>([...symbolArray, ...recordArray], {
+                valueGuard: isUnion<string | number>(isString, isNumber),
+            }),
         ).toBeFalsy();
     });
     it('returns false for non-array values', () => {
-        expect(isArray<string>('', isString)).toBeFalsy();
-        expect(isArray<string>(null, isString)).toBeFalsy();
-        expect(isArray<string>(123, isString)).toBeFalsy();
-        expect(isArray<string>(Symbol(), isString)).toBeFalsy();
-        expect(isArray<string>({}, isString)).toBeFalsy();
+        expect(isArray<string>('', { valueGuard: isString })).toBeFalsy();
+        expect(isArray<string>(null, { valueGuard: isString })).toBeFalsy();
+        expect(isArray<string>(123, { valueGuard: isString })).toBeFalsy();
+        expect(isArray<string>(Symbol(), { valueGuard: isString })).toBeFalsy();
+        expect(isArray<string>({}, { valueGuard: isString })).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isArray<string>('', isString, true)).toThrow();
-        expect(() => isArray<string>(null, isString, true)).toThrow();
-        expect(() => isArray<string>(123, isString, true)).toThrow();
+        expect(() =>
+            isArray<string>('', { throwError: true, valueGuard: isString }),
+        ).toThrow();
+        expect(() =>
+            isArray<string>(null, { throwError: true, valueGuard: isString }),
+        ).toThrow();
+        expect(() =>
+            isArray<string>(123, { throwError: true, valueGuard: isString }),
+        ).toThrow();
     });
     it('guards type correctly', () => {
         const unknownArray: unknown = [...stringArray];
-        if (isArray<string>(unknownArray, isString)) {
+        if (isArray<string>(unknownArray, { valueGuard: isString })) {
             expectTypeOf(unknownArray).toMatchTypeOf(stringArray);
+        }
+        if (isArray(unknownArray)) {
+            expectTypeOf(unknownArray).not.toMatchTypeOf(stringArray);
         }
     });
 });
 
 describe('isSet', () => {
     it('returns true for positively tested set values', () => {
-        expect(isSet<string>(new Set(stringArray), isString)).toBeTruthy();
-        expect(isSet<number>(new Set(numberArray), isNumber)).toBeTruthy();
-        expect(isSet<symbol>(new Set(symbolArray), isSymbol)).toBeTruthy();
-        expect(isSet<object>(new Set(recordArray), isObject)).toBeTruthy();
         expect(
-            isSet<string | number>(
-                new Set([...stringArray, ...numberArray]),
-                isUnion<string | number>(isString, isNumber),
-            ),
+            isSet<string>(new Set(stringArray), { valueGuard: isString }),
+        ).toBeTruthy();
+        expect(
+            isSet<number>(new Set(numberArray), { valueGuard: isNumber }),
+        ).toBeTruthy();
+        expect(
+            isSet<symbol>(new Set(symbolArray), { valueGuard: isSymbol }),
+        ).toBeTruthy();
+        expect(
+            isSet<object>(new Set(recordArray), { valueGuard: isObject }),
+        ).toBeTruthy();
+        expect(
+            isSet<string | number>(new Set([...stringArray, ...numberArray]), {
+                valueGuard: isUnion<string | number>(isString, isNumber),
+            }),
         ).toBeTruthy();
     });
     it('returns false for negatively tested set values', () => {
-        expect(isSet<string>(new Set(stringArray), isNumber)).toBeFalsy();
-        expect(isSet<number>(new Set(numberArray), isString)).toBeFalsy();
-        expect(isSet<symbol>(new Set(symbolArray), isObject)).toBeFalsy();
-        expect(isSet<object>(new Set(recordArray), isSymbol)).toBeFalsy();
         expect(
-            isSet<string | number>(
-                new Set([...symbolArray, ...recordArray]),
-                isUnion<string | number>(isString, isNumber),
-            ),
+            isSet<string>(new Set(stringArray), { valueGuard: isNumber }),
+        ).toBeFalsy();
+        expect(
+            isSet<number>(new Set(numberArray), { valueGuard: isString }),
+        ).toBeFalsy();
+        expect(
+            isSet<symbol>(new Set(symbolArray), { valueGuard: isObject }),
+        ).toBeFalsy();
+        expect(
+            isSet<object>(new Set(recordArray), { valueGuard: isSymbol }),
+        ).toBeFalsy();
+        expect(
+            isSet<string | number>(new Set([...symbolArray, ...recordArray]), {
+                valueGuard: isUnion<string | number>(isString, isNumber),
+            }),
         ).toBeFalsy();
     });
     it('returns false for non-set values', () => {
-        expect(isSet<string>('', isString)).toBeFalsy();
-        expect(isSet<string>(null, isString)).toBeFalsy();
-        expect(isSet<string>(123, isString)).toBeFalsy();
-        expect(isSet<string>(Symbol(), isString)).toBeFalsy();
-        expect(isSet<string>({}, isString)).toBeFalsy();
+        expect(isSet<string>('', { valueGuard: isString })).toBeFalsy();
+        expect(isSet<string>(null, { valueGuard: isString })).toBeFalsy();
+        expect(isSet<string>(123, { valueGuard: isString })).toBeFalsy();
+        expect(isSet<string>(Symbol(), { valueGuard: isString })).toBeFalsy();
+        expect(isSet<string>({}, { valueGuard: isString })).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isSet<string>('', isString, true)).toThrow();
-        expect(() => isSet<string>(null, isString, true)).toThrow();
-        expect(() => isSet<string>(123, isString, true)).toThrow();
+        expect(() =>
+            isSet<string>('', { throwError: true, valueGuard: isString }),
+        ).toThrow();
+        expect(() =>
+            isSet<string>(null, { throwError: true, valueGuard: isString }),
+        ).toThrow();
+        expect(() =>
+            isSet<string>(123, { throwError: true, valueGuard: isString }),
+        ).toThrow();
     });
     it('guards type correctly', () => {
         const unknownSet: unknown = new Set([...stringArray]);
-        if (isSet<string>(unknownSet, isString)) {
+        if (isSet<string>(unknownSet, { valueGuard: isString })) {
             expectTypeOf(unknownSet).toMatchTypeOf(
                 new Set<string>([...stringArray]),
             );
@@ -412,9 +481,11 @@ describe('isPromise', () => {
         expect(isPromise({})).toBeFalsy();
     });
     it('throws error when throwError = true', () => {
-        expect(() => isPromise(asyncGeneratorFunction, true)).toThrow();
-        expect(() => isPromise(generator, true)).toThrow();
-        expect(() => isPromise({}, true)).toThrow();
+        expect(() =>
+            isPromise(asyncGeneratorFunction, { throwError: true }),
+        ).toThrow();
+        expect(() => isPromise(generator, { throwError: true })).toThrow();
+        expect(() => isPromise({}, { throwError: true })).toThrow();
     });
     it('guards type correctly', () => {
         expectTypeOf(isPromise).guards.toMatchTypeOf<Promise<any>>(
