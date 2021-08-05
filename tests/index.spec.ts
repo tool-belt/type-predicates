@@ -2,8 +2,6 @@ import {
     AsyncFunction,
     TypedAsyncGeneratorFunction,
     TypedGeneratorFunction,
-} from '../src/types';
-import {
     createTypeGuard,
     isArray,
     isAsyncFunction,
