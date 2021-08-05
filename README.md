@@ -1,6 +1,6 @@
 ![Tests](https://github.com/tool-belt/type-guards/actions/workflows/main.yaml/badge.svg)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-guards&metric=alert_status)](https://sonarcloud.io/dashboard?id=tool-belt_type-guards)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-guards&metric=coverage)](https://sonarcloud.io/dashboard?id=tool-belt_type-guards)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-guards&metric=alert_status)](https://sonarcloud.io/dashboard?id=tool-belt_type-guards)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-guards&metric=security_rating)](https://sonarcloud.io/dashboard?id=tool-belt_type-guards)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-guards&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=tool-belt_type-guards)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-guards&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=tool-belt_type-guards)
