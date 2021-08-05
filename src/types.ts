@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-types,eslint-comments/disable-enable-pair */
 export interface BaseTypeGuardOptions {
     throwError?: boolean;
 }
-export type RecordKeyTypes = string | number | symbol;
-export type BaseTypeGuard<T = any> = (
+export type RecordKeyTypes = string | symbol;
+export type TypeGuard<T = any> = (
     input: unknown,
     options?: BaseTypeGuardOptions,
 ) => input is T;

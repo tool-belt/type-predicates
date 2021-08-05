@@ -6,7 +6,7 @@ module.exports = {
         project: './tsconfig.json',
     },
     rules: {
-        'sonarjs/cognitive-complexity': ['error', 20],
+        '@typescript-eslint/ban-types': 0,
         'tsdoc/syntax': 'warn',
         'jest/expect-expect': [
             'warn',

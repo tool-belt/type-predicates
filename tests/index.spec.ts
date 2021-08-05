@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types,eslint-comments/disable-enable-pair */
 import {
     AsyncFunction,
     TypedAsyncGeneratorFunction,
@@ -19,6 +18,7 @@ import {
     isNumber,
     isObject,
     isPromise,
+    isRecord,
     isSet,
     isString,
     isSymbol,
@@ -26,8 +26,6 @@ import {
     isUnion,
 } from '../src';
 
-class CustomClass {}
-console.log(CustomClass, Object.prototype.toString.call(CustomClass));
 const asyncFunction = async () => Promise.resolve(null);
 const regularFunction = () => null;
 const generatorFunction = function* () {
@@ -47,6 +45,10 @@ const numberMap = new Map([[100, 100]]);
 const symbolMap = new Map([[Symbol('x'), Symbol('y')]]);
 const booleanMap = new Map([[false, true]]);
 const recordMap = new Map([[{ key: 1 }, { value: 1 }]]);
+class CustomClass {}
+const stringRecord = { name: 'xyz' };
+const numberRecord = { 1: 100 };
+const symbolRecord = { [Symbol('a')]: Symbol('b') };
 
 describe('isString', () => {
     it('returns true for string values', () => {
@@ -575,12 +577,135 @@ describe('isMap', () => {
             ),
         ).toBeTruthy();
     });
-    it('returns false for negatively tested map values', () => {});
-    it('returns false for non-map values', () => {});
+    it('returns false for negatively tested map values', () => {
+        expect(
+            isMap(stringMap, {
+                valueGuard: isNumber,
+                keyGuard: isNumber,
+            }),
+        ).toBeFalsy();
+        expect(
+            isMap(numberMap, {
+                valueGuard: isString,
+                keyGuard: isString,
+            }),
+        ).toBeFalsy();
+    });
+    it('returns false for non-map values', () => {
+        expect(isMap('')).toBeFalsy();
+        expect(isMap(true)).toBeFalsy();
+        expect(isMap(new Set())).toBeFalsy();
+        expect(isMap([])).toBeFalsy();
+        expect(isMap(new WeakMap())).toBeFalsy();
+    });
     it('throws error when throwError = true', () => {
         expect(() => isMap('', { throwError: true })).toThrow();
         expect(() => isMap(null, { throwError: true })).toThrow();
-        expect(() => isMap(123, { throwError: true })).toThrow();
+        expect(() => isMap(new WeakMap(), { throwError: true })).toThrow();
     });
-    it('guards type correctly', () => {});
+    it('guards type correctly', () => {
+        const unknownMap: unknown = new Map<unknown, unknown>([
+            ...recordMap,
+            ...stringMap,
+        ]);
+        if (
+            isMap<object | string, object | string>(unknownMap, {
+                keyGuard: isUnion(isObject, isString),
+                valueGuard: isUnion(isObject, isString),
+            })
+        ) {
+            expectTypeOf(unknownMap).toMatchTypeOf<
+                Map<object | string, object | string>
+            >(new Map<object | string, object | string>());
+        }
+    });
+});
+
+describe('isRecord', () => {
+    it('returns true for positively tested record values', () => {
+        expect(
+            isRecord<string, string>(stringRecord, {
+                valueGuard: isString,
+                keyGuard: isString,
+            }),
+        ).toBeTruthy();
+        expect(
+            isRecord<string, number>(numberRecord, {
+                valueGuard: isNumber,
+                keyGuard: isString,
+            }),
+        ).toBeTruthy();
+        expect(
+            isRecord<symbol, symbol>(symbolRecord, {
+                valueGuard: isSymbol,
+                keyGuard: isSymbol,
+            }),
+        ).toBeTruthy();
+        expect(
+            isRecord<string | symbol, string | symbol>(
+                {
+                    ...stringRecord,
+                    ...numberRecord,
+                    ...symbolRecord,
+                },
+                {
+                    valueGuard: isUnion<string | number | symbol>(
+                        isString,
+                        isNumber,
+                        isSymbol,
+                    ),
+                    keyGuard: isUnion<string | number | symbol>(
+                        isString,
+                        isNumber,
+                        isSymbol,
+                    ),
+                },
+            ),
+        ).toBeTruthy();
+    });
+    it('returns false for negatively tested record values', () => {
+        expect(
+            isRecord(stringRecord, {
+                valueGuard: isNumber,
+                keyGuard: isNumber,
+            }),
+        ).toBeFalsy();
+        expect(
+            isRecord(numberRecord, {
+                valueGuard: isString,
+                keyGuard: isString,
+            }),
+        ).toBeFalsy();
+    });
+    it('returns false for non-record values', () => {
+        expect(isRecord(CustomClass)).toBeFalsy();
+        expect(isRecord(new Map())).toBeFalsy();
+        expect(isRecord(new Set())).toBeFalsy();
+        expect(isRecord([])).toBeFalsy();
+        expect(isRecord(new WeakMap())).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() => isRecord('', { throwError: true })).toThrow();
+        expect(() => isRecord(null, { throwError: true })).toThrow();
+        expect(() => isRecord(new WeakMap(), { throwError: true })).toThrow();
+    });
+    it('guards type correctly', () => {
+        const unknownRecord: unknown = {
+            ...numberRecord,
+            ...stringRecord,
+        };
+        if (
+            isRecord<string, number | string>(unknownRecord, {
+                keyGuard: isUnion(isNumber, isString),
+                valueGuard: isUnion(isNumber, isString),
+            })
+        ) {
+            expectTypeOf(unknownRecord).toMatchTypeOf<
+                Record<string, number | string>
+            >({
+                ...numberRecord,
+                ...stringRecord,
+            });
+        }
+    });
 });
