@@ -3,8 +3,8 @@ import {
     TypedAsyncGeneratorFunction,
     TypedGeneratorFunction,
 } from '../src/types';
-import { expectTypeOf } from 'expect-type';
 import {
+    createTypeGuard,
     isArray,
     isAsyncFunction,
     isAsyncGenerator,
@@ -25,6 +25,7 @@ import {
     isUndefined,
     isUnion,
 } from '../src';
+import { expectTypeOf } from 'expect-type';
 
 const asyncFunction = async () => Promise.resolve(null);
 const regularFunction = () => null;
@@ -32,7 +33,7 @@ const generatorFunction = function* () {
     yield true;
 };
 const asyncGeneratorFunction = async function* () {
-    yield await Promise.resolve(true);
+    yield await asyncFunction();
 };
 const generator = generatorFunction();
 const asyncGenerator = asyncGeneratorFunction();
@@ -49,6 +50,48 @@ class CustomClass {}
 const stringRecord = { name: 'xyz' };
 const numberRecord = { 1: 100 };
 const symbolRecord = { [Symbol('a')]: Symbol('b') };
+
+describe('createTypeGuard', () => {
+    it('creates a type-guard with the correct label', () => {
+        const customTypeGuard = createTypeGuard(
+            (value) => value instanceof CustomClass,
+            CustomClass.name,
+        );
+        expect(customTypeGuard(new CustomClass())).toBeTruthy();
+        expect(() => customTypeGuard([], { throwError: true })).toThrow(
+            `expected input to be ${CustomClass.name}`,
+        );
+    });
+    it('creates a type-guard without error message when no label is supplied', () => {
+        const customTypeGuard = createTypeGuard(
+            (value) => value instanceof CustomClass,
+        );
+        expect(() => customTypeGuard([], { throwError: true })).toThrow('');
+    });
+});
+
+describe('isUnion', () => {
+    const unionGuard = isUnion<string | symbol | number>(
+        isString,
+        isNumber,
+        isSymbol,
+    );
+    it('returns true for union values', () => {
+        expect(unionGuard('')).toBeTruthy();
+        expect(unionGuard(1)).toBeTruthy();
+        expect(unionGuard(Symbol())).toBeTruthy();
+    });
+    it('returns false for non-union values', () => {
+        expect(unionGuard(undefined)).toBeFalsy();
+        expect(unionGuard(true)).toBeFalsy();
+        expect(unionGuard([])).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() => unionGuard(null, { throwError: true })).toThrow();
+        expect(() => unionGuard(true, { throwError: true })).toThrow();
+        expect(() => unionGuard([], { throwError: true })).toThrow();
+    });
+});
 
 describe('isString', () => {
     it('returns true for string values', () => {
@@ -458,6 +501,7 @@ describe('isArray', () => {
 
 describe('isSet', () => {
     it('returns true for positively tested set values', () => {
+        expect(isSet(new Set(stringArray))).toBeTruthy();
         expect(
             isSet<string>(new Set(stringArray), { valueGuard: isString }),
         ).toBeTruthy();
@@ -515,6 +559,11 @@ describe('isSet', () => {
     });
     it('guards type correctly', () => {
         const unknownSet: unknown = new Set([...stringArray]);
+        if (isSet(unknownSet)) {
+            expectTypeOf(unknownSet).toMatchTypeOf(
+                new Set<unknown>([...stringArray]),
+            );
+        }
         if (isSet<string>(unknownSet, { valueGuard: isString })) {
             expectTypeOf(unknownSet).toMatchTypeOf(
                 new Set<string>([...stringArray]),

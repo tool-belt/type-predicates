@@ -1,5 +1,5 @@
 {
-    "name": "tool-belt",
+    "name": "@tool-belt/type-guards",
     "version": "1.0.0",
     "description": "Type Safe and Performant Utilities",
     "repository": {

@@ -609,9 +609,7 @@ export function isAsyncGenerator<Y = unknown, R = unknown, N = unknown>(
  */
 export function isArray(
     input: unknown,
-    options?: BaseTypeGuardOptions & {
-        valueGuard: undefined;
-    },
+    options?: BaseTypeGuardOptions,
 ): input is unknown[];
 export function isArray<T>(
     input: unknown,
@@ -671,9 +669,7 @@ export function isArray<T>(
  */
 export function isSet(
     input: unknown,
-    options?: BaseTypeGuardOptions & {
-        valueGuard: undefined;
-    },
+    options?: BaseTypeGuardOptions,
 ): input is Set<unknown>;
 export function isSet<T>(
     input: unknown,
