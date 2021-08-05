@@ -1,20 +1,24 @@
 {
     "name": "@tool-belt/type-guards",
     "version": "1.0.0",
-    "description": "Type Safe and Performant Utilities",
+    "description": "Collection of performant type-guard utilities",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Goldziher/tool-belt.git"
+        "url": "git+https://github.com/tool-belt/type-guards.git"
     },
     "keywords": [
-        "utilities"
+        "type-assertions",
+        "type-guards",
+        "typescript",
+        "utilities",
+        "utils"
     ],
     "author": "Na'aman Hirschfeld",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Goldziher/tool-belt/issues"
+        "url": "https://github.com/tool-belt/type-guards/issues"
     },
-    "homepage": "https://github.com/Goldziher/tool-belt#readme",
+    "homepage": "https://github.com/tool-belt/type-guards#readme",
     "main": "dist/index.js",
     "typings": "dist/index",
     "files": [
