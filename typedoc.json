@@ -1,0 +1,10 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "includeVersion": true,
+  "sort": ["alphabetical"],
+  "defaultCategory": "Functions",
+  "categorizeByGroup": true,
+  "excludeInternal": true,
+  "readme": "none"
+}

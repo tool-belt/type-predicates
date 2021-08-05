@@ -1,29 +1,30 @@
+import { AsyncFunction, isAsyncFunction } from '../src/guards/isAsyncFunction';
 import {
-    AsyncFunction,
     TypedAsyncGeneratorFunction,
-    TypedGeneratorFunction,
-    createTypeGuard,
-    isArray,
-    isAsyncFunction,
-    isAsyncGenerator,
     isAsyncGeneratorFunction,
-    isBoolean,
-    isFunction,
-    isGenerator,
+} from '../src/guards/isAsyncGeneratorFunction';
+import {
+    TypedGeneratorFunction,
     isGeneratorFunction,
-    isMap,
-    isNull,
-    isNumber,
-    isObject,
-    isPromise,
-    isRecord,
-    isSet,
-    isString,
-    isSymbol,
-    isUndefined,
-    isUnion,
-} from '../src';
+} from '../src/guards/isGeneratorFunction';
+import { createTypeGuard } from '../src/guards/createTypeGuard';
 import { expectTypeOf } from 'expect-type';
+import { isArray } from '../src/guards/isArray';
+import { isAsyncGenerator } from '../src/guards/isAsyncGenerator';
+import { isBoolean } from '../src/guards/isBoolean';
+import { isFunction } from '../src/guards/isFunction';
+import { isGenerator } from '../src/guards/isGenerator';
+import { isMap } from '../src/guards/isMap';
+import { isNull } from '../src/guards/isNull';
+import { isNumber } from '../src/guards/isNumber';
+import { isObject } from '../src/guards/isObject';
+import { isPromise } from '../src/guards/isPromise';
+import { isRecord } from '../src/guards/isRecord';
+import { isSet } from '../src/guards/isSet';
+import { isString } from '../src/guards/isString';
+import { isSymbol } from '../src/guards/isSymbol';
+import { isUndefined } from '../src/guards/isUndefined';
+import { isUnion } from '../src/guards/isUnion';
 
 const asyncFunction = async () => Promise.resolve(null);
 const regularFunction = () => null;
