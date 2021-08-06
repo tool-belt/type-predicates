@@ -3,7 +3,7 @@ import { createTypeGuard } from './createTypeGuard';
 /**
  * Checks that input is undefined
  *
- * @category Type Guards
+ * @category Type Guard
  * @example
  *
  * ```typescript

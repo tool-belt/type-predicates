@@ -4,9 +4,9 @@ import { isObject } from './isObject';
 import { toObjectString } from '../utils';
 
 /**
- * Checks that input is map
+ * Checks that input is Map object
  *
- * @category Type Guards
+ * @category Type Guard
  * @example
  *
  * ```typescript

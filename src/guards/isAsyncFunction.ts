@@ -5,9 +5,12 @@ import { toObjectString } from '../utils';
 export type AsyncFunction<T = any> = (...args: any[]) => Promise<T>;
 
 /**
- * Checks that input is an async function
+ * Checks that input is an AsyncFunction object
  *
- * @category Type Guards
+ * @remarks
+ * - This guard works only in ES2018 and above
+ *
+ * @category Type Guard
  * @example
  *
  * ```typescript

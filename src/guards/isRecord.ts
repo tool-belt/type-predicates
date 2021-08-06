@@ -4,12 +4,12 @@ import { isObject } from './isObject';
 import { toObjectString } from '../utils';
 
 /**
- * Checks that input is record
+ * Checks that input is Record
  *
  * @remarks
  * - The Record interface is construed here as representing an object literal
  *
- * @category Type Guards
+ * @category Type Guard
  * @example
  *
  * ```typescript

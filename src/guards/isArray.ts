@@ -2,9 +2,9 @@ import { BaseTypeGuardOptions, TypeValidator } from '../types';
 import { createTypeGuard } from './createTypeGuard';
 
 /**
- * Checks that input is array
+ * Checks that input is Array object
  *
- * @category Type Guards
+ * @category Type Guard
  * @example
  *
  * ```typescript

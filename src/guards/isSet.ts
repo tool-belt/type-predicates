@@ -4,9 +4,9 @@ import { isObject } from './isObject';
 import { toObjectString } from '../utils';
 
 /**
- * Checks that input is set
+ * Checks that input is Set object
  *
- * @category Type Guards
+ * @category Type Guard
  * @example
  *
  * ```typescript

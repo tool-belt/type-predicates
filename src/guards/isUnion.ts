@@ -3,7 +3,7 @@ import { BaseTypeGuardOptions, TypeGuard } from '../types';
 /**
  * Checks that input is one of union
  *
- * @category Type Guards
+ * @category Type Guard
  * @example
  *
  * ```typescript

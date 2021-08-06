@@ -3,12 +3,13 @@ import { createTypeGuard } from './createTypeGuard';
 import { toObjectString } from '../utils';
 
 /**
- * Checks that input is function
+ * Checks that input is Function
  *
  * @remarks
  * - This function excludes class declarations
+ * - This guard works only in ES2018 and above
  *
- * @category Type Guards
+ * @category Type Guard
  * @example
  *
  * ```typescript

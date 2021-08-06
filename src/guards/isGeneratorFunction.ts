@@ -7,9 +7,9 @@ export type TypedGeneratorFunction<Y, R, N> = (
 ) => Generator<Y, R, N>;
 
 /**
- * Checks that input is generator function
+ * Checks that input is GeneratorFunction
  *
- * @category Type Guards
+ * @category Type Guard
  * @example
  *
  * ```typescript

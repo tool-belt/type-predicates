@@ -1,30 +1,44 @@
-import { AsyncFunction, isAsyncFunction } from '../src/guards/isAsyncFunction';
 import {
+    AsyncFunction,
+    TypeGuard,
     TypedAsyncGeneratorFunction,
-    isAsyncGeneratorFunction,
-} from '../src/guards/isAsyncGeneratorFunction';
-import {
     TypedGeneratorFunction,
+    createTypeGuard,
+    isArray,
+    isAsyncFunction,
+    isAsyncGenerator,
+    isAsyncGeneratorFunction,
+    isBigInt64Array,
+    isBigUint64Array,
+    isBoolean,
+    isDate,
+    isError,
+    isFloat32Array,
+    isFloat64Array,
+    isFunction,
+    isGenerator,
     isGeneratorFunction,
-} from '../src/guards/isGeneratorFunction';
-import { createTypeGuard } from '../src/guards/createTypeGuard';
+    isInt16Array,
+    isInt32Array,
+    isInt8Array,
+    isMap,
+    isNull,
+    isNumber,
+    isObject,
+    isPromise,
+    isRecord,
+    isRegExp,
+    isSet,
+    isString,
+    isSymbol,
+    isUint16Array,
+    isUint32Array,
+    isUint8Array,
+    isUint8ClampedArray,
+    isUndefined,
+    isUnion,
+} from '../src';
 import { expectTypeOf } from 'expect-type';
-import { isArray } from '../src/guards/isArray';
-import { isAsyncGenerator } from '../src/guards/isAsyncGenerator';
-import { isBoolean } from '../src/guards/isBoolean';
-import { isFunction } from '../src/guards/isFunction';
-import { isGenerator } from '../src/guards/isGenerator';
-import { isMap } from '../src/guards/isMap';
-import { isNull } from '../src/guards/isNull';
-import { isNumber } from '../src/guards/isNumber';
-import { isObject } from '../src/guards/isObject';
-import { isPromise } from '../src/guards/isPromise';
-import { isRecord } from '../src/guards/isRecord';
-import { isSet } from '../src/guards/isSet';
-import { isString } from '../src/guards/isString';
-import { isSymbol } from '../src/guards/isSymbol';
-import { isUndefined } from '../src/guards/isUndefined';
-import { isUnion } from '../src/guards/isUnion';
 
 const asyncFunction = async () => Promise.resolve(null);
 const regularFunction = () => null;
@@ -213,6 +227,47 @@ describe('isNull', () => {
     });
 });
 
+describe('isRegExp', () => {
+    it('returns true for regex values', () => {
+        expect(isRegExp(new RegExp('test'))).toBeTruthy();
+        expect(isRegExp(/'test'/)).toBeTruthy();
+    });
+    it('returns false for non-regex values', () => {
+        expect(isRegExp({})).toBeFalsy();
+        expect(isRegExp(0)).toBeFalsy();
+        expect(isRegExp('string')).toBeFalsy();
+        expect(isRegExp(false)).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() => isRegExp('xyz', { throwError: true })).toThrow();
+        expect(() => isRegExp(true, { throwError: true })).toThrow();
+        expect(() => isRegExp([], { throwError: true })).toThrow();
+    });
+    it('guards type correctly', () => {
+        expectTypeOf(isRegExp).guards.toMatchTypeOf<RegExp>(new RegExp(''));
+    });
+});
+
+describe('isDate', () => {
+    it('returns true for date values', () => {
+        expect(isDate(new Date())).toBeTruthy();
+    });
+    it('returns false for non-date values', () => {
+        expect(isDate({})).toBeFalsy();
+        expect(isDate(0)).toBeFalsy();
+        expect(isDate('string')).toBeFalsy();
+        expect(isDate(false)).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() => isDate('xyz', { throwError: true })).toThrow();
+        expect(() => isDate(true, { throwError: true })).toThrow();
+        expect(() => isDate([], { throwError: true })).toThrow();
+    });
+    it('guards type correctly', () => {
+        expectTypeOf(isDate).guards.toMatchTypeOf<Date>(new Date());
+    });
+});
+
 describe('isObject', () => {
     it('returns true for object values', () => {
         expect(isObject({})).toBeTruthy();
@@ -238,6 +293,33 @@ describe('isObject', () => {
     });
     it('guards type correctly', () => {
         expectTypeOf(isObject).guards.toBeObject();
+    });
+});
+
+describe('isError', () => {
+    it('returns true for error values', () => {
+        expect(isError(new Error())).toBeTruthy();
+        expect(isError(new TypeError())).toBeTruthy();
+        expect(isError(new RangeError())).toBeTruthy();
+        expect(isError(new SyntaxError())).toBeTruthy();
+        expect(isError(new URIError())).toBeTruthy();
+        expect(isError(new ReferenceError())).toBeTruthy();
+        expect(isError(new EvalError())).toBeTruthy();
+        expect(isError(new AggregateError([new Error()]))).toBeTruthy();
+    });
+    it('returns false for non-error values', () => {
+        expect(isError({})).toBeFalsy();
+        expect(isError([])).toBeFalsy();
+        expect(isError('')).toBeFalsy();
+        expect(isError(false)).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() => isError({}, { throwError: true })).toThrow();
+        expect(() => isError(true, { throwError: true })).toThrow();
+        expect(() => isError([], { throwError: true })).toThrow();
+    });
+    it('guards type correctly', () => {
+        expectTypeOf(isError).guards.toMatchTypeOf<Error>(new Error());
     });
 });
 
@@ -755,5 +837,30 @@ describe('isRecord', () => {
                 ...stringRecord,
             });
         }
+    });
+});
+
+describe.each([
+    ['Int8Array', isInt8Array, Int8Array],
+    ['Uint8Array', isUint8Array, Uint8Array],
+    ['Uint8ClampedArray', isUint8ClampedArray, Uint8ClampedArray],
+    ['Int16Array', isInt16Array, Int16Array],
+    ['Uint16Array', isUint16Array, Uint16Array],
+    ['Int32Array', isInt32Array, Int32Array],
+    ['Uint32Array', isUint32Array, Uint32Array],
+    ['Float32Array', isFloat32Array, Float32Array],
+    ['Float64Array', isFloat64Array, Float64Array],
+    ['BigInt64Array', isBigInt64Array, BigInt64Array],
+    ['BigUint64Array', isBigUint64Array, BigUint64Array],
+])('%s', (label: string, guard: TypeGuard, cls: any) => {
+    it(`returns true for ${label} values`, () => {
+        expect(guard(new cls())).toBeTruthy();
+    });
+    it(`returns false for non-${label} values`, () => {
+        expect(guard({})).toBeFalsy();
+        expect(guard([])).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() => guard([], { throwError: true })).toThrow();
     });
 });

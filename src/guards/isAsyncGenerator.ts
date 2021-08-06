@@ -4,9 +4,12 @@ import { isObject } from './isObject';
 import { toObjectString } from '../utils';
 
 /**
- * Checks that input is async generator
+ * Checks that input is AsyncGenerator object
  *
- * @category Type Guards
+ * @remarks
+ * - This guard works only in ES2018 and above
+ *
+ * @category Type Guard
  * @example
  *
  * ```typescript

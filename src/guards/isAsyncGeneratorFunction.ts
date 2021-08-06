@@ -7,9 +7,12 @@ export type TypedAsyncGeneratorFunction<Y, R, N> = (
 ) => AsyncGenerator<Y, R, N>;
 
 /**
- * Checks that input is async generator function
+ * Checks that input is AsyncGeneratorFunction
  *
- * @category Type Guards
+ * @remarks
+ * - This guard works only in ES2018 and above
+ *
+ * @category Type Guard
  * @example
  *
  * ```typescript

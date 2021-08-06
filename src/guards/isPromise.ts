@@ -4,12 +4,12 @@ import { isFunction } from './isFunction';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is promise
+ * Checks that input is Promise object
  *
  * @remarks
  * - Works with custom promises as well, e.g. AxiosPromise or Bluebird
  *
- * @category Type Guards
+ * @category Type Guard
  * @example
  *
  * ```typescript
