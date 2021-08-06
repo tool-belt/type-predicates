@@ -8,6 +8,7 @@ import {
     isAsyncFunction,
     isAsyncGenerator,
     isAsyncGeneratorFunction,
+    isAsyncIterable,
     isBigInt64Array,
     isBigUint64Array,
     isBoolean,
@@ -21,6 +22,8 @@ import {
     isInt16Array,
     isInt32Array,
     isInt8Array,
+    isIterable,
+    isIterator,
     isMap,
     isNull,
     isNumber,
@@ -509,6 +512,78 @@ describe('isAsyncGenerator', () => {
         expectTypeOf(isAsyncGenerator).guards.toMatchTypeOf<
             AsyncGenerator<any, any, any>
         >(asyncGenerator);
+    });
+});
+
+describe('isIterable', () => {
+    it('returns true for iterable values', () => {
+        expect(isIterable(generator)).toBeTruthy();
+        expect(isIterable(new String())).toBeTruthy();
+        expect(isIterable(new Set())).toBeTruthy();
+        expect(isIterable(new Map())).toBeTruthy();
+        expect(isIterable([])).toBeTruthy();
+        expect(isIterable('')).toBeTruthy();
+    });
+    it('returns false for non-iterable values', () => {
+        expect(isIterable(1)).toBeFalsy();
+        expect(isIterable(undefined)).toBeFalsy();
+        expect(isIterable(true)).toBeFalsy();
+        expect(isIterable(null)).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() => isIterable(1, { throwError: true })).toThrow();
+        expect(() => isIterable(undefined, { throwError: true })).toThrow();
+        expect(() => isIterable(null, { throwError: true })).toThrow();
+    });
+});
+
+describe('isAsyncIterable', () => {
+    it('returns true for iterable values', () => {
+        expect(isAsyncIterable(asyncGenerator)).toBeTruthy();
+    });
+    it('returns false for non-iterable values', () => {
+        expect(isAsyncIterable(generator)).toBeFalsy();
+        expect(isAsyncIterable(new String())).toBeFalsy();
+        expect(isAsyncIterable(new Set())).toBeFalsy();
+        expect(isAsyncIterable(new Map())).toBeFalsy();
+        expect(isAsyncIterable([])).toBeFalsy();
+        expect(isAsyncIterable({})).toBeFalsy();
+        expect(isAsyncIterable('')).toBeFalsy();
+        expect(isAsyncIterable(1)).toBeFalsy();
+        expect(isAsyncIterable(undefined)).toBeFalsy();
+        expect(isAsyncIterable(true)).toBeFalsy();
+        expect(isAsyncIterable(null)).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() => isAsyncIterable(1, { throwError: true })).toThrow();
+        expect(() =>
+            isAsyncIterable(undefined, { throwError: true }),
+        ).toThrow();
+        expect(() => isAsyncIterable(null, { throwError: true })).toThrow();
+    });
+});
+
+describe('isIterator', () => {
+    it('returns true for iterable values', () => {
+        expect(isIterator(asyncGenerator)).toBeTruthy();
+        expect(isIterator(generator)).toBeTruthy();
+        expect(isIterator(new Set().values())).toBeTruthy();
+        expect(isIterator(new Map().values())).toBeTruthy();
+    });
+    it('returns false for non-iterable values', () => {
+        expect(isIterator(new String())).toBeFalsy();
+        expect(isIterator([])).toBeFalsy();
+        expect(isIterator({})).toBeFalsy();
+        expect(isIterator('')).toBeFalsy();
+        expect(isIterator(1)).toBeFalsy();
+        expect(isIterator(undefined)).toBeFalsy();
+        expect(isIterator(true)).toBeFalsy();
+        expect(isIterator(null)).toBeFalsy();
+    });
+    it('throws error when throwError = true', () => {
+        expect(() => isIterator(1, { throwError: true })).toThrow();
+        expect(() => isIterator(undefined, { throwError: true })).toThrow();
+        expect(() => isIterator(null, { throwError: true })).toThrow();
     });
 });
 

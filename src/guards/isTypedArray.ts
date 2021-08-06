@@ -3,6 +3,7 @@ import { createTypeGuard } from './createTypeGuard';
 /**
  * Checks that input is TypedArray object
  *
+ * @category Type Guard
  * @example
  *
  * ```typescript
@@ -69,6 +70,7 @@ export function isTypedArray<T extends TypedArray = TypedArray>(
 /**
  * Checks that input is Int8Array object
  *
+ * @category Type Guard
  * @example
  *
  * ```typescript
