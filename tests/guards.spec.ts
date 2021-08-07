@@ -1,7 +1,7 @@
 import {
     TypeGuard,
-    createTypeGuard,
     isArray,
+    isArrayBuffer,
     isAsyncFunction,
     isAsyncGenerator,
     isAsyncGeneratorFunction,
@@ -9,6 +9,8 @@ import {
     isBigInt64Array,
     isBigUint64Array,
     isBoolean,
+    isBuffer,
+    isDataView,
     isDate,
     isError,
     isFloat32Array,
@@ -68,6 +70,7 @@ const symbolRecord = { [Symbol('a')]: Symbol('b') };
 const promise = new Promise((resolve) => resolve(null));
 const primitiveValues = [true, false, 0, 1, '', undefined, Symbol()];
 const iterableObjects = [new Map(), new Set(), new String(), []];
+const buffers = [new ArrayBuffer(8), new Buffer(8)];
 const errors = [
     new Error(),
     new TypeError(),
@@ -98,6 +101,8 @@ const objectValues = [
     new WeakSet(),
     ...iterableObjects,
     ...errors,
+    ...buffers,
+    ...typedArrays,
 ];
 const functionValues = [
     regularFunction,
@@ -105,25 +110,6 @@ const functionValues = [
     asyncGeneratorFunction,
     generatorFunction,
 ];
-
-describe('createTypeGuard', () => {
-    it('creates a type-guard with the correct label', () => {
-        const customTypeGuard = createTypeGuard(
-            (value) => value instanceof CustomClass,
-            CustomClass.name,
-        );
-        expect(customTypeGuard(new CustomClass())).toBeTruthy();
-        expect(() => customTypeGuard([], { throwError: true })).toThrow(
-            `expected input to be ${CustomClass.name}`,
-        );
-    });
-    it('creates a type-guard without error message when no label is supplied', () => {
-        const customTypeGuard = createTypeGuard(
-            (value) => value instanceof CustomClass,
-        );
-        expect(() => customTypeGuard([], { throwError: true })).toThrow('');
-    });
-});
 
 describe('isArray', () => {
     it('returns true for positively tested array values', () => {
@@ -519,6 +505,26 @@ describe.each([
         ],
     ],
     [
+        'Buffer',
+        isBuffer,
+        [new Buffer(8), new Buffer(16)],
+        [
+            ...primitiveValues,
+            ...objectValues.filter((v) => !(v instanceof Buffer)),
+            ...functionValues,
+        ],
+    ],
+    [
+        'ArrayBuffer',
+        isArrayBuffer,
+        [new ArrayBuffer(8), new ArrayBuffer(16)],
+        [
+            ...primitiveValues,
+            ...objectValues.filter((v) => !(v instanceof ArrayBuffer)),
+            ...functionValues,
+        ],
+    ],
+    [
         'RegExp',
         isRegExp,
         [new RegExp('test'), /'test'/],
@@ -635,73 +641,162 @@ describe.each([
         'TypedArray',
         isTypedArray,
         typedArrays,
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'Int8Array',
         isInt8Array,
         [new Int8Array()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'Uint8Array',
         isUint8Array,
         [new Uint8Array()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'Uint8ClampedArray',
         isUint8ClampedArray,
         [new Uint8ClampedArray()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'Int16Array',
         isInt16Array,
         [new Int16Array()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'Uint16Array',
         isUint16Array,
         [new Uint16Array()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'Int32Array',
         isInt32Array,
         [new Int32Array()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'Uint32Array',
         isUint32Array,
         [new Uint32Array()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'Float32Array',
         isFloat32Array,
         [new Float32Array()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'Float64Array',
         isFloat64Array,
         [new Float64Array()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'BigInt64Array',
         isBigInt64Array,
         [new BigInt64Array()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
     ],
     [
         'BigUint64Array',
         isBigUint64Array,
         [new BigUint64Array()],
-        [...objectValues, ...functionValues, ...primitiveValues],
+        [
+            ...objectValues.filter(
+                (v) => ![...buffers, ...typedArrays].includes(v as any),
+            ),
+
+            ...functionValues,
+            ...primitiveValues,
+        ],
+    ],
+    [
+        'DataView',
+        isDataView,
+        [new DataView(new ArrayBuffer(8))],
+        [...objectValues, ...primitiveValues, ...functionValues],
     ],
 ])(
     '%s',
