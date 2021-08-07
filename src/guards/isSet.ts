@@ -1,7 +1,6 @@
-import { BaseTypeGuardOptions, TypeValidator } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions, TypeValidator } from '../types';
+import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
-import { toObjectString } from '../utils';
 
 /**
  * Checks that input is Set object
@@ -42,11 +41,11 @@ import { toObjectString } from '../utils';
  */
 export function isSet(
     input: unknown,
-    options?: BaseTypeGuardOptions,
+    options?: TypeGuardBaseOptions,
 ): input is Set<unknown>;
 export function isSet<T>(
     input: unknown,
-    options?: BaseTypeGuardOptions & {
+    options?: TypeGuardBaseOptions & {
         valueGuard: TypeValidator;
     },
 ): input is Set<T>;
@@ -55,7 +54,7 @@ export function isSet<T>(
     {
         throwError = false,
         valueGuard,
-    }: BaseTypeGuardOptions & { valueGuard?: TypeValidator } = {},
+    }: TypeGuardBaseOptions & { valueGuard?: TypeValidator } = {},
 ): input is Set<T> {
     return createTypeGuard<Set<T>>(
         (value) =>

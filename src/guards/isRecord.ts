@@ -1,7 +1,6 @@
-import { BaseTypeGuardOptions, TypeValidator } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions, TypeValidator } from '../types';
+import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
-import { toObjectString } from '../utils';
 
 /**
  * Checks that input is Record
@@ -64,23 +63,23 @@ import { toObjectString } from '../utils';
  */
 export function isRecord(
     input: unknown,
-    options?: BaseTypeGuardOptions,
+    options?: TypeGuardBaseOptions,
 ): input is Record<string, unknown>;
 export function isRecord<K extends string | symbol>(
     input: unknown,
-    options?: BaseTypeGuardOptions & {
+    options?: TypeGuardBaseOptions & {
         keyGuard: TypeValidator;
     },
 ): input is Record<K, unknown>;
 export function isRecord<V>(
     input: unknown,
-    options?: BaseTypeGuardOptions & {
+    options?: TypeGuardBaseOptions & {
         valueGuard: TypeValidator;
     },
 ): input is Record<string, V>;
 export function isRecord<K extends string | symbol, V>(
     input: unknown,
-    options?: BaseTypeGuardOptions & {
+    options?: TypeGuardBaseOptions & {
         valueGuard: TypeValidator;
         keyGuard: TypeValidator;
     },
@@ -91,7 +90,7 @@ export function isRecord<K extends string | symbol, V>(
         throwError = false,
         valueGuard,
         keyGuard,
-    }: BaseTypeGuardOptions & {
+    }: TypeGuardBaseOptions & {
         valueGuard?: TypeValidator;
         keyGuard?: TypeValidator;
     } = {},

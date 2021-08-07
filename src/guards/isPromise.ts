@@ -1,5 +1,5 @@
-import { BaseTypeGuardOptions } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions } from '../types';
+import { createTypeGuard } from '../utils';
 import { isFunction } from './isFunction';
 import { isObject } from './isObject';
 
@@ -31,7 +31,7 @@ import { isObject } from './isObject';
  */
 export function isPromise<T = any>(
     input: unknown,
-    { throwError = false }: BaseTypeGuardOptions = {},
+    { throwError = false }: TypeGuardBaseOptions = {},
 ): input is Promise<T> {
     return createTypeGuard<Promise<T>>(
         (value) =>

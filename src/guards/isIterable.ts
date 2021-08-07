@@ -1,5 +1,5 @@
-import { BaseTypeGuardOptions } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions } from '../types';
+import { createTypeGuard } from '../utils';
 
 /**
  * Checks that input is Iterable
@@ -47,7 +47,7 @@ import { createTypeGuard } from './createTypeGuard';
  */
 export function isIterable<T = unknown>(
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Iterable<T> {
     return createTypeGuard<Iterable<T>>(
         (value) => typeof (value as any)?.[Symbol.iterator] === 'function',

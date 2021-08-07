@@ -1,5 +1,5 @@
-import { BaseTypeGuardOptions } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions } from '../types';
+import { createTypeGuard } from '../utils';
 
 /**
  * Checks that input is AsyncIterable
@@ -46,7 +46,7 @@ import { createTypeGuard } from './createTypeGuard';
  */
 export function isAsyncIterable<T = unknown>(
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is AsyncIterable<T> {
     return createTypeGuard<AsyncIterable<T>>(
         (value) => typeof (value as any)?.[Symbol.asyncIterator] === 'function',

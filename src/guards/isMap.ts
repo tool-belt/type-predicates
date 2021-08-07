@@ -1,7 +1,6 @@
-import { BaseTypeGuardOptions, TypeValidator } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions, TypeValidator } from '../types';
+import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
-import { toObjectString } from '../utils';
 
 /**
  * Checks that input is Map object
@@ -61,23 +60,23 @@ import { toObjectString } from '../utils';
  */
 export function isMap(
     input: unknown,
-    options?: BaseTypeGuardOptions,
+    options?: TypeGuardBaseOptions,
 ): input is Map<unknown, unknown>;
 export function isMap<K>(
     input: unknown,
-    options?: BaseTypeGuardOptions & {
+    options?: TypeGuardBaseOptions & {
         keyGuard: TypeValidator;
     },
 ): input is Map<K, unknown>;
 export function isMap<V>(
     input: unknown,
-    options?: BaseTypeGuardOptions & {
+    options?: TypeGuardBaseOptions & {
         valueGuard: TypeValidator;
     },
 ): input is Map<unknown, V>;
 export function isMap<K, V>(
     input: unknown,
-    options?: BaseTypeGuardOptions & {
+    options?: TypeGuardBaseOptions & {
         valueGuard: TypeValidator;
         keyGuard: TypeValidator;
     },
@@ -88,7 +87,7 @@ export function isMap<K, V>(
         throwError = false,
         valueGuard,
         keyGuard,
-    }: BaseTypeGuardOptions & {
+    }: TypeGuardBaseOptions & {
         valueGuard?: TypeValidator;
         keyGuard?: TypeValidator;
     } = {},

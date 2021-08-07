@@ -1,5 +1,5 @@
-import { BaseTypeGuardOptions, TypedArray } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions, TypedArray } from '../types';
+import { createTypeGuard } from '../utils';
 /**
  * Checks that input is TypedArray object
  *
@@ -57,7 +57,7 @@ import { createTypeGuard } from './createTypeGuard';
  */
 export function isTypedArray<T extends TypedArray = TypedArray>(
     input: unknown,
-    { throwError = false }: BaseTypeGuardOptions = {},
+    { throwError = false }: TypeGuardBaseOptions = {},
 ): input is T {
     return createTypeGuard<T>(
         (value) =>
@@ -91,7 +91,7 @@ export function isTypedArray<T extends TypedArray = TypedArray>(
  */
 export const isInt8Array = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Int8Array =>
     createTypeGuard<Int8Array>(
         (value) =>
@@ -121,7 +121,7 @@ export const isInt8Array = (
  */
 export const isUint8Array = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Uint8Array =>
     createTypeGuard<Uint8Array>(
         (value) =>
@@ -151,7 +151,7 @@ export const isUint8Array = (
  */
 export const isUint8ClampedArray = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Uint8ClampedArray =>
     createTypeGuard<Uint8ClampedArray>(
         (value) =>
@@ -182,7 +182,7 @@ export const isUint8ClampedArray = (
  */
 export const isInt16Array = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Int16Array =>
     createTypeGuard<Int16Array>(
         (value) =>
@@ -212,7 +212,7 @@ export const isInt16Array = (
  */
 export const isUint16Array = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Uint16Array =>
     createTypeGuard<Uint16Array>(
         (value) =>
@@ -242,7 +242,7 @@ export const isUint16Array = (
  */
 export const isInt32Array = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Int32Array =>
     createTypeGuard<Int32Array>(
         (value) =>
@@ -272,7 +272,7 @@ export const isInt32Array = (
  */
 export const isUint32Array = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Uint32Array =>
     createTypeGuard<Uint32Array>(
         (value) =>
@@ -302,7 +302,7 @@ export const isUint32Array = (
  */
 export const isFloat32Array = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Float32Array =>
     createTypeGuard<Float32Array>(
         (value) =>
@@ -332,7 +332,7 @@ export const isFloat32Array = (
  */
 export const isFloat64Array = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Float64Array =>
     createTypeGuard<Float64Array>(
         (value) =>
@@ -362,7 +362,7 @@ export const isFloat64Array = (
  */
 export const isBigInt64Array = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is BigInt64Array =>
     createTypeGuard<BigInt64Array>(
         (value) =>
@@ -393,7 +393,7 @@ export const isBigInt64Array = (
  */
 export const isBigUint64Array = (
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is BigUint64Array =>
     createTypeGuard<BigUint64Array>(
         (value) =>

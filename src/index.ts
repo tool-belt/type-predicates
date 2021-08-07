@@ -1,4 +1,6 @@
-export * from './guards/createTypeGuard';
+export * from './guards/isArrayBuffer';
+export * from './guards/isBuffer';
+export * from './guards/isNullOrUndefined';
 export * from './guards/isArray';
 export * from './guards/isAsyncFunction';
 export * from './guards/isAsyncGenerator';
@@ -26,3 +28,4 @@ export * from './guards/isTypedArray';
 export * from './guards/isUndefined';
 export * from './guards/isUnion';
 export * from './types';
+export { createTypeGuard } from './utils';

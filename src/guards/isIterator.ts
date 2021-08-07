@@ -1,5 +1,5 @@
-import { BaseTypeGuardOptions } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions } from '../types';
+import { createTypeGuard } from '../utils';
 import { isFunction } from './isFunction';
 import { isObject } from './isObject';
 
@@ -54,7 +54,7 @@ import { isObject } from './isObject';
  */
 export function isIterator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
-    { throwError }: BaseTypeGuardOptions = {},
+    { throwError }: TypeGuardBaseOptions = {},
 ): input is Iterator<Y, R, N> {
     return createTypeGuard<Iterator<Y, R, N>>(
         (value) => isObject(value) && isFunction(Reflect.get(value, 'next')),

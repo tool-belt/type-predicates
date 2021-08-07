@@ -1,11 +1,13 @@
-export type BaseTypeGuardOptions = {
+export type TypeGuardBaseOptions = {
     throwError?: boolean;
 };
 
 export type TypeGuard<T = any> = (
     input: unknown,
-    options?: BaseTypeGuardOptions,
+    options?: TypeGuardBaseOptions,
 ) => input is T;
+
+export type TypeAssertion<T = any> = (input: unknown) => asserts input is T;
 
 export type TypeValidator = (input: unknown) => boolean;
 

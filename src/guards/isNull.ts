@@ -1,4 +1,4 @@
-import { createTypeGuard } from './createTypeGuard';
+import { createTypeGuard } from '../utils';
 
 /**
  * Checks that input is null

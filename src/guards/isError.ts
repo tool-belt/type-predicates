@@ -1,7 +1,6 @@
-import { BaseTypeGuardOptions } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions } from '../types';
+import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
-import { toObjectString } from '../utils';
 
 /**
  * Checks that input is Error object
@@ -40,7 +39,7 @@ import { toObjectString } from '../utils';
  */
 export function isError<T extends Error = Error>(
     input: unknown,
-    { throwError = false }: BaseTypeGuardOptions = {},
+    { throwError = false }: TypeGuardBaseOptions = {},
 ): input is T {
     return createTypeGuard<T>(
         (value) =>

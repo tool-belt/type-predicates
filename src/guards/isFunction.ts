@@ -1,6 +1,5 @@
-import { BaseTypeGuardOptions } from '../types';
-import { createTypeGuard } from './createTypeGuard';
-import { toObjectString } from '../utils';
+import { TypeGuardBaseOptions } from '../types';
+import { createTypeGuard, toObjectString } from '../utils';
 
 /**
  * Checks that input is Function
@@ -40,7 +39,7 @@ import { toObjectString } from '../utils';
  */
 export function isFunction<T extends Function = Function>(
     input: unknown,
-    { throwError = false }: BaseTypeGuardOptions = {},
+    { throwError = false }: TypeGuardBaseOptions = {},
 ): input is T {
     return createTypeGuard<T>(
         (value) =>

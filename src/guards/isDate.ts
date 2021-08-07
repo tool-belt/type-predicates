@@ -1,6 +1,5 @@
-import { createTypeGuard } from './createTypeGuard';
+import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
-import { toObjectString } from '../utils';
 
 /**
  * Checks that input is Date object

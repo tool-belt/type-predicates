@@ -1,5 +1,5 @@
-import { BaseTypeGuardOptions, TypeValidator } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions, TypeValidator } from '../types';
+import { createTypeGuard } from '../utils';
 
 /**
  * Checks that input is Array object
@@ -37,11 +37,11 @@ import { createTypeGuard } from './createTypeGuard';
  */
 export function isArray(
     input: unknown,
-    options?: BaseTypeGuardOptions,
+    options?: TypeGuardBaseOptions,
 ): input is unknown[];
 export function isArray<T>(
     input: unknown,
-    options?: BaseTypeGuardOptions & {
+    options?: TypeGuardBaseOptions & {
         valueGuard: TypeValidator;
     },
 ): input is T[];
@@ -50,7 +50,7 @@ export function isArray<T>(
     {
         throwError = false,
         valueGuard,
-    }: BaseTypeGuardOptions & { valueGuard?: TypeValidator } = {},
+    }: TypeGuardBaseOptions & { valueGuard?: TypeValidator } = {},
 ): input is T[] {
     return createTypeGuard<T[]>(
         (value) =>

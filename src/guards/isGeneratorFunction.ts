@@ -1,6 +1,5 @@
-import { BaseTypeGuardOptions } from '../types';
-import { createTypeGuard } from './createTypeGuard';
-import { toObjectString } from '../utils';
+import { TypeGuardBaseOptions } from '../types';
+import { createTypeGuard, toObjectString } from '../utils';
 
 export type TypedGeneratorFunction<Y, R, N> = (
     ...args: any[]
@@ -33,7 +32,7 @@ export type TypedGeneratorFunction<Y, R, N> = (
  */
 export function isGeneratorFunction<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
-    { throwError = false }: BaseTypeGuardOptions = {},
+    { throwError = false }: TypeGuardBaseOptions = {},
 ): input is TypedGeneratorFunction<Y, R, N> {
     return createTypeGuard<TypedGeneratorFunction<Y, R, N>>((value) => {
         const { constructor: GeneratorFunctionConstructor } =

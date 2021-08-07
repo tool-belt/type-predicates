@@ -1,4 +1,4 @@
-import { BaseTypeGuardOptions, TypeGuard } from '../types';
+import { TypeGuard, TypeGuardBaseOptions } from '../types';
 
 /**
  * Checks that input is one of union
@@ -18,7 +18,7 @@ import { BaseTypeGuardOptions, TypeGuard } from '../types';
 export function isUnion<T>(...guards: TypeGuard[]): TypeGuard<T> {
     return function (
         input: unknown,
-        { throwError = false }: BaseTypeGuardOptions = {},
+        { throwError = false }: TypeGuardBaseOptions = {},
     ): input is T {
         const errors: string[] = [];
         for (const guard of guards) {

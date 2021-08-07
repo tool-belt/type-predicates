@@ -1,7 +1,6 @@
-import { BaseTypeGuardOptions } from '../types';
-import { createTypeGuard } from './createTypeGuard';
+import { TypeGuardBaseOptions } from '../types';
+import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
-import { toObjectString } from '../utils';
 
 /**
  * Checks that input is AsyncGenerator object
@@ -41,7 +40,7 @@ import { toObjectString } from '../utils';
  */
 export function isAsyncGenerator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
-    { throwError = false }: BaseTypeGuardOptions = {},
+    { throwError = false }: TypeGuardBaseOptions = {},
 ): input is AsyncGenerator<Y, R, N> {
     return createTypeGuard<AsyncGenerator<Y, R, N>>(
         (value) =>

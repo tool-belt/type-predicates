@@ -1,6 +1,5 @@
-import { BaseTypeGuardOptions } from '../types';
-import { createTypeGuard } from './createTypeGuard';
-import { toObjectString } from '../utils';
+import { TypeGuardBaseOptions } from '../types';
+import { createTypeGuard, toObjectString } from '../utils';
 
 export type AsyncFunction<T = any> = (...args: any[]) => Promise<T>;
 
@@ -32,7 +31,7 @@ export type AsyncFunction<T = any> = (...args: any[]) => Promise<T>;
  */
 export function isAsyncFunction<T = any>(
     input: unknown,
-    { throwError = false }: BaseTypeGuardOptions = {},
+    { throwError = false }: TypeGuardBaseOptions = {},
 ): input is AsyncFunction<T> {
     return createTypeGuard<AsyncFunction<T>>((value) => {
         const { constructor: AsyncFunctionConstructor } = Object.getPrototypeOf(

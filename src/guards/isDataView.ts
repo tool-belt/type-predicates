@@ -2,26 +2,23 @@ import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is RegExp object
+ * Checks that input is DataView object
  *
  * @category Type Guard
  * @example
  *
  * ```typescript
  * // true
- * isRegExp(new RegExp('somePattern'));
- *
- * // true
- * isRegExp(/somePattern/);
+ * isDataView(new DataView());
  *
  * // false
- * isRegExp('xyz');
+ * isDataView('xyz');
  *
  * // false
- * isRegExp(1);
+ * isDataView(1);
  *
  * // throws TypeError
- * isRegExp([], { throwError: true });
+ * isDataView([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
@@ -29,10 +26,10 @@ import { isObject } from './isObject';
  * @returns Boolean
  * @throws TypeError
  */
-export const isRegExp = createTypeGuard<RegExp>(
+export const isDataView = createTypeGuard<DataView>(
     (value) =>
         isObject(value) &&
-        (toObjectString(value) === '[object RegExp]' ||
-            value instanceof RegExp),
-    'RegExp',
+        (toObjectString(value) === '[object DataView]' ||
+            value instanceof DataView),
+    'DataView',
 );

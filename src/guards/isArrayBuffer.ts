@@ -2,26 +2,23 @@ import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is RegExp object
+ * Checks that input is ArrayBuffer object
  *
  * @category Type Guard
  * @example
  *
  * ```typescript
  * // true
- * isRegExp(new RegExp('somePattern'));
- *
- * // true
- * isRegExp(/somePattern/);
+ * isArrayBuffer(new ArrayBuffer());
  *
  * // false
- * isRegExp('xyz');
+ * isArrayBuffer('xyz');
  *
  * // false
- * isRegExp(1);
+ * isArrayBuffer(1);
  *
  * // throws TypeError
- * isRegExp([], { throwError: true });
+ * isArrayBuffer([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
@@ -29,10 +26,10 @@ import { isObject } from './isObject';
  * @returns Boolean
  * @throws TypeError
  */
-export const isRegExp = createTypeGuard<RegExp>(
+export const isArrayBuffer = createTypeGuard<ArrayBuffer>(
     (value) =>
         isObject(value) &&
-        (toObjectString(value) === '[object RegExp]' ||
-            value instanceof RegExp),
-    'RegExp',
+        (toObjectString(value) === '[object ArrayBuffer]' ||
+            value instanceof ArrayBuffer),
+    'ArrayBuffer',
 );
