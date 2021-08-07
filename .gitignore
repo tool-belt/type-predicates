@@ -10,3 +10,4 @@ docusaurus/
 .idea/workspace.xml
 .idea/watcherTasks.xml
 .vscode/
+.jest/

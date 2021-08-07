@@ -1,3 +1,5 @@
+export * from './guards/isWeakMap';
+export * from './guards/isWeakSet';
 export * from './guards/isArray';
 export * from './guards/isArrayBuffer';
 export * from './guards/isAsyncFunction';

@@ -44,6 +44,8 @@ import {
     isUint8ClampedArray,
     isUndefined,
     isUnion,
+    isWeakMap,
+    isWeakSet,
 } from '../src';
 import { expectTypeOf } from 'expect-type';
 
@@ -830,6 +832,26 @@ describe.each([
         isDataView,
         [new DataView(new ArrayBuffer(8))],
         [...objectValues, ...primitiveValues, ...functionValues],
+    ],
+    [
+        'WeakMap',
+        isWeakMap,
+        [new WeakMap([[stringRecord, '123']])],
+        [
+            ...objectValues.filter((v) => !(v instanceof WeakMap)),
+            ...primitiveValues,
+            ...functionValues,
+        ],
+    ],
+    [
+        'WeakSet',
+        isWeakSet,
+        [new WeakSet([stringRecord, numberRecord])],
+        [
+            ...objectValues.filter((v) => !(v instanceof WeakSet)),
+            ...primitiveValues,
+            ...functionValues,
+        ],
     ],
 ])(
     '%s',
