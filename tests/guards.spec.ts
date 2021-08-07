@@ -70,7 +70,7 @@ const symbolRecord = { [Symbol('a')]: Symbol('b') };
 const promise = new Promise((resolve) => resolve(null));
 const primitiveValues = [true, false, 0, 1, '', undefined, Symbol()];
 const iterableObjects = [new Map(), new Set(), new String(), []];
-const buffers = [new ArrayBuffer(8), new Buffer(8)];
+const buffers = [new ArrayBuffer(8), Buffer.alloc(8)];
 const errors = [
     new Error(),
     new TypeError(),
@@ -507,7 +507,7 @@ describe.each([
     [
         'Buffer',
         isBuffer,
-        [new Buffer(8), new Buffer(16)],
+        [Buffer.alloc(8), Buffer.alloc(16)],
         [
             ...primitiveValues,
             ...objectValues.filter((v) => !(v instanceof Buffer)),
