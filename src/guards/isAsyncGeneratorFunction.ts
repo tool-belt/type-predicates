@@ -41,15 +41,9 @@ export type TypedAsyncGeneratorFunction<Y, R, N> = (
 export function isAsyncGeneratorFunction<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
 ): input is TypedAsyncGeneratorFunction<Y, R, N> {
-    return createTypeGuard<TypedAsyncGeneratorFunction<Y, R, N>>((value) => {
-        const { constructor: AsyncGeneratorFunctionConstructor } =
-            Object.getPrototypeOf(async function* () {
-                yield await Promise.resolve();
-            }) as { constructor: AsyncGeneratorFunction };
-        return (
+    return createTypeGuard<TypedAsyncGeneratorFunction<Y, R, N>>(
+        (value) =>
             typeof value === 'function' &&
-            (toObjectString(value) === '[object AsyncGeneratorFunction]' ||
-                value instanceof AsyncGeneratorFunctionConstructor)
-        );
-    })(input);
+            toObjectString(value) === '[object AsyncGeneratorFunction]',
+    )(input);
 }

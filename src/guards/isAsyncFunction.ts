@@ -29,14 +29,9 @@ export type AsyncFunction<T = unknown> = (...args: any[]) => Promise<T>;
 export function isAsyncFunction<T = unknown>(
     input: unknown,
 ): input is AsyncFunction<T> {
-    return createTypeGuard<AsyncFunction<T>>((value) => {
-        const { constructor: AsyncFunctionConstructor } = Object.getPrototypeOf(
-            async () => Promise.resolve(),
-        ) as { constructor: FunctionConstructor };
-        return (
+    return createTypeGuard<AsyncFunction<T>>(
+        (value) =>
             typeof value === 'function' &&
-            (toObjectString(value) === '[object AsyncFunction]' ||
-                value instanceof AsyncFunctionConstructor)
-        );
-    })(input);
+            toObjectString(value) === '[object AsyncFunction]',
+    )(input);
 }

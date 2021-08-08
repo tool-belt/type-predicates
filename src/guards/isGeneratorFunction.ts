@@ -27,15 +27,9 @@ export type TypedGeneratorFunction<Y, R, N> = (
 export function isGeneratorFunction<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
 ): input is TypedGeneratorFunction<Y, R, N> {
-    return createTypeGuard<TypedGeneratorFunction<Y, R, N>>((value) => {
-        const { constructor: GeneratorFunctionConstructor } =
-            Object.getPrototypeOf(function* () {
-                yield true;
-            }) as { constructor: GeneratorFunction };
-        return (
+    return createTypeGuard<TypedGeneratorFunction<Y, R, N>>(
+        (value) =>
             typeof value === 'function' &&
-            (toObjectString(value) === '[object GeneratorFunction]' ||
-                value instanceof GeneratorFunctionConstructor)
-        );
-    })(input);
+            toObjectString(value) === '[object GeneratorFunction]',
+    )(input);
 }

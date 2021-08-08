@@ -168,7 +168,7 @@ describe('isArray', () => {
     });
 
     it('guards type correctly', () => {
-        let unknownArray: unknown = [...stringArray];
+        const unknownArray: unknown = [...stringArray];
         if (isArray<string>(unknownArray, { valueValidator: isString })) {
             expectTypeOf(unknownArray).toMatchTypeOf(stringArray);
         }
