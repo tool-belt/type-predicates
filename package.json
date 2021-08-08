@@ -1,24 +1,28 @@
 {
-    "name": "@tool-belt/type-guards",
+    "name": "@tool-belt/type-predicates",
     "version": "1.0.0",
     "description": "Collection of performant type-guard utilities",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/tool-belt/type-guards.git"
+        "url": "git+https://github.com/tool-belt/type-predicates.git"
     },
     "keywords": [
         "type-assertions",
         "type-guards",
+        "type-predicates",
         "typescript",
         "utilities",
-        "utils"
+        "utils",
+        "guards",
+        "assertions",
+        "predicates"
     ],
     "author": "Na'aman Hirschfeld",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/tool-belt/type-guards/issues"
+        "url": "https://github.com/tool-belt/type-predicates/issues"
     },
-    "homepage": "https://github.com/tool-belt/type-guards#readme",
+    "homepage": "https://github.com/tool-belt/type-predicates#readme",
     "files": [
         "dist"
     ],
