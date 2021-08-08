@@ -168,12 +168,9 @@ describe('isArray', () => {
     });
 
     it('guards type correctly', () => {
-        const unknownArray: unknown = [...stringArray];
+        let unknownArray: unknown = [...stringArray];
         if (isArray<string>(unknownArray, { valueValidator: isString })) {
             expectTypeOf(unknownArray).toMatchTypeOf(stringArray);
-        }
-        if (isArray(unknownArray)) {
-            expectTypeOf(unknownArray).not.toMatchTypeOf(stringArray);
         }
     });
 });

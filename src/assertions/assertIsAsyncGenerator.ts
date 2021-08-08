@@ -19,7 +19,7 @@ import { isAsyncGenerator } from '../guards/isAsyncGenerator';
  * })());
  *
  * // does not throw, value is typed as AsyncGenerator<boolean, unknown, unknown>
- * assertIsAsyncGenerator((async function* () {
+ * assertIsAsyncGenerator<boolean>((async function* () {
  *     while (true) {
  *         yield await Promise.resolve(true);
  *     }

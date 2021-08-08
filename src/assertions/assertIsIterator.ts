@@ -1,8 +1,8 @@
 import { createTypeAssertion } from '../utils';
-import { isGenerator } from '../guards/isGenerator';
+import { isIterator } from '../guards/isIterator';
 
 /**
- * Asserts that input is Generator<Y, R, N> object
+ * Asserts that input is Iterator<Y, R, N> object
  *
  * @remarks
  * - This assertion works only in ES2018 and above
@@ -11,22 +11,22 @@ import { isGenerator } from '../guards/isGenerator';
  * @example
  *
  * ```typescript
- * // does not throw, value is typed as Generator<unknown, unknown, unknown>
- * assertIsGenerator((function* () {
+ * // does not throw, value is typed as Iterator<unknown, unknown, unknown>
+ * assertIsIterator((function* () {
  *     while (true) {
  *         yield true;
  *     }
  * })());
  *
- * // does not throw, value is typed as Generator<boolean, unknown, unknown>
- * assertIsGenerator<boolean>((function* () {
+ * // does not throw, value is typed as Iterator<boolean, unknown, unknown>
+ * assertIsIterator<boolean>((function* () {
  *     while (true) {
  *         yield true;
  *     }
  * })());
  *
  * // throws
- * assertIsGenerator((async function* () {})());
+ * assertIsIterator((async function* () {})());
  *
  * @typeParam Y - Type of yield value, defaults to unknown
  * @typeParam R - Type of return value, defaults to unknown
@@ -36,8 +36,8 @@ import { isGenerator } from '../guards/isGenerator';
  * @throws TypeError
  * ```
  */
-export function assertIsGenerator<Y = unknown, R = unknown, N = unknown>(
+export function assertIsIterator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
-): asserts input is Generator<Y, R, N> {
-    return createTypeAssertion<Generator<Y, R, N>>(isGenerator)(input);
+): asserts input is Iterator<Y, R, N> {
+    return createTypeAssertion<Iterator<Y, R, N>>(isIterator)(input);
 }

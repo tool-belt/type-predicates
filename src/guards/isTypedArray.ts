@@ -12,47 +12,14 @@ export type TypedArray =
     | Float64Array;
 import { createTypeGuard } from '../utils';
 /**
- * Checks that input is TypedArray object
+ * Checks that input inherits from TypedArray
  *
  * @category Type Guard
  * @example
  *
  * ```typescript
- * // true, typed as TypeArray
+ * // true, value is typed as TypedArray
  * isTypedArray(new Int8Array());
- *
- * // true, typed as Int8Array
- * isTypedArray<Int8Array>(new Int8Array());
- *
- * // true, typed as Uint8Array
- * isTypedArray<Uint8Array>(new Uint8Array());
- *
- * // true, typed as Uint8ClampedArray
- * isTypedArray<Uint8ClampedArray>(new Uint8ClampedArray());
- *
- * // true, typed as Int16Array
- * isTypedArray<Int16Array>(new Int16Array());
- *
- * // true, typed as Uint16Array
- * isTypedArray<Uint16Array>(new Uint16Array());
- *
- * // true, typed as Int32Array
- * isTypedArray<Int32Array>(new Int32Array());
- *
- * // true, typed as Uint32Array
- * isTypedArray<Uint32Array>(new Uint32Array());
- *
- * // true, typed as Float32Array
- * isTypedArray<Float32Array>(new Float32Array());
- *
- * // true, typed as Float64Array
- * isTypedArray<Float64Array>(new Float64Array());
- *
- * // true, typed as BigInt64Array
- * isTypedArray<BigInt64Array>(new BigInt64Array());
- *
- * // true, typed as BigUint64Array
- * isTypedArray<BigUint64Array>(new BigUint64Array());
  *
  * // false
  * isTypedArray([]);
@@ -61,15 +28,11 @@ import { createTypeGuard } from '../utils';
  * @param input - Value to be tested
  * @returns Boolean
  */
-export function isTypedArray<T extends TypedArray = TypedArray>(
-    input: unknown,
-): input is T {
-    return createTypeGuard<T>(
-        (value) =>
-            value instanceof Object.getPrototypeOf(Int8Array) ||
-            value instanceof Object.getPrototypeOf(Uint8Array),
-    )(input);
-}
+export const isTypedArray = createTypeGuard<TypedArray>(
+    (value) =>
+        value instanceof Object.getPrototypeOf(Int8Array) ||
+        value instanceof Object.getPrototypeOf(Uint8Array),
+);
 
 /**
  * Checks that input is Int8Array object
