@@ -21,11 +21,11 @@ import { isObject } from './isObject';
  * isPromise<string>({});
  * ```
  *
- * @typeParam T - Type of promise value, defaults to "any"
+ * @typeParam T - Type of promise value, defaults to unknown
  * @param input - Value to be tested
  * @returns Boolean
  */
-export function isPromise<T = any>(input: unknown): input is Promise<T> {
+export function isPromise<T = unknown>(input: unknown): input is Promise<T> {
     return createTypeGuard<Promise<T>>(
         (value) =>
             value instanceof Promise ||

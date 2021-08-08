@@ -1,5 +1,5 @@
 import {
-    assertArray,
+    assertIsArray,
     isNumber,
     isObject,
     isString,

@@ -2,7 +2,7 @@ import { createTypeGuard } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is Iterator
+ * Checks that input is Iterator<Y, R, N> object
  *
  * @remarks
  * - At present it is not possible to use reflection to distinguish between sync

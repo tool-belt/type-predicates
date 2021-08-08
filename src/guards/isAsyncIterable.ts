@@ -2,7 +2,7 @@ import { createTypeGuard } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is AsyncIterable
+ * Checks that input is AsyncIterable<T>
  *
  * @remarks
  * - This guard tests for Symbol.asyncIterator. See:
@@ -20,25 +20,10 @@ import { isObject } from './isObject';
  * );
  *
  * // false
- * isAsyncIterable('');
- *
- * // false
- * isAsyncIterable(new String());
- *
- * // false
- * isAsyncIterable(new Set());
- *
- * // false
- * isAsyncIterable(new Map());
- *
- * // false
- * isAsyncIterable([]);
- *
- * // throws TypeError
- * isAsyncIterable({}, { throwError: true });
+ * isAsyncIterable({});
  * ```
  *
- * @typeParam T - Type of AsyncIterable
+ * @typeParam T - Type of AsyncIterable, defaults to unknown
  * @param input - Value to be tested
  * @returns Boolean
  */

@@ -1,4 +1,4 @@
-export * from './assertions/assertArray';
+export * from './assertions/assertIsArray';
 export * from './guards/isWeakMap';
 export * from './guards/isWeakSet';
 export * from './guards/isArray';

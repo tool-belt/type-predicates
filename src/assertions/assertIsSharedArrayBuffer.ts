@@ -9,15 +9,15 @@ import { isSharedArrayBuffer } from '../guards/isSharedArrayBuffer';
  *
  * ```typescript
  * // does not throw, value is typed as SharedArrayBuffer
- * assertSharedArrayBuffer(new SharedArrayBuffer());
+ * assertIsSharedArrayBuffer(new SharedArrayBuffer());
  *
  * // throws
- * assertSharedArrayBuffer([]);
+ * assertIsSharedArrayBuffer([]);
  *
  * @param input - Value to be tested
  * @returns void
  * @throws TypeError
  * ```
  */
-export const assertSharedArrayBuffer =
+export const assertIsSharedArrayBuffer =
     createTypeAssertion<SharedArrayBuffer>(isSharedArrayBuffer);

@@ -9,19 +9,19 @@ import { isAnyArrayBuffer } from '../guards/isAnyArrayBuffer';
  *
  * ```typescript
  * // does not throw, value is typed as ArrayBuffer | SharedArrayBuffer
- * isAnySharedArrayBuffer(new SharedArrayBuffer());
+ * assertIsAnyArrayBuffer(new SharedArrayBuffer());
  *
  * // does not throw, value is typed as ArrayBuffer | SharedArrayBuffer
- * isAnySharedArrayBuffer(new ArrayBuffer());
+ * assertIsAnyArrayBuffer(new ArrayBuffer());
  *
  * // throws
- * isSharedArrayBuffer([]);
+ * assertIsAnyArrayBuffer([]);
  *
  * @param input - Value to be tested
  * @returns void
  * @throws TypeError
  * ```
  */
-export const assertAnyArrayBuffer = createTypeAssertion<
+export const assertIsAnyArrayBuffer = createTypeAssertion<
     ArrayBuffer | SharedArrayBuffer
 >(isAnyArrayBuffer);

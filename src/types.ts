@@ -3,9 +3,7 @@ export type KeyValidator = { keyValidator: TypeValidator };
 export type ValueValidator = { valueValidator: TypeValidator };
 export type TypeGuardOptions =
     | undefined
-    | KeyValidator
-    | ValueValidator
-    | (KeyValidator & ValueValidator);
+    | Partial<ValueValidator & KeyValidator>;
 export type TypeGuard<T = any, O extends TypeGuardOptions = undefined> = (
     input: unknown,
     options?: O,

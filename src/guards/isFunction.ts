@@ -1,7 +1,7 @@
 import { createTypeGuard, toObjectString } from '../utils';
 
 /**
- * Checks that input is Function
+ * Checks that input is a function
  *
  * @remarks
  * - This function excludes class declarations
@@ -11,8 +11,11 @@ import { createTypeGuard, toObjectString } from '../utils';
  * @example
  *
  * ```typescript
- * // true
+ * // true, value is typed as Function
  * isFunction(() => null);
+ *
+ * // true, value is typed as () => null
+ * isFunction<() => null>(() => null);
  *
  * // false
  * isFunction(async () => Promise.resolve(null));

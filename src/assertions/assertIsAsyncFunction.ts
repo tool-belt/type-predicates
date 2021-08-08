@@ -11,22 +11,22 @@ import { createTypeAssertion } from '../utils';
  * @example
  *
  * ```typescript
- * // does not throw, value is typed as AsyncFunction<any>
- * assertAsyncFunction(async () => await Promise.resolve())
+ * // does not throw, value is typed as AsyncFunction<unknown>
+ * assertIsAsyncFunction(async () => await Promise.resolve())
  *
  * // does not throw, value is typed as AsyncFunction<boolean>
- * assertAsyncFunction<boolean>(async () => await Promise.resolve(true))
+ * assertIsAsyncFunction<boolean>(async () => await Promise.resolve(true))
  *
  * // throws
- * assertAsyncFunction([]);
+ * assertIsAsyncFunction([]);
  *
- * @typeParam T - Type of Promise return value, defaults to "any"
+ * @typeParam T - Type of Promise return value, defaults to unknown
  * @param input - Value to be tested
  * @returns void
  * @throws TypeError
  * ```
  */
-export function assertAsyncFunction<T = any>(
+export function assertIsAsyncFunction<T = unknown>(
     input: unknown,
 ): asserts input is AsyncFunction<T> {
     return createTypeAssertion<AsyncFunction<T>>(isAsyncFunction)(input);

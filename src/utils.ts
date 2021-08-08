@@ -26,10 +26,13 @@ export const toObjectString = (value: unknown): string =>
  * ```
  *
  * @typeParam T - Type of the TypeGuard
+ * @typeParam O - Type of the TypeGuard options, defaults to any
  * @param validator - TypeValidator function that is applied to the value being tested
  * @returns TypeGuard<T>
  */
-export function createTypeGuard<T>(validator: TypeValidator): TypeGuard<T> {
+export function createTypeGuard<T, O = any>(
+    validator: TypeValidator,
+): TypeGuard<T, O> {
     return (input: unknown, ...args: any[]): input is T =>
         validator(input, ...args);
 }
@@ -46,6 +49,7 @@ export function createTypeGuard<T>(validator: TypeValidator): TypeGuard<T> {
  * ```
  *
  * @typeParam T - Type of the TypeAssertion
+ * @typeParam O - Type of the TypeGuard options, defaults to undefined
  * @param guard - TypeGuard<T> function
  * @param options - Optional guard options
  * @returns TypeAssertion<T>

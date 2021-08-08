@@ -3,13 +3,13 @@ import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is Set object
+ * Checks that input is Set<T> object
  *
  * @category Type Guard
  * @example
  *
  * ```typescript
- * // true, typed as Set<unknown>
+ * // true, typed as Set<any>
  * isSet(new Set(['xyz']));
  *
  * // true, typed as Set<string>
@@ -29,24 +29,21 @@ import { isObject } from './isObject';
  * });
  * ```
  *
- * @typeParam T - Type of set value
+ * @typeParam T - Type of Set value
  * @param input - Value to be tested
- * @param options - Optionval validators: valueValidator
+ * @param options - Optional valueValidator
  * @returns Boolean
  */
-export function isSet(
-    input: unknown,
-    options?: undefined,
-): input is Set<unknown>;
+export function isSet(input: unknown): input is Set<any>;
 export function isSet<T>(
     input: unknown,
-    options?: ValueValidator,
+    options: ValueValidator,
 ): input is Set<T>;
 export function isSet<T>(
     input: unknown,
     options?: ValueValidator,
 ): input is Set<T> {
-    return createTypeGuard<Set<T>>(
+    return createTypeGuard<Set<T>, ValueValidator | undefined>(
         (value) =>
             isObject(value) &&
             (toObjectString(value) === '[object Set]' ||

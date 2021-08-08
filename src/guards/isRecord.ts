@@ -3,21 +3,18 @@ import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is Record
- *
- * @remarks
- * - The Record interface is construed here as representing an object literal
+ * Checks that input is Record<K, V>
  *
  * @category Type Guard
  * @example
  *
  * ```typescript
- *  * // true, typed as Record<string, unknown>
+ *  * // true, value is typed as Record<string | symbol, any>
  * isRecord(
  *     { key1: 'aaa', key2: 123 },
  * );
  *
- * // true, typed as Record<string, string | number>
+ * // true, value is typed as Record<string, string | number>
  * isRecord<string, string | number>(
  *     { key1: 'aaa', key2: 123 },
  *     {
@@ -35,32 +32,33 @@ import { isObject } from './isObject';
  * );
  * ```
  *
- * @typeParam T - Type of map value
+ * @typeParam K - Type of Record keys
+ * @typeParam V - Type of Record values
  * @param input - Value to be tested
  * @param options - Optional validators: keyValidator, valueValidator
  * @returns Boolean
  */
-export function isRecord(
-    input: unknown,
-    options?: undefined,
-): input is Record<string, unknown>;
+export function isRecord(input: unknown): input is Record<string | symbol, any>;
 export function isRecord<K extends string | symbol>(
     input: unknown,
-    options?: KeyValidator,
+    options: KeyValidator,
 ): input is Record<K, unknown>;
 export function isRecord<V>(
     input: unknown,
-    options?: ValueValidator,
+    options: ValueValidator,
 ): input is Record<string, V>;
 export function isRecord<K extends string | symbol, V>(
     input: unknown,
-    options?: ValueValidator & KeyValidator,
+    options: ValueValidator & KeyValidator,
 ): input is Record<K, V>;
 export function isRecord<K extends string | symbol, V>(
     input: unknown,
     options?: Partial<ValueValidator & KeyValidator>,
 ): input is Record<K, V> {
-    return createTypeGuard<Record<K, V>>(
+    return createTypeGuard<
+        Record<K, V>,
+        undefined | Partial<ValueValidator & KeyValidator>
+    >(
         (value) =>
             isObject(value) &&
             toObjectString(value) === '[object Object]' &&

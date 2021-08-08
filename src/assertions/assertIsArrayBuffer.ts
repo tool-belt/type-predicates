@@ -9,15 +9,15 @@ import { isArrayBuffer } from '../guards/isArrayBuffer';
  *
  * ```typescript
  * // does not throw, value is typed as ArrayBuffer
- * assertArrayBuffer(new ArrayBuffer());
+ * assertIsArrayBuffer(new ArrayBuffer());
  *
  * // throws
- * assertArrayBuffer([]);
+ * assertIsArrayBuffer([]);
  *
  * @param input - Value to be tested
  * @returns void
  * @throws TypeError
  * ```
  */
-export const assertArrayBuffer =
+export const assertIsArrayBuffer =
     createTypeAssertion<ArrayBuffer>(isArrayBuffer);

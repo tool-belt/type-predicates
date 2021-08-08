@@ -3,37 +3,16 @@ import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is Map object
+ * Checks that input is Map<K, V> object
  *
  * @category Type Guard
  * @example
  *
  * ```typescript
- * // true, typed as Map<unknown, unknown>
+ * // true, value is typed as Map<unknown, unknown>
  * isMap(new Map([['xyz', 'abc']]));
  *
- * // true, typed as Map<unknown, string>
- * isMap<string>(new Map([['xyz', 'abc']]), { valueValidator: isString });
- *
- * // true, typed as Map<string, unknown>
- * isMap<string>(new Map([['xyz', 'abc']]), { keyValidator: isString });
- *
- * // true, typed as Map<string, string>
- * isMap<string, string>(new Map([['xyz', 'abc']]), {
- *     keyValidator: isString,
- *     valueValidator: isString,
- * });
- *
- * // false
- * isMap<string, string>(
- *     new Map([
- *         ['abc', 'def'],
- *         ['xyz', 100],
- *     ]),
- *     { keyValidator: isString, valueValidator: isString },
- * );
- *
- * // true, typed as Map<string, string | number>
+ * // true, value is typed as Map<string, string | number>
  * isMap<string, string>(
  *     new Map([
  *         ['abc', 'def'],
@@ -46,38 +25,36 @@ import { isObject } from './isObject';
  * );
  *
  * // false
- * isMap<string, string>([
- *     ['abc', 'def'],
- *     ['xyz', 100],
- * ]);
+ * isMap<string, string>(['abc', 'def']);
  * ```
  *
- * @typeParam T - Type of map value
+ * @typeParam K - Type of Map keys
+ * @typeParam V - Type of Map values
  * @param input - Value to be tested
  * @param options - Optional validators: keyValidator, valueValidator
  * @returns Boolean
  */
-export function isMap(
-    input: unknown,
-    options?: undefined,
-): input is Map<unknown, unknown>;
+export function isMap(input: unknown): input is Map<any, any>;
 export function isMap<K>(
     input: unknown,
-    options?: KeyValidator,
+    options: KeyValidator,
 ): input is Map<K, unknown>;
 export function isMap<V>(
     input: unknown,
-    options?: ValueValidator,
+    options: ValueValidator,
 ): input is Map<unknown, V>;
 export function isMap<K, V>(
     input: unknown,
-    options?: ValueValidator & KeyValidator,
+    options: ValueValidator & KeyValidator,
 ): input is Map<K, V>;
 export function isMap<K, V>(
     input: unknown,
     options?: Partial<ValueValidator & KeyValidator>,
 ): input is Map<K, V> {
-    return createTypeGuard<Map<K, V>>(
+    return createTypeGuard<
+        Map<K, V>,
+        Partial<ValueValidator & KeyValidator> | undefined
+    >(
         (value) =>
             (value instanceof Map ||
                 (isObject(value) &&

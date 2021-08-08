@@ -24,7 +24,7 @@ import { isObject } from './isObject';
  * isError({});
  * ```
  *
- * @typeParam T - Error type
+ * @typeParam T - Error type, extends Error and defaults to Error
  * @param input - Value to be tested
  * @returns Boolean
  */

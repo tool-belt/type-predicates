@@ -2,13 +2,13 @@ import { ValueValidator } from '../types';
 import { createTypeGuard } from '../utils';
 
 /**
- * Checks that input is Array object
+ * Checks that input is Array<T> object
  *
  * @category Type Guard
  * @example
  *
  * ```typescript
- * // true, typed as unknown[]
+ * // true, typed as any[]
  * isArray(['xyz']);
  *
  * // true, typed as string[]
@@ -29,24 +29,21 @@ import { createTypeGuard } from '../utils';
  * });
  * ```
  *
- * @typeParam T - Type of array value
+ * @typeParam T - Type of Array value
  * @param input - Value to be tested
- * @param options - Optional validator: valueValidator
+ * @param options - Optional valueValidator
  * @returns Boolean
  */
-export function isArray(
-    input: unknown,
-    options?: undefined,
-): input is unknown[];
+export function isArray(input: unknown): input is any[];
 export function isArray<T>(
     input: unknown,
-    options?: ValueValidator,
+    options: ValueValidator,
 ): input is T[];
 export function isArray<T>(
     input: unknown,
     options?: ValueValidator,
 ): input is T[] {
-    return createTypeGuard<T[]>(
+    return createTypeGuard<T[], ValueValidator | undefined>(
         (value) =>
             Array.isArray(value) &&
             (!options?.valueValidator || value.every(options.valueValidator)),

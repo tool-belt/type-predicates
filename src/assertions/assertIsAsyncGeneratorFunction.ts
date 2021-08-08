@@ -15,21 +15,21 @@ import { createTypeAssertion } from '../utils';
  *
  * ```typescript
  * // does not throw, value is typed as TypedAsyncGeneratorFunction<unknown, unknown, unknown>
- * isAsyncGeneratorFunction(async function* () {
+ * assertIsAsyncGeneratorFunction(async function* () {
  *     while (true) {
  *         yield await Promise.resolve(true);
  *     }
  * });
  *
  * // does not throw, value is typed as TypedAsyncGeneratorFunction<boolean, unknown, unknown>
- * isAsyncGeneratorFunction(async function* () {
+ * assertIsAsyncGeneratorFunction(async function* () {
  *     while (true) {
  *         yield await Promise.resolve(true);
  *     }
  * });
  *
  * // throws
- * isAsyncGeneratorFunction(function* () {});
+ * assertIsAsyncGeneratorFunction(function* () {});
  *
  * @typeParam Y - Type of yield value, defaults to unknown
  * @typeParam R - Type of return value, defaults to unknown
@@ -39,7 +39,7 @@ import { createTypeAssertion } from '../utils';
  * @throws TypeError
  * ```
  */
-export function assertAsyncGeneratorFunction<
+export function assertIsAsyncGeneratorFunction<
     Y = unknown,
     R = unknown,
     N = unknown,

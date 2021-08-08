@@ -3,7 +3,7 @@ import { isObject } from './isObject';
 import { isString } from './isString';
 
 /**
- * Checks that input is Iterable
+ * Checks that input is Iterable<T>
  *
  * @remarks
  * - This guard tests for Symbol.iterator, which defines the Iterable protocol.
@@ -14,27 +14,15 @@ import { isString } from './isString';
  * @example
  *
  * ```typescript
- * // true
+ * // true, value is typed as Iterable<unknown>
  * isIterable(
  *     (function* () {
  *         yield true;
  *     })(),
  * );
  *
- * // true
- * isIterable('');
- *
- * // true
- * isIterable(new String());
- *
- * // true
- * isIterable(new Set());
- *
- * // true
- * isIterable(new Map());
- *
- * // true
- * isIterable([]);
+ * // true, value is typed as Iterable<string>
+ * isIterable<string>('');
  *
  * // false
  * isIterable({});
