@@ -1,7 +1,7 @@
 import {
     TypeAssertion,
     TypeGuard,
-    TypeGuardBaseOptions,
+    TypeGuardOptions,
     TypeValidator,
 } from './types';
 
@@ -27,27 +27,11 @@ export const toObjectString = (value: unknown): string =>
  *
  * @typeParam T - Type of the TypeGuard
  * @param validator - TypeValidator function that is applied to the value being tested
- * @param label - Label to use in the TypeError message
  * @returns TypeGuard<T>
  */
-export function createTypeGuard<T>(
-    validator: TypeValidator,
-    label?: string,
-): TypeGuard<T> {
-    return (
-        input: unknown,
-        { throwError = false }: TypeGuardBaseOptions = {},
-    ): input is T => {
-        if (!validator(input)) {
-            if (throwError) {
-                throw new TypeError(
-                    label ? `expected input to be ${label}` : '',
-                );
-            }
-            return false;
-        }
-        return true;
-    };
+export function createTypeGuard<T>(validator: TypeValidator): TypeGuard<T> {
+    return (input: unknown, ...args: any[]): input is T =>
+        validator(input, ...args);
 }
 
 /**
@@ -63,10 +47,15 @@ export function createTypeGuard<T>(
  *
  * @typeParam T - Type of the TypeAssertion
  * @param guard - TypeGuard<T> function
+ * @param options - Optional guard options
  * @returns TypeAssertion<T>
  */
-export function createTypeAssertion<T>(guard: TypeGuard<T>): TypeAssertion<T> {
-    return (input: unknown): asserts input is T => {
-        guard(input, { throwError: true });
+export function createTypeAssertion<T, O extends TypeGuardOptions = undefined>(
+    guard: TypeGuard<T, O>,
+): TypeAssertion<T, O> {
+    return (input: unknown, options?: O): asserts input is T => {
+        if (!guard(input, options)) {
+            throw new TypeError();
+        }
     };
 }

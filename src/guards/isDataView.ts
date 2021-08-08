@@ -9,27 +9,18 @@ import { isObject } from './isObject';
  *
  * ```typescript
  * // true
- * isDataView(new DataView());
+ * isDataView(new DataView(new ArrayBuffer(8)));
  *
  * // false
  * isDataView('xyz');
- *
- * // false
- * isDataView(1);
- *
- * // throws TypeError
- * isDataView([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
 export const isDataView = createTypeGuard<DataView>(
     (value) =>
         isObject(value) &&
         (toObjectString(value) === '[object DataView]' ||
             value instanceof DataView),
-    'DataView',
 );

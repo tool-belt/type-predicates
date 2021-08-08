@@ -1,4 +1,3 @@
-import { TypeGuardBaseOptions } from '../types';
 import { createTypeGuard, toObjectString } from '../utils';
 
 export type AsyncFunction<T = any> = (...args: any[]) => Promise<T>;
@@ -18,30 +17,23 @@ export type AsyncFunction<T = any> = (...args: any[]) => Promise<T>;
  *
  * // false
  * isAsyncFunction(() => null))
- *
- * // throws TypeError
- * isAsyncFunction(() => null, { throwError: true })
  * ```
  *
  * @typeParam T - Type of Promise return value, defaults to "any"
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
 export function isAsyncFunction<T = any>(
     input: unknown,
-    { throwError = false }: TypeGuardBaseOptions = {},
 ): input is AsyncFunction<T> {
     return createTypeGuard<AsyncFunction<T>>((value) => {
         const { constructor: AsyncFunctionConstructor } = Object.getPrototypeOf(
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            async () => {},
+            async () => Promise.resolve(),
         ) as { constructor: FunctionConstructor };
         return (
             typeof value === 'function' &&
             (toObjectString(value) === '[object AsyncFunction]' ||
                 value instanceof AsyncFunctionConstructor)
         );
-    }, 'async function')(input, { throwError });
+    })(input);
 }

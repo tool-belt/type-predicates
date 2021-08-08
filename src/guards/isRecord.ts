@@ -1,4 +1,4 @@
-import { TypeGuardBaseOptions, TypeValidator } from '../types';
+import { KeyValidator, ValueValidator } from '../types';
 import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
@@ -12,20 +12,19 @@ import { isObject } from './isObject';
  * @example
  *
  * ```typescript
- * // true, typed as Map<unknown, unknown>
- * isRecord(new Map([['xyz', 'abc']]));
+ *  * // true, typed as Record<string, unknown>
+ * isRecord(
+ *     { key1: 'aaa', key2: 123 },
+ * );
  *
- * // true, typed as Map<unknown, string>
- * isRecord<string>(new Map([['xyz', 'abc']]), { valueGuard: isString });
- *
- * // true, typed as Map<string, unknown>
- * isRecord<string>(new Map([['xyz', 'abc']]), { keyGuard: isString });
- *
- * // true, typed as Map<string, string>
- * isRecord<string, string>(new Map([['xyz', 'abc']]), {
- *     keyGuard: isString,
- *     valueGuard: isString,
- * });
+ * // true, typed as Record<string, string | number>
+ * isRecord<string, string | number>(
+ *     { key1: 'aaa', key2: 123 },
+ *     {
+ *         keyValidator: isString,
+ *         valueValidator: isUnion(isString, isNumber),
+ *     },
+ * );
  *
  * // false
  * isRecord<string, string>(
@@ -33,74 +32,41 @@ import { isObject } from './isObject';
  *         ['abc', 'def'],
  *         ['xyz', 100],
  *     ]),
- *     { keyGuard: isString, valueGuard: isString },
- * );
- *
- * // true, typed as Map<string, string | number>
- * isRecord<string, string>(
- *     new Map([
- *         ['abc', 'def'],
- *         ['xyz', 100],
- *     ]),
- *     { keyGuard: isString, valueGuard: isUnion(isString, isNumber) },
- * );
- *
- * // throws type error
- * isRecord<string, string>(
- *     new Map([
- *         ['abc', 'def'],
- *         ['xyz', 100],
- *     ]),
- *     { keyGuard: isString, valueGuard: isString, throwError: true },
  * );
  * ```
  *
  * @typeParam T - Type of map value
  * @param input - Value to be tested
- * @param options - ThrowError, keyGuard, valueGuard
+ * @param options - Optional validators: keyValidator, valueValidator
  * @returns Boolean
- * @throws TypeError
  */
 export function isRecord(
     input: unknown,
-    options?: TypeGuardBaseOptions,
+    options?: undefined,
 ): input is Record<string, unknown>;
 export function isRecord<K extends string | symbol>(
     input: unknown,
-    options?: TypeGuardBaseOptions & {
-        keyGuard: TypeValidator;
-    },
+    options?: KeyValidator,
 ): input is Record<K, unknown>;
 export function isRecord<V>(
     input: unknown,
-    options?: TypeGuardBaseOptions & {
-        valueGuard: TypeValidator;
-    },
+    options?: ValueValidator,
 ): input is Record<string, V>;
 export function isRecord<K extends string | symbol, V>(
     input: unknown,
-    options?: TypeGuardBaseOptions & {
-        valueGuard: TypeValidator;
-        keyGuard: TypeValidator;
-    },
+    options?: ValueValidator & KeyValidator,
 ): input is Record<K, V>;
 export function isRecord<K extends string | symbol, V>(
     input: unknown,
-    {
-        throwError = false,
-        valueGuard,
-        keyGuard,
-    }: TypeGuardBaseOptions & {
-        valueGuard?: TypeValidator;
-        keyGuard?: TypeValidator;
-    } = {},
+    options?: Partial<ValueValidator & KeyValidator>,
 ): input is Record<K, V> {
     return createTypeGuard<Record<K, V>>(
         (value) =>
             isObject(value) &&
             toObjectString(value) === '[object Object]' &&
-            (!valueGuard || Object.values(value).every(valueGuard)) &&
-            (!keyGuard || Object.keys(value).every(keyGuard)),
-        'map',
-    )(input, { throwError });
+            (!options?.valueValidator ||
+                Object.values(value).every(options.valueValidator)) &&
+            (!options?.keyValidator ||
+                Object.keys(value).every(options.keyValidator)),
+    )(input);
 }

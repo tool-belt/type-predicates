@@ -1,5 +1,5 @@
-import { TypeGuardBaseOptions } from '../types';
 import { createTypeGuard } from '../utils';
+import { isObject } from './isObject';
 
 /**
  * Checks that input is AsyncIterable
@@ -40,16 +40,14 @@ import { createTypeGuard } from '../utils';
  *
  * @typeParam T - Type of AsyncIterable
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
 export function isAsyncIterable<T = unknown>(
     input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
 ): input is AsyncIterable<T> {
     return createTypeGuard<AsyncIterable<T>>(
-        (value) => typeof (value as any)?.[Symbol.asyncIterator] === 'function',
-        'AsyncIterable',
-    )(input, { throwError });
+        (value) =>
+            isObject(value) &&
+            typeof Reflect.get(value, Symbol.asyncIterator) === 'function',
+    )(input);
 }

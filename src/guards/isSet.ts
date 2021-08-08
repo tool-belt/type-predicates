@@ -1,4 +1,4 @@
-import { TypeGuardBaseOptions, TypeValidator } from '../types';
+import { ValueValidator } from '../types';
 import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
@@ -12,56 +12,46 @@ import { isObject } from './isObject';
  * // true, typed as Set<unknown>
  * isSet(new Set(['xyz']));
  *
- * // true, typed as Set<unknown>
- * isSet<string>(new Set(['xyz']));
- *
  * // true, typed as Set<string>
- * isSet<string>(new Set(['xyz']), { valueGuard: isString });
+ * isSet<string>(new Set(['xyz']), { valueValidator: isString });
  *
  * // false
- * isSet<string>(new Set(['xyz', 1]), { valueGuard: isString });
+ * isSet<string>(new Set(['xyz', 1]), { valueValidator: isString });
  *
  * // true, typed as Set<string | number>
  * isSet<string | number>(new Set(['xyz', 1]), {
- *     valueGuard: isUnion(isString, isNumber),
+ *     valueValidator: isUnion(isString, isNumber),
  * });
  *
  * // throws type error
  * isSet<string>(new Set(['xyz', 1]), {
- *     valueGuard: isString,
- *     throwError: true,
+ *     valueValidator: isString,
  * });
  * ```
  *
  * @typeParam T - Type of set value
  * @param input - Value to be tested
- * @param options - ThrowError, valueGuard
+ * @param options - Optionval validators: valueValidator
  * @returns Boolean
- * @throws TypeError
  */
 export function isSet(
     input: unknown,
-    options?: TypeGuardBaseOptions,
+    options?: undefined,
 ): input is Set<unknown>;
 export function isSet<T>(
     input: unknown,
-    options?: TypeGuardBaseOptions & {
-        valueGuard: TypeValidator;
-    },
+    options?: ValueValidator,
 ): input is Set<T>;
 export function isSet<T>(
     input: unknown,
-    {
-        throwError = false,
-        valueGuard,
-    }: TypeGuardBaseOptions & { valueGuard?: TypeValidator } = {},
+    options?: ValueValidator,
 ): input is Set<T> {
     return createTypeGuard<Set<T>>(
         (value) =>
             isObject(value) &&
             (toObjectString(value) === '[object Set]' ||
                 value instanceof Set) &&
-            (!valueGuard || [...(value as Set<any>)].every(valueGuard)),
-        'set',
-    )(input, { throwError });
+            (!options?.valueValidator ||
+                [...(value as Set<any>)].every(options.valueValidator)),
+    )(input);
 }

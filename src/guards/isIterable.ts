@@ -1,5 +1,6 @@
-import { TypeGuardBaseOptions } from '../types';
 import { createTypeGuard } from '../utils';
+import { isObject } from './isObject';
+import { isString } from './isString';
 
 /**
  * Checks that input is Iterable
@@ -35,22 +36,19 @@ import { createTypeGuard } from '../utils';
  * // true
  * isIterable([]);
  *
- * // throws TypeError
- * isIterable({}, { throwError: true });
+ * // false
+ * isIterable({});
  * ```
  *
  * @typeParam T - Type of Iterable
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export function isIterable<T = unknown>(
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is Iterable<T> {
+export function isIterable<T = unknown>(input: unknown): input is Iterable<T> {
     return createTypeGuard<Iterable<T>>(
-        (value) => typeof (value as any)?.[Symbol.iterator] === 'function',
-        'Iterable',
-    )(input, { throwError });
+        (value) =>
+            (isObject(value) &&
+                typeof Reflect.get(value, Symbol.iterator) === 'function') ||
+            isString(value),
+    )(input);
 }

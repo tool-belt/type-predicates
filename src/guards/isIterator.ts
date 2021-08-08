@@ -1,6 +1,4 @@
-import { TypeGuardBaseOptions } from '../types';
 import { createTypeGuard } from '../utils';
-import { isFunction } from './isFunction';
 import { isObject } from './isObject';
 
 /**
@@ -39,25 +37,19 @@ import { isObject } from './isObject';
  *
  * // false
  * isIterator([]);
- *
- * // throws TypeError
- * isIterator({}, { throwError: true });
  * ```
  *
  * @typeParam Y - Type of yield value, defaults to unknown
  * @typeParam R - Type of return value, defaults to unknown
  * @typeParam N - Type of .next() args, defaults to unknown
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
 export function isIterator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
 ): input is Iterator<Y, R, N> {
     return createTypeGuard<Iterator<Y, R, N>>(
-        (value) => isObject(value) && isFunction(Reflect.get(value, 'next')),
-        'Iterator',
-    )(input, { throwError });
+        (value) =>
+            isObject(value) && typeof Reflect.get(value, 'next') === 'function',
+    )(input);
 }

@@ -18,21 +18,15 @@ import { isObject } from './isObject';
  * isRegExp('xyz');
  *
  * // false
- * isRegExp(1);
- *
- * // throws TypeError
- * isRegExp([], { throwError: true });
+ * isRegExp({});
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
 export const isRegExp = createTypeGuard<RegExp>(
     (value) =>
         isObject(value) &&
         (toObjectString(value) === '[object RegExp]' ||
             value instanceof RegExp),
-    'RegExp',
 );

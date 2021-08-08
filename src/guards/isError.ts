@@ -1,4 +1,3 @@
-import { TypeGuardBaseOptions } from '../types';
 import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
@@ -23,29 +22,17 @@ import { isObject } from './isObject';
  *
  * // false
  * isError({});
- *
- * // false
- * isError(1);
- *
- * // throws TypeError
- * isError([], { throwError: true });
  * ```
  *
  * @typeParam T - Error type
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export function isError<T extends Error = Error>(
-    input: unknown,
-    { throwError = false }: TypeGuardBaseOptions = {},
-): input is T {
+export function isError<T extends Error = Error>(input: unknown): input is T {
     return createTypeGuard<T>(
         (value) =>
             isObject(value) &&
             (toObjectString(value) === '[object Error]' ||
                 value instanceof Error),
-        'Error',
-    )(input, { throwError });
+    )(input);
 }

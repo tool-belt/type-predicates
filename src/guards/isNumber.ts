@@ -15,17 +15,11 @@ import { createTypeGuard } from '../utils';
  *
  * // false
  * isNumber('xyz');
- *
- * // throws TypeError
- * isNumber([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
 export const isNumber = createTypeGuard<number>(
     (value) => typeof value === 'number',
-    'number',
 );

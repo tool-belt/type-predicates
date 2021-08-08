@@ -2,23 +2,11 @@ import { createTypeAssertion, createTypeGuard } from '../src';
 class CustomClass {}
 const customTypeGuard = createTypeGuard<CustomClass>(
     (value) => value instanceof CustomClass,
-    CustomClass.name,
 );
 
 describe('createTypeGuard', () => {
-    it('creates a type-guard with the correct label', () => {
+    it('creates a type-guard', () => {
         expect(customTypeGuard(new CustomClass())).toBeTruthy();
-        expect(() => customTypeGuard([], { throwError: true })).toThrow(
-            `expected input to be ${CustomClass.name}`,
-        );
-    });
-    it('creates a type-guard without error message when no label is supplied', () => {
-        const customTypeGuardWithoutLabel = createTypeGuard<CustomClass>(
-            (value) => value instanceof CustomClass,
-        );
-        expect(() =>
-            customTypeGuardWithoutLabel([], { throwError: true }),
-        ).toThrow('');
     });
 });
 

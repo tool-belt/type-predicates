@@ -1,25 +1,18 @@
-export type TypeGuardBaseOptions = {
-    throwError?: boolean;
-};
-
-export type TypeGuard<T = any> = (
+export type TypeValidator = (input: unknown, ...args: any[]) => boolean;
+export type KeyValidator = { keyValidator: TypeValidator };
+export type ValueValidator = { valueValidator: TypeValidator };
+export type TypeGuardOptions =
+    | undefined
+    | KeyValidator
+    | ValueValidator
+    | (KeyValidator & ValueValidator);
+export type TypeGuard<T = any, O extends TypeGuardOptions = undefined> = (
     input: unknown,
-    options?: TypeGuardBaseOptions,
+    options?: O,
+    ...args: any[]
 ) => input is T;
-
-export type TypeAssertion<T = any> = (input: unknown) => asserts input is T;
-
-export type TypeValidator = (input: unknown) => boolean;
-
-export type TypedArray =
-    | Uint8Array
-    | Uint8ClampedArray
-    | Uint16Array
-    | Uint32Array
-    | Int8Array
-    | Int16Array
-    | Int32Array
-    | BigUint64Array
-    | BigInt64Array
-    | Float32Array
-    | Float64Array;
+export type TypeAssertion<T = any, O extends TypeGuardOptions = undefined> = (
+    input: unknown,
+    options?: O,
+    ...args: any[]
+) => asserts input is T;

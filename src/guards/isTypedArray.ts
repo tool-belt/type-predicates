@@ -1,4 +1,15 @@
-import { TypeGuardBaseOptions, TypedArray } from '../types';
+export type TypedArray =
+    | Uint8Array
+    | Uint8ClampedArray
+    | Uint16Array
+    | Uint32Array
+    | Int8Array
+    | Int16Array
+    | Int32Array
+    | BigUint64Array
+    | BigInt64Array
+    | Float32Array
+    | Float64Array;
 import { createTypeGuard } from '../utils';
 /**
  * Checks that input is TypedArray object
@@ -45,26 +56,19 @@ import { createTypeGuard } from '../utils';
  *
  * // false
  * isTypedArray([]);
- *
- * // throws TypeError
- * isTypedArray([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
 export function isTypedArray<T extends TypedArray = TypedArray>(
     input: unknown,
-    { throwError = false }: TypeGuardBaseOptions = {},
 ): input is T {
     return createTypeGuard<T>(
         (value) =>
             value instanceof Object.getPrototypeOf(Int8Array) ||
             value instanceof Object.getPrototypeOf(Uint8Array),
-        'TypedArray',
-    )(input, { throwError });
+    )(input);
 }
 
 /**
@@ -79,24 +83,16 @@ export function isTypedArray<T extends TypedArray = TypedArray>(
  *
  * // false
  * isInt8Array([]);
- *
- * // throws TypeError
- * isInt8Array([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export const isInt8Array = (
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is Int8Array =>
+export const isInt8Array = (input: unknown): input is Int8Array =>
     createTypeGuard<Int8Array>(
         (value) =>
             isTypedArray(value) && value[Symbol.toStringTag] === 'Int8Array',
-    )(input, { throwError });
+    )(input);
 /**
  * Checks that input is Uint8Array object
  *
@@ -109,24 +105,16 @@ export const isInt8Array = (
  *
  * // false
  * isUint8Array([]);
- *
- * // throws TypeError
- * isUint8Array([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export const isUint8Array = (
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is Uint8Array =>
+export const isUint8Array = (input: unknown): input is Uint8Array =>
     createTypeGuard<Uint8Array>(
         (value) =>
             isTypedArray(value) && value[Symbol.toStringTag] === 'Uint8Array',
-    )(input, { throwError });
+    )(input);
 /**
  * Checks that input is Uint8ClampedArray object
  *
@@ -139,25 +127,19 @@ export const isUint8Array = (
  *
  * // false
  * isUint8ClampedArray([]);
- *
- * // throws TypeError
- * isUint8ClampedArray([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
 export const isUint8ClampedArray = (
     input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
 ): input is Uint8ClampedArray =>
     createTypeGuard<Uint8ClampedArray>(
         (value) =>
             isTypedArray(value) &&
             value[Symbol.toStringTag] === 'Uint8ClampedArray',
-    )(input, { throwError });
+    )(input);
 /**
  * Checks that input is Int16Array object
  *
@@ -170,24 +152,16 @@ export const isUint8ClampedArray = (
  *
  * // false
  * isInt16Array([]);
- *
- * // throws TypeError
- * isInt16Array([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export const isInt16Array = (
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is Int16Array =>
+export const isInt16Array = (input: unknown): input is Int16Array =>
     createTypeGuard<Int16Array>(
         (value) =>
             isTypedArray(value) && value[Symbol.toStringTag] === 'Int16Array',
-    )(input, { throwError });
+    )(input);
 /**
  * Checks that input is Uint16Array object
  *
@@ -200,24 +174,16 @@ export const isInt16Array = (
  *
  * // false
  * isUint16Array([]);
- *
- * // throws TypeError
- * isUint16Array([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export const isUint16Array = (
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is Uint16Array =>
+export const isUint16Array = (input: unknown): input is Uint16Array =>
     createTypeGuard<Uint16Array>(
         (value) =>
             isTypedArray(value) && value[Symbol.toStringTag] === 'Uint16Array',
-    )(input, { throwError });
+    )(input);
 /**
  * Checks that input is Int32Array object
  *
@@ -230,24 +196,16 @@ export const isUint16Array = (
  *
  * // false
  * isInt32Array([]);
- *
- * // throws TypeError
- * isInt32Array([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export const isInt32Array = (
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is Int32Array =>
+export const isInt32Array = (input: unknown): input is Int32Array =>
     createTypeGuard<Int32Array>(
         (value) =>
             isTypedArray(value) && value[Symbol.toStringTag] === 'Int32Array',
-    )(input, { throwError });
+    )(input);
 /**
  * Checks that input is Uint32Array object
  *
@@ -260,24 +218,16 @@ export const isInt32Array = (
  *
  * // false
  * isUint32Array([]);
- *
- * // throws TypeError
- * isUint32Array([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export const isUint32Array = (
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is Uint32Array =>
+export const isUint32Array = (input: unknown): input is Uint32Array =>
     createTypeGuard<Uint32Array>(
         (value) =>
             isTypedArray(value) && value[Symbol.toStringTag] === 'Uint32Array',
-    )(input, { throwError });
+    )(input);
 /**
  * Checks that input is Float32Array object
  *
@@ -290,24 +240,16 @@ export const isUint32Array = (
  *
  * // false
  * isFloat32Array([]);
- *
- * // throws TypeError
- * isFloat32Array([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export const isFloat32Array = (
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is Float32Array =>
+export const isFloat32Array = (input: unknown): input is Float32Array =>
     createTypeGuard<Float32Array>(
         (value) =>
             isTypedArray(value) && value[Symbol.toStringTag] === 'Float32Array',
-    )(input, { throwError });
+    )(input);
 /**
  * Checks that input is Float64Array object
  *
@@ -320,24 +262,16 @@ export const isFloat32Array = (
  *
  * // false
  * isFloat64Array([]);
- *
- * // throws TypeError
- * isFloat64Array([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export const isFloat64Array = (
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is Float64Array =>
+export const isFloat64Array = (input: unknown): input is Float64Array =>
     createTypeGuard<Float64Array>(
         (value) =>
             isTypedArray(value) && value[Symbol.toStringTag] === 'Float64Array',
-    )(input, { throwError });
+    )(input);
 /**
  * Checks that input is BigInt64Array object
  *
@@ -350,25 +284,17 @@ export const isFloat64Array = (
  *
  * // false
  * isBigInt64Array([]);
- *
- * // throws TypeError
- * isBigInt64Array([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export const isBigInt64Array = (
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is BigInt64Array =>
+export const isBigInt64Array = (input: unknown): input is BigInt64Array =>
     createTypeGuard<BigInt64Array>(
         (value) =>
             isTypedArray(value) &&
             value[Symbol.toStringTag] === 'BigInt64Array',
-    )(input, { throwError });
+    )(input);
 /**
  * Checks that input is BigUint64Array object
  *
@@ -381,22 +307,14 @@ export const isBigInt64Array = (
  *
  * // false
  * isBigUint64Array([]);
- *
- * // throws TypeError
- * isBigUint64Array([], { throwError: true });
  * ```
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
- * @throws TypeError
  */
-export const isBigUint64Array = (
-    input: unknown,
-    { throwError }: TypeGuardBaseOptions = {},
-): input is BigUint64Array =>
+export const isBigUint64Array = (input: unknown): input is BigUint64Array =>
     createTypeGuard<BigUint64Array>(
         (value) =>
             isTypedArray(value) &&
             value[Symbol.toStringTag] === 'BigUint64Array',
-    )(input, { throwError });
+    )(input);

@@ -119,63 +119,55 @@ const functionValues = [
 describe('isArray', () => {
     it('returns true for positively tested array values', () => {
         expect(
-            isArray<string>(stringArray, { valueGuard: isString }),
+            isArray<string>(stringArray, { valueValidator: isString }),
         ).toBeTruthy();
         expect(
-            isArray<number>(numberArray, { valueGuard: isNumber }),
+            isArray<number>(numberArray, { valueValidator: isNumber }),
         ).toBeTruthy();
         expect(
-            isArray<symbol>(symbolArray, { valueGuard: isSymbol }),
+            isArray<symbol>(symbolArray, { valueValidator: isSymbol }),
         ).toBeTruthy();
         expect(
-            isArray<object>(recordArray, { valueGuard: isObject }),
+            isArray<object>(recordArray, { valueValidator: isObject }),
         ).toBeTruthy();
         expect(
             isArray<string | number>([...stringArray, ...numberArray], {
-                valueGuard: isUnion<string | number>(isString, isNumber),
+                valueValidator: isUnion<string | number>(isString, isNumber),
             }),
         ).toBeTruthy();
     });
     it('returns false for negatively tested array values', () => {
         expect(
-            isArray<string>(stringArray, { valueGuard: isNumber }),
+            isArray<string>(stringArray, { valueValidator: isNumber }),
         ).toBeFalsy();
         expect(
-            isArray<number>(numberArray, { valueGuard: isString }),
+            isArray<number>(numberArray, { valueValidator: isString }),
         ).toBeFalsy();
         expect(
-            isArray<symbol>(symbolArray, { valueGuard: isObject }),
+            isArray<symbol>(symbolArray, { valueValidator: isObject }),
         ).toBeFalsy();
         expect(
-            isArray<object>(recordArray, { valueGuard: isSymbol }),
+            isArray<object>(recordArray, { valueValidator: isSymbol }),
         ).toBeFalsy();
         expect(
             isArray<string | number>([...symbolArray, ...recordArray], {
-                valueGuard: isUnion<string | number>(isString, isNumber),
+                valueValidator: isUnion<string | number>(isString, isNumber),
             }),
         ).toBeFalsy();
     });
     it('returns false for non-array values', () => {
-        expect(isArray<string>('', { valueGuard: isString })).toBeFalsy();
-        expect(isArray<string>(null, { valueGuard: isString })).toBeFalsy();
-        expect(isArray<string>(123, { valueGuard: isString })).toBeFalsy();
-        expect(isArray<string>(Symbol(), { valueGuard: isString })).toBeFalsy();
-        expect(isArray<string>({}, { valueGuard: isString })).toBeFalsy();
+        expect(isArray<string>('', { valueValidator: isString })).toBeFalsy();
+        expect(isArray<string>(null, { valueValidator: isString })).toBeFalsy();
+        expect(isArray<string>(123, { valueValidator: isString })).toBeFalsy();
+        expect(
+            isArray<string>(Symbol(), { valueValidator: isString }),
+        ).toBeFalsy();
+        expect(isArray<string>({}, { valueValidator: isString })).toBeFalsy();
     });
-    it('throws error when throwError = true', () => {
-        expect(() =>
-            isArray<string>('', { throwError: true, valueGuard: isString }),
-        ).toThrow();
-        expect(() =>
-            isArray<string>(null, { throwError: true, valueGuard: isString }),
-        ).toThrow();
-        expect(() =>
-            isArray<string>(123, { throwError: true, valueGuard: isString }),
-        ).toThrow();
-    });
+
     it('guards type correctly', () => {
         const unknownArray: unknown = [...stringArray];
-        if (isArray<string>(unknownArray, { valueGuard: isString })) {
+        if (isArray<string>(unknownArray, { valueValidator: isString })) {
             expectTypeOf(unknownArray).toMatchTypeOf(stringArray);
         }
         if (isArray(unknownArray)) {
@@ -188,59 +180,50 @@ describe('isSet', () => {
     it('returns true for positively tested set values', () => {
         expect(isSet(new Set(stringArray))).toBeTruthy();
         expect(
-            isSet<string>(new Set(stringArray), { valueGuard: isString }),
+            isSet<string>(new Set(stringArray), { valueValidator: isString }),
         ).toBeTruthy();
         expect(
-            isSet<number>(new Set(numberArray), { valueGuard: isNumber }),
+            isSet<number>(new Set(numberArray), { valueValidator: isNumber }),
         ).toBeTruthy();
         expect(
-            isSet<symbol>(new Set(symbolArray), { valueGuard: isSymbol }),
+            isSet<symbol>(new Set(symbolArray), { valueValidator: isSymbol }),
         ).toBeTruthy();
         expect(
-            isSet<object>(new Set(recordArray), { valueGuard: isObject }),
+            isSet<object>(new Set(recordArray), { valueValidator: isObject }),
         ).toBeTruthy();
         expect(
             isSet<string | number>(new Set([...stringArray, ...numberArray]), {
-                valueGuard: isUnion<string | number>(isString, isNumber),
+                valueValidator: isUnion<string | number>(isString, isNumber),
             }),
         ).toBeTruthy();
     });
     it('returns false for negatively tested set values', () => {
         expect(
-            isSet<string>(new Set(stringArray), { valueGuard: isNumber }),
+            isSet<string>(new Set(stringArray), { valueValidator: isNumber }),
         ).toBeFalsy();
         expect(
-            isSet<number>(new Set(numberArray), { valueGuard: isString }),
+            isSet<number>(new Set(numberArray), { valueValidator: isString }),
         ).toBeFalsy();
         expect(
-            isSet<symbol>(new Set(symbolArray), { valueGuard: isObject }),
+            isSet<symbol>(new Set(symbolArray), { valueValidator: isObject }),
         ).toBeFalsy();
         expect(
-            isSet<object>(new Set(recordArray), { valueGuard: isSymbol }),
+            isSet<object>(new Set(recordArray), { valueValidator: isSymbol }),
         ).toBeFalsy();
         expect(
             isSet<string | number>(new Set([...symbolArray, ...recordArray]), {
-                valueGuard: isUnion<string | number>(isString, isNumber),
+                valueValidator: isUnion<string | number>(isString, isNumber),
             }),
         ).toBeFalsy();
     });
     it('returns false for non-set values', () => {
-        expect(isSet<string>('', { valueGuard: isString })).toBeFalsy();
-        expect(isSet<string>(null, { valueGuard: isString })).toBeFalsy();
-        expect(isSet<string>(123, { valueGuard: isString })).toBeFalsy();
-        expect(isSet<string>(Symbol(), { valueGuard: isString })).toBeFalsy();
-        expect(isSet<string>({}, { valueGuard: isString })).toBeFalsy();
-    });
-    it('throws error when throwError = true', () => {
-        expect(() =>
-            isSet<string>('', { throwError: true, valueGuard: isString }),
-        ).toThrow();
-        expect(() =>
-            isSet<string>(null, { throwError: true, valueGuard: isString }),
-        ).toThrow();
-        expect(() =>
-            isSet<string>(123, { throwError: true, valueGuard: isString }),
-        ).toThrow();
+        expect(isSet<string>('', { valueValidator: isString })).toBeFalsy();
+        expect(isSet<string>(null, { valueValidator: isString })).toBeFalsy();
+        expect(isSet<string>(123, { valueValidator: isString })).toBeFalsy();
+        expect(
+            isSet<string>(Symbol(), { valueValidator: isString }),
+        ).toBeFalsy();
+        expect(isSet<string>({}, { valueValidator: isString })).toBeFalsy();
     });
     it('guards type correctly', () => {
         const unknownSet: unknown = new Set([...stringArray]);
@@ -249,7 +232,7 @@ describe('isSet', () => {
                 new Set<unknown>([...stringArray]),
             );
         }
-        if (isSet<string>(unknownSet, { valueGuard: isString })) {
+        if (isSet<string>(unknownSet, { valueValidator: isString })) {
             expectTypeOf(unknownSet).toMatchTypeOf(
                 new Set<string>([...stringArray]),
             );
@@ -261,20 +244,20 @@ describe('isMap', () => {
     it('returns true for positively tested map values', () => {
         expect(
             isMap<string, string>(stringMap, {
-                valueGuard: isString,
-                keyGuard: isString,
+                valueValidator: isString,
+                keyValidator: isString,
             }),
         ).toBeTruthy();
         expect(
             isMap<number, number>(numberMap, {
-                valueGuard: isNumber,
-                keyGuard: isNumber,
+                valueValidator: isNumber,
+                keyValidator: isNumber,
             }),
         ).toBeTruthy();
         expect(
             isMap<symbol, symbol>(symbolMap, {
-                valueGuard: isSymbol,
-                keyGuard: isSymbol,
+                valueValidator: isSymbol,
+                keyValidator: isSymbol,
             }),
         ).toBeTruthy();
         expect(
@@ -285,12 +268,12 @@ describe('isMap', () => {
                     ...symbolMap,
                 ]),
                 {
-                    valueGuard: isUnion<string | number | symbol>(
+                    valueValidator: isUnion<string | number | symbol>(
                         isString,
                         isNumber,
                         isSymbol,
                     ),
-                    keyGuard: isUnion<string | number | symbol>(
+                    keyValidator: isUnion<string | number | symbol>(
                         isString,
                         isNumber,
                         isSymbol,
@@ -305,8 +288,14 @@ describe('isMap', () => {
                     ...booleanMap,
                 ]),
                 {
-                    valueGuard: isUnion<object | boolean>(isObject, isBoolean),
-                    keyGuard: isUnion<object | boolean>(isObject, isBoolean),
+                    valueValidator: isUnion<object | boolean>(
+                        isObject,
+                        isBoolean,
+                    ),
+                    keyValidator: isUnion<object | boolean>(
+                        isObject,
+                        isBoolean,
+                    ),
                 },
             ),
         ).toBeTruthy();
@@ -314,14 +303,14 @@ describe('isMap', () => {
     it('returns false for negatively tested map values', () => {
         expect(
             isMap(stringMap, {
-                valueGuard: isNumber,
-                keyGuard: isNumber,
+                valueValidator: isNumber,
+                keyValidator: isNumber,
             }),
         ).toBeFalsy();
         expect(
             isMap(numberMap, {
-                valueGuard: isString,
-                keyGuard: isString,
+                valueValidator: isString,
+                keyValidator: isString,
             }),
         ).toBeFalsy();
     });
@@ -332,11 +321,6 @@ describe('isMap', () => {
         expect(isMap([])).toBeFalsy();
         expect(isMap(new WeakMap())).toBeFalsy();
     });
-    it('throws error when throwError = true', () => {
-        expect(() => isMap('', { throwError: true })).toThrow();
-        expect(() => isMap(null, { throwError: true })).toThrow();
-        expect(() => isMap(new WeakMap(), { throwError: true })).toThrow();
-    });
     it('guards type correctly', () => {
         const unknownMap: unknown = new Map<unknown, unknown>([
             ...recordMap,
@@ -344,8 +328,8 @@ describe('isMap', () => {
         ]);
         if (
             isMap<object | string, object | string>(unknownMap, {
-                keyGuard: isUnion(isObject, isString),
-                valueGuard: isUnion(isObject, isString),
+                keyValidator: isUnion(isObject, isString),
+                valueValidator: isUnion(isObject, isString),
             })
         ) {
             expectTypeOf(unknownMap).toMatchTypeOf<
@@ -359,20 +343,20 @@ describe('isRecord', () => {
     it('returns true for positively tested record values', () => {
         expect(
             isRecord<string, string>(stringRecord, {
-                valueGuard: isString,
-                keyGuard: isString,
+                valueValidator: isString,
+                keyValidator: isString,
             }),
         ).toBeTruthy();
         expect(
             isRecord<string, number>(numberRecord, {
-                valueGuard: isNumber,
-                keyGuard: isString,
+                valueValidator: isNumber,
+                keyValidator: isString,
             }),
         ).toBeTruthy();
         expect(
             isRecord<symbol, symbol>(symbolRecord, {
-                valueGuard: isSymbol,
-                keyGuard: isSymbol,
+                valueValidator: isSymbol,
+                keyValidator: isSymbol,
             }),
         ).toBeTruthy();
         expect(
@@ -383,12 +367,12 @@ describe('isRecord', () => {
                     ...symbolRecord,
                 },
                 {
-                    valueGuard: isUnion<string | number | symbol>(
+                    valueValidator: isUnion<string | number | symbol>(
                         isString,
                         isNumber,
                         isSymbol,
                     ),
-                    keyGuard: isUnion<string | number | symbol>(
+                    keyValidator: isUnion<string | number | symbol>(
                         isString,
                         isNumber,
                         isSymbol,
@@ -400,14 +384,14 @@ describe('isRecord', () => {
     it('returns false for negatively tested record values', () => {
         expect(
             isRecord(stringRecord, {
-                valueGuard: isNumber,
-                keyGuard: isNumber,
+                valueValidator: isNumber,
+                keyValidator: isNumber,
             }),
         ).toBeFalsy();
         expect(
             isRecord(numberRecord, {
-                valueGuard: isString,
-                keyGuard: isString,
+                valueValidator: isString,
+                keyValidator: isString,
             }),
         ).toBeFalsy();
     });
@@ -418,11 +402,6 @@ describe('isRecord', () => {
         expect(isRecord([])).toBeFalsy();
         expect(isRecord(new WeakMap())).toBeFalsy();
     });
-    it('throws error when throwError = true', () => {
-        expect(() => isRecord('', { throwError: true })).toThrow();
-        expect(() => isRecord(null, { throwError: true })).toThrow();
-        expect(() => isRecord(new WeakMap(), { throwError: true })).toThrow();
-    });
     it('guards type correctly', () => {
         const unknownRecord: unknown = {
             ...numberRecord,
@@ -430,8 +409,8 @@ describe('isRecord', () => {
         };
         if (
             isRecord<string, number | string>(unknownRecord, {
-                keyGuard: isUnion(isNumber, isString),
-                valueGuard: isUnion(isNumber, isString),
+                keyValidator: isUnion(isNumber, isString),
+                valueValidator: isUnion(isNumber, isString),
             })
         ) {
             expectTypeOf(unknownRecord).toMatchTypeOf<
@@ -861,9 +840,6 @@ describe.each([
         });
         it.each(failed)(`returns false for non-expected values`, (value) => {
             expect(guard(value)).toBeFalsy();
-        });
-        it.each(failed)('throws error when throwError = true', (value) => {
-            expect(() => guard(value, { throwError: true })).toThrow();
         });
     },
 );

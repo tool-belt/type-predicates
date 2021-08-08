@@ -1,4 +1,3 @@
-import { TypeGuardBaseOptions } from '../types';
 import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
@@ -17,25 +16,18 @@ import { isObject } from './isObject';
  *
  * // false
  * isWeakSet<MyObj>(new Set([['xyz', 'abc']]));
- *
- * // throws type error
- * isWeakSet<MyObj>(new Set([['xyz', 'abc']]), { throwError: true });
  * ```
  *
  * @typeParam T - Type of WeakSet values, extends object
  * @param input - Value to be tested
- * @param options - ThrowError, keyGuard, valueGuard
  * @returns Boolean
- * @throws TypeError
  */
 export function isWeakSet<T extends object = any>(
     input: unknown,
-    { throwError = false }: TypeGuardBaseOptions = {},
 ): input is WeakSet<T> {
     return createTypeGuard<WeakSet<T>>(
         (value) =>
             value instanceof WeakSet ||
             (isObject(value) && toObjectString(value) === '[object WeakSet]'),
-        'weakMap',
-    )(input, { throwError });
+    )(input);
 }

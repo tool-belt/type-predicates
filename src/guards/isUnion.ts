@@ -1,4 +1,4 @@
-import { TypeGuard, TypeGuardBaseOptions } from '../types';
+import { TypeGuard } from '../types';
 
 /**
  * Checks that input is one of union
@@ -7,7 +7,7 @@ import { TypeGuard, TypeGuardBaseOptions } from '../types';
  * @example
  *
  * ```typescript
- * // unionTypeGuard === <T>(input: unknown, {throwError: boolean}) => input is T
+ * // unionTypeGuard === <T>(input: unknown, ...args: any[]) => input is T
  * const unionTypeGuard = isUnion(isString, isNumber, isSymbol);
  * ```
  *
@@ -16,24 +16,11 @@ import { TypeGuard, TypeGuardBaseOptions } from '../types';
  * @returns TypeGuard<T>
  */
 export function isUnion<T>(...guards: TypeGuard[]): TypeGuard<T> {
-    return function (
-        input: unknown,
-        { throwError = false }: TypeGuardBaseOptions = {},
-    ): input is T {
-        const errors: string[] = [];
+    return function (input: unknown, ...args: any[]): input is T {
         for (const guard of guards) {
-            try {
-                guard(input, { throwError: true });
+            if (guard(input, ...args)) {
                 return true;
-            } catch (error: any) {
-                errors.push(Reflect.get(error, 'message'));
             }
-        }
-        if (throwError) {
-            const label = errors
-                .map((message) => message.replace('expected input to be ', ''))
-                .join(' | ');
-            throw new TypeError(`expected input to be ${label}`);
         }
         return false;
     };

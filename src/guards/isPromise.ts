@@ -1,6 +1,4 @@
-import { TypeGuardBaseOptions } from '../types';
 import { createTypeGuard } from '../utils';
-import { isFunction } from './isFunction';
 import { isObject } from './isObject';
 
 /**
@@ -13,30 +11,25 @@ import { isObject } from './isObject';
  * @example
  *
  * ```typescript
- * // true
- * isPromise<string>(Promise.resolve('hi'));
+ * // true, typed as Promise<unknown>
+ * isPromise(Promise.resolve('abc'));
+ *
+ * // true, typed as Promise<string>
+ * isPromise<string>(Promise.resolve('abc'));
  *
  * // false
  * isPromise<string>({});
- *
- * // throws type error
- * isPromise<string>([], { throwError: true });
  * ```
  *
  * @typeParam T - Type of promise value, defaults to "any"
  * @param input - Value to be tested
- * @param throwError - Throw error if check fails
  * @returns Boolean
- * @throws TypeError
  */
-export function isPromise<T = any>(
-    input: unknown,
-    { throwError = false }: TypeGuardBaseOptions = {},
-): input is Promise<T> {
+export function isPromise<T = any>(input: unknown): input is Promise<T> {
     return createTypeGuard<Promise<T>>(
         (value) =>
             value instanceof Promise ||
-            (isObject(value) && isFunction(Reflect.get(value, 'then'))),
-        'promise',
-    )(input, { throwError });
+            (isObject(value) &&
+                typeof Reflect.get(value, 'then') === 'function'),
+    )(input);
 }

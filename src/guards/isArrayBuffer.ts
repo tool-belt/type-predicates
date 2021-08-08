@@ -12,24 +12,16 @@ import { isObject } from './isObject';
  * isArrayBuffer(new ArrayBuffer());
  *
  * // false
- * isArrayBuffer('xyz');
- *
- * // false
- * isArrayBuffer(1);
- *
- * // throws TypeError
- * isArrayBuffer([], { throwError: true });
- * ```
+ * isArrayBuffer([]);
  *
  * @param input - Value to be tested
- * @param options - ThrowError
  * @returns Boolean
  * @throws TypeError
+ * ```
  */
 export const isArrayBuffer = createTypeGuard<ArrayBuffer>(
     (value) =>
         isObject(value) &&
         (toObjectString(value) === '[object ArrayBuffer]' ||
             value instanceof ArrayBuffer),
-    'ArrayBuffer',
 );
