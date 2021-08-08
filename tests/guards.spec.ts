@@ -1,5 +1,6 @@
 import {
     TypeGuard,
+    isAnyArrayBuffer,
     isArray,
     isArrayBuffer,
     isAsyncFunction,
@@ -34,6 +35,7 @@ import {
     isRecord,
     isRegExp,
     isSet,
+    isSharedArrayBuffer,
     isString,
     isStringObject,
     isSymbol,
@@ -75,7 +77,7 @@ const symbolRecord = { [Symbol('a')]: Symbol('b') };
 const promise = new Promise((resolve) => resolve(null));
 const primitiveValues = [true, false, 0, 1, '', undefined, Symbol()];
 const iterableObjects = [new Map(), new Set(), new String(), []];
-const buffers = [new ArrayBuffer(8), Buffer.alloc(8)];
+const buffers = [new ArrayBuffer(8), Buffer.alloc(8), new SharedArrayBuffer(8)];
 const errors = [
     new Error(),
     new TypeError(),
@@ -505,6 +507,30 @@ describe.each([
         [
             ...primitiveValues,
             ...objectValues.filter((v) => !(v instanceof ArrayBuffer)),
+            ...functionValues,
+        ],
+    ],
+    [
+        'SharedArrayBuffer',
+        isSharedArrayBuffer,
+        [new SharedArrayBuffer(8), new SharedArrayBuffer(16)],
+        [
+            ...primitiveValues,
+            ...objectValues.filter((v) => !(v instanceof SharedArrayBuffer)),
+            ...functionValues,
+        ],
+    ],
+    [
+        'AnyArrayBuffer',
+        isAnyArrayBuffer,
+        [new SharedArrayBuffer(8), new ArrayBuffer(16)],
+        [
+            ...primitiveValues,
+            ...objectValues.filter(
+                (v) =>
+                    !(v instanceof SharedArrayBuffer) &&
+                    !(v instanceof ArrayBuffer),
+            ),
             ...functionValues,
         ],
     ],

@@ -5,7 +5,7 @@ export type TypedAsyncGeneratorFunction<Y, R, N> = (
 ) => AsyncGenerator<Y, R, N>;
 
 /**
- * Checks that input is AsyncGeneratorFunction
+ * Checks that input is TypedAsyncGeneratorFunction<Y,R,N> object
  *
  * @remarks
  * - This guard works only in ES2018 and above
@@ -14,8 +14,19 @@ export type TypedAsyncGeneratorFunction<Y, R, N> = (
  * @example
  *
  * ```typescript
- * // true
- * isAsyncGeneratorFunction(async function* () {});
+ * // true, value is typed as TypedAsyncGeneratorFunction<unknown, unknown, unknown>
+ * isAsyncGeneratorFunction(async function* () {
+ *     while (true) {
+ *         yield await Promise.resolve(true);
+ *     }
+ * });
+ *
+ * // true, value is typed as TypedAsyncGeneratorFunction<boolean, unknown, unknown>
+ * isAsyncGeneratorFunction(async function* () {
+ *     while (true) {
+ *         yield await Promise.resolve(true);
+ *     }
+ * });
  *
  * // false
  * isAsyncGeneratorFunction(function* () {});

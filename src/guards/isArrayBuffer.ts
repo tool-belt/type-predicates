@@ -16,7 +16,6 @@ import { isObject } from './isObject';
  *
  * @param input - Value to be tested
  * @returns Boolean
- * @throws TypeError
  * ```
  */
 export const isArrayBuffer = createTypeGuard<ArrayBuffer>(
