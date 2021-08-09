@@ -7,6 +7,20 @@
 
 # @tool-belt/type-predicates
 
+## Installation
+
+```bash
+npm install @tool-belt/type-predicates
+```
+
+Or
+
+```bash
+yarn add @tool-belt/type-predicates
+```
+
+## Contents
+
 This package includes the following:
 
 - a comprehensive collection of performant and flexible type-guards, that can function as a drop-in replacement for 
