@@ -2,8 +2,6 @@ import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is RegExp object
- *
  * @category Type Guard
  * @example
  *
@@ -13,16 +11,7 @@ import { isObject } from './isObject';
  *
  * // true
  * isRegExp(/somePattern/);
- *
- * // false
- * isRegExp('xyz');
- *
- * // false
- * isRegExp({});
  * ```
- *
- * @param input - Value to be tested
- * @returns Boolean
  */
 export const isRegExp = createTypeGuard<RegExp>(
     (value) =>

@@ -2,8 +2,8 @@ import { createTypeAssertion } from '../utils';
 import { isObject } from '../guards/isObject';
 
 /**
- * Asserts that input is object
- *
+ * @remarks
+ * Tests true for all objects that have a typeof 'object' excluding null
  * @category Type Assertion
  * @example
  *
@@ -15,11 +15,9 @@ import { isObject } from '../guards/isObject';
  * assertIsObject([]);
  *
  * // throws
- * assertIsObject('abc');
+ * assertIsObject(null);
  * ```
  *
- * @param input - Value to be tested
- * @returns Void
  * @throws TypeError
  */
 export const assertIsObject = createTypeAssertion<object>(isObject);

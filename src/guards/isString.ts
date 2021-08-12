@@ -1,8 +1,6 @@
 import { createTypeGuard } from '../utils';
 
 /**
- * Checks that input is string primitive
- *
  * @category Type Guard
  * @example
  *
@@ -10,15 +8,9 @@ import { createTypeGuard } from '../utils';
  * // true
  * isString('xyz');
  *
- * // false, because String constructor returns object
- * isString(new String('xyz'));
- *
  * // false
- * isString(1);
+ * isString(new String('xyz'));
  * ```
- *
- * @param input - Value to be tested
- * @returns Boolean
  */
 export const isString = createTypeGuard<string>(
     (value) => typeof value === 'string',

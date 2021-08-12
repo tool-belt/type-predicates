@@ -1,23 +1,7 @@
 import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
-/**
- * Checks that input is Date object
- *
- * @category Type Guard
- * @example
- *
- * ```typescript
- * // true
- * isDate(new Date());
- *
- * // false
- * isDate('xyz');
- * ```
- *
- * @param input - Value to be tested
- * @returns Boolean
- */
+/** @category Type Guard */
 export const isDate = createTypeGuard<Date>(
     (value) =>
         isObject(value) &&

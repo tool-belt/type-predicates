@@ -1,8 +1,8 @@
 import { createTypeGuard } from '../utils';
 
 /**
- * Checks that input is object
- *
+ * @remarks
+ * Tests true for all objects that have a typeof 'object' excluding null
  * @category Type Guard
  * @example
  *
@@ -14,11 +14,8 @@ import { createTypeGuard } from '../utils';
  * isObject([]);
  *
  * // false
- * isObject(() => null);
+ * isObject(null);
  * ```
- *
- * @param input - Value to be tested
- * @returns Boolean
  */
 export const isObject = createTypeGuard<object>(
     (value) => typeof value === 'object' && value !== null,

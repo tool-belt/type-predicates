@@ -7,6 +7,7 @@ import {
     isAsyncGenerator,
     isAsyncGeneratorFunction,
     isAsyncIterable,
+    isBigInt,
     isBigInt64Array,
     isBigUint64Array,
     isBoolean,
@@ -14,6 +15,7 @@ import {
     isBuffer,
     isDataView,
     isDate,
+    isDefined,
     isError,
     isFloat32Array,
     isFloat64Array,
@@ -26,8 +28,10 @@ import {
     isIterable,
     isIterator,
     isMap,
+    isNotNull,
+    isNotNullish,
     isNull,
-    isNullOrUndefined,
+    isNullish,
     isNumber,
     isNumberObject,
     isObject,
@@ -327,8 +331,8 @@ describe('isMap', () => {
         ]);
         if (
             isMap<object | string, object | string>(unknownMap, {
-                keyValidator: isUnion(isObject, isString),
-                valueValidator: isUnion(isObject, isString),
+                keyValidator: isUnion<object | string>(isObject, isString),
+                valueValidator: isUnion<object | string>(isObject, isString),
             })
         ) {
             expectTypeOf(unknownMap).toMatchTypeOf<
@@ -408,8 +412,8 @@ describe('isRecord', () => {
         };
         if (
             isRecord<string, number | string>(unknownRecord, {
-                keyValidator: isUnion(isNumber, isString),
-                valueValidator: isUnion(isNumber, isString),
+                keyValidator: isUnion<number | string>(isNumber, isString),
+                valueValidator: isUnion<number | string>(isNumber, isString),
             })
         ) {
             expectTypeOf(unknownRecord).toMatchTypeOf<
@@ -442,6 +446,12 @@ describe.each([
         ['abc', true, null, ...objectValues, ...functionValues],
     ],
     [
+        'bigint',
+        isBigInt,
+        [9007199254740991n, BigInt(9007199254740991)],
+        [0, 1, 'abc', true, null, ...objectValues, ...functionValues],
+    ],
+    [
         'boolean',
         isBoolean,
         [true, false],
@@ -454,16 +464,16 @@ describe.each([
         ['', 0, null, true, ...objectValues, ...functionValues],
     ],
     [
-        'undefined',
-        isUndefined,
-        [undefined],
-        ['', 0, null, false, ...objectValues, ...functionValues],
-    ],
-    [
         'object',
         isObject,
         objectValues,
         [null, ...primitiveValues, ...functionValues],
+    ],
+    [
+        'undefined',
+        isUndefined,
+        [undefined],
+        ['', 0, null, false, ...objectValues, ...functionValues],
     ],
     [
         'null',
@@ -472,10 +482,28 @@ describe.each([
         ['', 0, undefined, false, ...objectValues, ...functionValues],
     ],
     [
-        'nil',
-        isNullOrUndefined,
+        'Nullish',
+        isNullish,
         [null, undefined],
         ['', 0, false, ...objectValues, ...functionValues],
+    ],
+    [
+        'Defined',
+        isDefined,
+        ['', 0, null, false, ...objectValues, ...functionValues],
+        [undefined],
+    ],
+    [
+        'notNull',
+        isNotNull,
+        ['', 0, undefined, false, ...objectValues, ...functionValues],
+        [null],
+    ],
+    [
+        'notNullish',
+        isNotNullish,
+        ['', 0, false, ...objectValues, ...functionValues],
+        [null, undefined],
     ],
     [
         'Error',
@@ -857,7 +885,12 @@ describe.each([
     ],
 ])(
     '%s',
-    (_: string, guard: TypeGuard, expected: unknown[], failed: unknown[]) => {
+    (
+        _: string,
+        guard: TypeGuard<unknown>,
+        expected: unknown[],
+        failed: unknown[],
+    ) => {
         it.each(expected)(`returns true for expected values`, (value) => {
             expect(guard(value)).toBeTruthy();
         });

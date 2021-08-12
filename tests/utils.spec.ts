@@ -1,4 +1,4 @@
-import { createTypeAssertion, createTypeGuard } from '../src';
+import { ValueValidator, createTypeAssertion, createTypeGuard } from '../src';
 class CustomClass {}
 const customTypeGuard = createTypeGuard<CustomClass>(
     (value) => value instanceof CustomClass,
@@ -7,6 +7,18 @@ const customTypeGuard = createTypeGuard<CustomClass>(
 describe('createTypeGuard', () => {
     it('creates a type-guard', () => {
         expect(customTypeGuard(new CustomClass())).toBeTruthy();
+    });
+    it('creates a type-guard with options', () => {
+        const mock = jest.fn((value: unknown) => !!value);
+        const typeGuard = createTypeGuard<CustomClass, ValueValidator>(
+            (value, { valueValidator }: ValueValidator) =>
+                valueValidator(value),
+            {
+                valueValidator: mock,
+            },
+        );
+        expect(typeGuard(true)).toBeTruthy();
+        expect(mock).toHaveBeenCalledWith(true);
     });
 });
 

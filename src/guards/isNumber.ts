@@ -1,8 +1,6 @@
 import { createTypeGuard } from '../utils';
 
 /**
- * Checks that input is number primitive
- *
  * @category Type Guard
  * @example
  *
@@ -10,15 +8,12 @@ import { createTypeGuard } from '../utils';
  * // true
  * isNumber(1);
  *
- * // false, because Number constructor returns object
+ * // false
  * isNumber(new Number(1));
  *
  * // false
- * isNumber('xyz');
+ * isNumber(new BigInt(9007199254740991n));
  * ```
- *
- * @param input - Value to be tested
- * @returns Boolean
  */
 export const isNumber = createTypeGuard<number>(
     (value) => typeof value === 'number',

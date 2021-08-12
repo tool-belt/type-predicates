@@ -3,8 +3,6 @@ import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is Record<K, V>
- *
  * @category Type Guard
  * @example
  *
@@ -22,21 +20,7 @@ import { isObject } from './isObject';
  *         valueValidator: isUnion(isString, isNumber),
  *     },
  * );
- *
- * // false
- * isRecord<string, string>(
- *     new Map([
- *         ['abc', 'def'],
- *         ['xyz', 100],
- *     ]),
- * );
  * ```
- *
- * @typeParam K - Type of Record keys
- * @typeParam V - Type of Record values
- * @param input - Value to be tested
- * @param options - Optional validators: keyValidator, valueValidator
- * @returns Boolean
  */
 export function isRecord(input: unknown): input is Record<string | symbol, any>;
 export function isRecord<K extends string | symbol>(

@@ -3,7 +3,7 @@
   "out": "docs",
   "includeVersion": true,
   "sort": ["alphabetical"],
-  "defaultCategory": "Functions",
+  "defaultCategory": "Utility",
   "categorizeByGroup": true,
   "excludeInternal": true,
   "readme": "none"

@@ -2,8 +2,6 @@ import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is Error object
- *
  * @category Type Guard
  * @example
  *
@@ -11,22 +9,15 @@ import { isObject } from './isObject';
  * // true
  * isError(new Error());
  *
- * // true
+ * // true, value is typed as Error
  * isError(new TypeError());
  *
- * // true
- * isError(new RangeError());
+ * // true, value is typed as TypeError
+ * isError<TypeError>(new TypeError());
  *
  * // true, as long as MyCustomError inherits Error
- * isError(new MyCustomError());
- *
- * // false
- * isError({});
+ * isError<MyCustomError>(new MyCustomError());
  * ```
- *
- * @typeParam T - Error type, extends Error and defaults to Error
- * @param input - Value to be tested
- * @returns Boolean
  */
 export function isError<T extends Error = Error>(input: unknown): input is T {
     return createTypeGuard<T>(

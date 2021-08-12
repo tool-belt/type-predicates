@@ -3,8 +3,6 @@ import { createTypeAssertion } from '../utils';
 import { isSet } from '../guards/isSet';
 
 /**
- * Asserts that input is Set<T> object
- *
  * @category Type Assertion
  * @example
  *
@@ -14,15 +12,8 @@ import { isSet } from '../guards/isSet';
  *
  * // doesn't throw, value is typed as Set<string>
  * assertIsSet<string>(new Set(['xyz']), { valueValidator: isString });
- *
- * // throws
- * assertIsSet<string>('abc', { valueValidator: isString });
  * ```
  *
- * @typeParam T - Type of Set value
- * @param input - Value to be tested
- * @param options - Optional valueValidator
- * @returns Void
  * @throws TypeError
  */
 export function assertIsSet(input: unknown): asserts input is Set<any>;

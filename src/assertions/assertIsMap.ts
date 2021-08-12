@@ -3,8 +3,6 @@ import { createTypeAssertion } from '../utils';
 import { isMap } from '../guards/isMap';
 
 /**
- * Asserts that input is Map<K, V>
- *
  * @category Type Assertion
  * @example
  *
@@ -23,16 +21,8 @@ import { isMap } from '../guards/isMap';
  *         valueValidator: isUnion(isString, isNumber),
  *     },
  * );
- *
- * // throws
- * assertIsMap<string, string>(['abc', 'def']);
  * ```
  *
- * @typeParam K - Type of Map keys
- * @typeParam V - Type of Map values
- * @param input - Value to be tested
- * @param options - Optional validators: keyValidator, valueValidator
- * @returns Void
  * @throws TypeError
  */
 export function assertIsMap(

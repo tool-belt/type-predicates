@@ -3,8 +3,6 @@ import { createTypeGuard, toObjectString } from '../utils';
 import { isObject } from './isObject';
 
 /**
- * Checks that input is Map<K, V> object
- *
  * @category Type Guard
  * @example
  *
@@ -23,16 +21,7 @@ import { isObject } from './isObject';
  *         valueValidator: isUnion(isString, isNumber),
  *     },
  * );
- *
- * // false
- * isMap<string, string>(['abc', 'def']);
  * ```
- *
- * @typeParam K - Type of Map keys
- * @typeParam V - Type of Map values
- * @param input - Value to be tested
- * @param options - Optional validators: keyValidator, valueValidator
- * @returns Boolean
  */
 export function isMap(input: unknown): input is Map<any, any>;
 export function isMap<K>(

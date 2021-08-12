@@ -12,34 +12,27 @@ export const toObjectString = (value: unknown): string =>
     Object.prototype.toString.call(value);
 
 /**
- * Creates a TypeGuard<T> function
- *
  * @category Utility
  * @example
  *
  * ```typescript
- * // myTypeGuard === (input: unknown, {throwError: boolean}) => input is MyClass
+ * // myTypeGuard === (input: unknown, { throwError: boolean }) => input is MyClass
  * const myTypeGuard = createTypeGuard<MyClass>(
  *     (value) => isObject(value) && Reflect.get(value, 'myProp'),
  *     MyClass.name,
  * );
  * ```
- *
- * @typeParam T - Type of the TypeGuard
- * @typeParam O - Type of the TypeGuard options, defaults to any
- * @param validator - TypeValidator function that is applied to the value being tested
- * @returns TypeGuard<T>
  */
-export function createTypeGuard<T, O = any>(
-    validator: TypeValidator,
-): TypeGuard<T, O> {
-    return (input: unknown, ...args: any[]): input is T =>
-        validator(input, ...args);
+export function createTypeGuard<
+    T,
+    O extends TypeGuardOptions | undefined = undefined,
+>(validator: TypeValidator, options?: O): TypeGuard<T, O> {
+    return options
+        ? (input: unknown): input is T => validator(input, options)
+        : (input: unknown): input is T => validator(input);
 }
 
 /**
- * Creates a TypeAssertion<T> function
- *
  * @category Utility
  * @example
  *
@@ -47,19 +40,38 @@ export function createTypeGuard<T, O = any>(
  * // myTypeAssertion === (input: unknown) => asserts input is MyClass
  * const myTypeAssertion = createTypeAssertion<MyClass>(guard: TypeGuard<MyClass>)
  * ```
- *
- * @typeParam T - Type of the TypeAssertion
- * @typeParam O - Type of the TypeGuard options, defaults to undefined
- * @param guard - TypeGuard<T> function
- * @param options - Optional guard options
- * @returns TypeAssertion<T>
  */
-export function createTypeAssertion<T, O extends TypeGuardOptions = undefined>(
-    guard: TypeGuard<T, O>,
-): TypeAssertion<T, O> {
+export function createTypeAssertion<
+    T,
+    O extends TypeGuardOptions | undefined = undefined,
+>(guard: TypeGuard<T, O>): TypeAssertion<T, O> {
     return (input: unknown, options?: O): asserts input is T => {
         if (!guard(input, options)) {
             throw new TypeError();
         }
+    };
+}
+
+/**
+ * @category Utility
+ * @example
+ *
+ * ```typescript
+ * // unionTypeGuard === <T>(input: unknown, ...args: any[]) => input is T
+ * const unionTypeGuard = isUnion<string | number | symbol>(
+ *     isString,
+ *     isNumber,
+ *     isSymbol,
+ * );
+ * ```
+ */
+export function isUnion<T>(...guards: TypeGuard<T>[]): TypeGuard<T> {
+    return function (input: unknown, ...args: any[]): input is T {
+        for (const guard of guards) {
+            if (guard(input, ...args)) {
+                return true;
+            }
+        }
+        return false;
     };
 }
