@@ -55,12 +55,12 @@
         "prettier": "^2.3.2",
         "prettier-plugin-jsdoc": "^0.3.24",
         "rimraf": "^3.0.2",
-        "rollup": "^2.56.3",
+        "rollup": "2.56.2",
         "rollup-plugin-terser": "^7.0.2",
         "ts-jest": "^27.0.5",
         "ts-node": "^10.2.1",
         "typedoc": "^0.21.9",
-        "typescript": "^4.4.2"
+        "typescript": "4.3.5"
     },
     "lint-staged": {
         "*.ts": "eslint --fix",
