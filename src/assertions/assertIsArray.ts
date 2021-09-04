@@ -1,4 +1,4 @@
-import { ValueValidator } from '../types';
+import { ErrorMessage, ValueValidator } from '../types';
 import { createTypeAssertion } from '../utils';
 import { isArray } from '../guards/isArray';
 
@@ -20,16 +20,24 @@ import { isArray } from '../guards/isArray';
  * @throws TypeError
  */
 export function assertIsArray(input: unknown): asserts input is any[];
+export function assertIsArray(
+    input: unknown,
+    options?: ErrorMessage,
+): asserts input is any[];
 export function assertIsArray<T>(
     input: unknown,
     options: ValueValidator,
 ): asserts input is T[];
 export function assertIsArray<T>(
     input: unknown,
-    options?: ValueValidator,
+    options: ValueValidator & ErrorMessage,
+): asserts input is T[];
+export function assertIsArray<T>(
+    input: unknown,
+    options?: Partial<ValueValidator & ErrorMessage>,
 ): asserts input is T[] {
-    return createTypeAssertion<T[], ValueValidator | undefined>(isArray)(
-        input,
-        options,
-    );
+    return createTypeAssertion<
+        T[],
+        Partial<ValueValidator & ErrorMessage> | undefined
+    >(isArray)(input, options);
 }

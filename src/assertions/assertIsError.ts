@@ -1,3 +1,4 @@
+import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
 import { isError } from '../guards/isError';
 
@@ -23,6 +24,7 @@ import { isError } from '../guards/isError';
  */
 export function assertIsError<T extends Error = Error>(
     input: unknown,
+    options?: ErrorMessage,
 ): asserts input is T {
-    return createTypeAssertion<T>(isError)(input);
+    return createTypeAssertion<T>(isError)(input, options);
 }

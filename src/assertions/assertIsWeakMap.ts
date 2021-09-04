@@ -1,3 +1,4 @@
+import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
 import { isWeakMap } from '../guards/isWeakMap';
 
@@ -7,6 +8,7 @@ import { isWeakMap } from '../guards/isWeakMap';
  */
 export function assertIsWeakMap<K extends object = any, V = unknown>(
     input: unknown,
+    options?: ErrorMessage,
 ): asserts input is WeakMap<K, V> {
-    return createTypeAssertion<WeakMap<K, V>>(isWeakMap)(input);
+    return createTypeAssertion<WeakMap<K, V>>(isWeakMap)(input, options);
 }

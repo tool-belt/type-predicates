@@ -1,3 +1,4 @@
+import { ErrorMessage } from '../types';
 import { isUndefined } from '../guards/isUndefined';
 
 /**
@@ -7,8 +8,11 @@ import { isUndefined } from '../guards/isUndefined';
  * @category Type Assertion
  * @throws TypeError
  */
-export function assertIsDefined<T>(input: T | undefined): asserts input is T {
+export function assertIsDefined<T>(
+    input: T | undefined,
+    options?: ErrorMessage,
+): asserts input is T {
     if (isUndefined(input)) {
-        throw TypeError();
+        throw TypeError(options?.message);
     }
 }

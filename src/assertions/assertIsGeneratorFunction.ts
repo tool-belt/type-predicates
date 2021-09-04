@@ -1,4 +1,4 @@
-import { TypedGeneratorFunction } from '../types';
+import { ErrorMessage, TypedGeneratorFunction } from '../types';
 import { createTypeAssertion } from '../utils';
 import { isGeneratorFunction } from '../guards/isGeneratorFunction';
 
@@ -12,8 +12,11 @@ export function assertIsGeneratorFunction<
     Y = unknown,
     R = unknown,
     N = unknown,
->(input: unknown): asserts input is TypedGeneratorFunction<Y, R, N> {
+>(
+    input: unknown,
+    options?: ErrorMessage,
+): asserts input is TypedGeneratorFunction<Y, R, N> {
     return createTypeAssertion<TypedGeneratorFunction<Y, R, N>>(
         isGeneratorFunction,
-    )(input);
+    )(input, options);
 }

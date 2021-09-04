@@ -1,3 +1,4 @@
+import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
 import { isAsyncGenerator } from '../guards/isAsyncGenerator';
 
@@ -9,8 +10,10 @@ import { isAsyncGenerator } from '../guards/isAsyncGenerator';
  */
 export function assertIsAsyncGenerator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
+    options?: ErrorMessage,
 ): asserts input is AsyncGenerator<Y, R, N> {
     return createTypeAssertion<AsyncGenerator<Y, R, N>>(isAsyncGenerator)(
         input,
+        options,
     );
 }

@@ -1,3 +1,4 @@
+import { ErrorMessage } from '../types';
 import { isNull } from '../guards/isNull';
 
 /**
@@ -7,8 +8,11 @@ import { isNull } from '../guards/isNull';
  * @category Type Assertion
  * @throws TypeError
  */
-export function assertIsNotNull<T>(input: T | null): asserts input is T {
+export function assertIsNotNull<T>(
+    input: T | null,
+    options?: ErrorMessage,
+): asserts input is T {
     if (isNull(input)) {
-        throw TypeError();
+        throw TypeError(options?.message);
     }
 }

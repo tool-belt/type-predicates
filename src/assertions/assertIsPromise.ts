@@ -1,3 +1,4 @@
+import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
 import { isPromise } from '../guards/isPromise';
 
@@ -9,6 +10,7 @@ import { isPromise } from '../guards/isPromise';
  */
 export function assertIsPromise<T = unknown>(
     input: unknown,
+    options?: ErrorMessage,
 ): asserts input is Promise<T> {
-    return createTypeAssertion<Promise<T>>(isPromise)(input);
+    return createTypeAssertion<Promise<T>>(isPromise)(input, options);
 }

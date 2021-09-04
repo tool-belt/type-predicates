@@ -1,3 +1,4 @@
+import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
 import { isFunction } from '../guards/isFunction';
 
@@ -31,6 +32,7 @@ import { isFunction } from '../guards/isFunction';
  */
 export function assertIsFunction<T extends Function = Function>(
     input: unknown,
+    options?: ErrorMessage,
 ): asserts input is T {
-    return createTypeAssertion<T>(isFunction)(input);
+    return createTypeAssertion<T>(isFunction)(input, options);
 }

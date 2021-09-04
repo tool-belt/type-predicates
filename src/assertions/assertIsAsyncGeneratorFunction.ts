@@ -1,3 +1,4 @@
+import { ErrorMessage } from '../types';
 import {
     TypedAsyncGeneratorFunction,
     isAsyncGeneratorFunction,
@@ -12,8 +13,11 @@ export function assertIsAsyncGeneratorFunction<
     Y = unknown,
     R = unknown,
     N = unknown,
->(input: unknown): asserts input is TypedAsyncGeneratorFunction<Y, R, N> {
+>(
+    input: unknown,
+    options?: ErrorMessage,
+): asserts input is TypedAsyncGeneratorFunction<Y, R, N> {
     return createTypeAssertion<TypedAsyncGeneratorFunction<Y, R, N>>(
         isAsyncGeneratorFunction,
-    )(input);
+    )(input, options);
 }

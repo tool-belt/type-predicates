@@ -18,3 +18,7 @@
 - assertIsDefined
 - renamed isNullOrUndefined to isNullish
 - renamed assertIsNullOrUndefined to assertIsNullish
+
+## 1.2.0
+
+- added support for custom error messages in type assertions

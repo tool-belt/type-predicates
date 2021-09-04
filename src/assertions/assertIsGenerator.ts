@@ -1,3 +1,4 @@
+import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
 import { isGenerator } from '../guards/isGenerator';
 
@@ -9,6 +10,7 @@ import { isGenerator } from '../guards/isGenerator';
  */
 export function assertIsGenerator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
+    options?: ErrorMessage,
 ): asserts input is Generator<Y, R, N> {
-    return createTypeAssertion<Generator<Y, R, N>>(isGenerator)(input);
+    return createTypeAssertion<Generator<Y, R, N>>(isGenerator)(input, options);
 }

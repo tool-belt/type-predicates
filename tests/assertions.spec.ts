@@ -1,4 +1,5 @@
 import {
+    ErrorMessage,
     TypeAssertion,
     assertIsAnyArrayBuffer,
     assertIsArray,
@@ -59,6 +60,7 @@ import {
     isUnion,
 } from '../src';
 
+const CUSTOM_MESSAGE = 'CUSTOM';
 const asyncFunction = async () => Promise.resolve(null);
 const regularFunction = () => null;
 const generatorFunction = function* () {
@@ -182,6 +184,11 @@ describe('assertIsArray', () => {
             assertIsArray<string>({}, { valueValidator: isString }),
         ).toThrow();
     });
+    it('throws custom message', () => {
+        expect(() => assertIsArray({}, { message: CUSTOM_MESSAGE })).toThrow(
+            CUSTOM_MESSAGE,
+        );
+    });
 });
 
 describe('assertIsSet', () => {
@@ -268,6 +275,11 @@ describe('assertIsSet', () => {
             assertIsSet<string>({}, { valueValidator: isString }),
         ).toThrow();
     });
+    it('throws custom message', () => {
+        expect(() => assertIsSet({}, { message: CUSTOM_MESSAGE })).toThrow(
+            CUSTOM_MESSAGE,
+        );
+    });
 });
 
 describe('assertIsMap', () => {
@@ -344,12 +356,17 @@ describe('assertIsMap', () => {
             }),
         ).toThrow();
     });
-    it('throws false for non-Map values', () => {
+    it('throws for non-Map values', () => {
         expect(() => assertIsMap('')).toThrow();
         expect(() => assertIsMap(true)).toThrow();
         expect(() => assertIsMap(new Set())).toThrow();
         expect(() => assertIsMap([])).toThrow();
         expect(() => assertIsMap(new WeakMap())).toThrow();
+    });
+    it('throws custom message', () => {
+        expect(() => assertIsMap({}, { message: CUSTOM_MESSAGE })).toThrow(
+            CUSTOM_MESSAGE,
+        );
     });
 });
 
@@ -415,6 +432,11 @@ describe('assertIsRecord', () => {
         expect(() => assertIsRecord(new Set())).toThrow();
         expect(() => assertIsRecord([])).toThrow();
         expect(() => assertIsRecord(new WeakMap())).toThrow();
+    });
+    it('throws custom message', () => {
+        expect(() => assertIsRecord([], { message: CUSTOM_MESSAGE })).toThrow(
+            CUSTOM_MESSAGE,
+        );
     });
 });
 
@@ -873,7 +895,7 @@ describe.each([
     '%s',
     (
         _: string,
-        assertion: TypeAssertion<unknown>,
+        assertion: TypeAssertion<unknown, ErrorMessage>,
         expected: unknown[],
         failed: unknown[],
     ) => {
@@ -882,6 +904,11 @@ describe.each([
         });
         it.each(failed)(`throws for non-expected values`, (value) => {
             expect(() => assertion(value)).toThrow();
+        });
+        it.each(failed)(`with custom message`, (value) => {
+            expect(() => assertion(value, { message: CUSTOM_MESSAGE })).toThrow(
+                CUSTOM_MESSAGE,
+            );
         });
     },
 );

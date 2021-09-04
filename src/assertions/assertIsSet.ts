@@ -1,4 +1,4 @@
-import { ValueValidator } from '../types';
+import { ErrorMessage, ValueValidator } from '../types';
 import { createTypeAssertion } from '../utils';
 import { isSet } from '../guards/isSet';
 
@@ -17,16 +17,20 @@ import { isSet } from '../guards/isSet';
  * @throws TypeError
  */
 export function assertIsSet(input: unknown): asserts input is Set<any>;
+export function assertIsSet(
+    input: unknown,
+    options: ErrorMessage,
+): asserts input is Set<any>;
 export function assertIsSet<T>(
     input: unknown,
     options: ValueValidator,
 ): asserts input is Set<T>;
 export function assertIsSet<T>(
     input: unknown,
-    options?: ValueValidator,
+    options?: Partial<ValueValidator & ErrorMessage>,
 ): asserts input is Set<T> {
-    return createTypeAssertion<Set<T>, ValueValidator | undefined>(isSet)(
-        input,
-        options,
-    );
+    return createTypeAssertion<
+        Set<T>,
+        Partial<ErrorMessage & ValueValidator> | undefined
+    >(isSet)(input, options);
 }

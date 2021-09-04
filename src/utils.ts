@@ -1,5 +1,7 @@
 import {
+    ErrorMessage,
     TypeAssertion,
+    TypeAssertionOptions,
     TypeGuard,
     TypeGuardOptions,
     TypeValidator,
@@ -43,11 +45,11 @@ export function createTypeGuard<
  */
 export function createTypeAssertion<
     T,
-    O extends TypeGuardOptions | undefined = undefined,
->(guard: TypeGuard<T, O>): TypeAssertion<T, O> {
+    O extends TypeAssertionOptions | undefined = ErrorMessage,
+>(guard: TypeGuard<T, any>): TypeAssertion<T, O> {
     return (input: unknown, options?: O): asserts input is T => {
         if (!guard(input, options)) {
-            throw new TypeError();
+            throw new TypeError(options?.message);
         }
     };
 }
