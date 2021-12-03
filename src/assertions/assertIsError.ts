@@ -1,6 +1,6 @@
+import { isError } from '../guards/isError';
 import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isError } from '../guards/isError';
 
 /**
  * @category Type Assertion

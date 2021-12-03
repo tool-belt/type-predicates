@@ -1,5 +1,5 @@
-import { ErrorMessage } from '../types';
 import { isNull } from '../guards/isNull';
+import { ErrorMessage } from '../types';
 
 /**
  * @remarks

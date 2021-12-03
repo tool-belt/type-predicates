@@ -1,6 +1,6 @@
+import { isUnion } from '../utils';
 import { isNull } from './isNull';
 import { isUndefined } from './isUndefined';
-import { isUnion } from '../utils';
 
 /**
  * @remarks

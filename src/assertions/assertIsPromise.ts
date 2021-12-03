@@ -1,6 +1,6 @@
+import { isPromise } from '../guards/isPromise';
 import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isPromise } from '../guards/isPromise';
 
 /**
  * @remarks

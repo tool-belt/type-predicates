@@ -70,6 +70,7 @@ export function createTypeAssertion<
 export function isUnion<T>(...guards: TypeGuard<T>[]): TypeGuard<T> {
     return function (input: unknown, ...args: any[]): input is T {
         for (const guard of guards) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             if (guard(input, ...args)) {
                 return true;
             }

@@ -1,6 +1,6 @@
+import { isAsyncIterable } from '../guards/isAsyncIterable';
 import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isAsyncIterable } from '../guards/isAsyncIterable';
 
 /**
  * @remarks

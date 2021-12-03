@@ -1,5 +1,5 @@
-import { createTypeAssertion } from '../utils';
 import { isObject } from '../guards/isObject';
+import { createTypeAssertion } from '../utils';
 
 /**
  * @remarks

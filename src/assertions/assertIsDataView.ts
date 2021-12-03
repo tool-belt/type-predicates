@@ -1,5 +1,5 @@
-import { createTypeAssertion } from '../utils';
 import { isDataView } from '../guards/isDataView';
+import { createTypeAssertion } from '../utils';
 
 /**
  * @category Type Assertion

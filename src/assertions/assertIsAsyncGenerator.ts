@@ -1,6 +1,6 @@
+import { isAsyncGenerator } from '../guards/isAsyncGenerator';
 import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isAsyncGenerator } from '../guards/isAsyncGenerator';
 
 /**
  * @remarks

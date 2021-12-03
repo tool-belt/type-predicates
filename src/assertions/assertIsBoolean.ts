@@ -1,5 +1,5 @@
-import { createTypeAssertion } from '../utils';
 import { isBoolean } from '../guards/isBoolean';
+import { createTypeAssertion } from '../utils';
 
 /**
  * @category Type Assertion

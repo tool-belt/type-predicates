@@ -1,5 +1,5 @@
-import { createTypeAssertion } from '../utils';
 import { isSharedArrayBuffer } from '../guards/isSharedArrayBuffer';
+import { createTypeAssertion } from '../utils';
 
 /**
  * @category Type Assertion

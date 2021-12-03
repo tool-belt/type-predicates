@@ -1,5 +1,6 @@
+import { expectTypeOf } from 'expect-type';
+
 import {
-    TypeGuard,
     isAnyArrayBuffer,
     isArray,
     isArrayBuffer,
@@ -22,9 +23,9 @@ import {
     isFunction,
     isGenerator,
     isGeneratorFunction,
+    isInt8Array,
     isInt16Array,
     isInt32Array,
-    isInt8Array,
     isIterable,
     isIterator,
     isMap,
@@ -44,16 +45,16 @@ import {
     isStringObject,
     isSymbol,
     isTypedArray,
-    isUint16Array,
-    isUint32Array,
     isUint8Array,
     isUint8ClampedArray,
+    isUint16Array,
+    isUint32Array,
     isUndefined,
     isUnion,
     isWeakMap,
     isWeakSet,
+    TypeGuard,
 } from '../src';
-import { expectTypeOf } from 'expect-type';
 
 const asyncFunction = async () => Promise.resolve(null);
 const regularFunction = () => null;

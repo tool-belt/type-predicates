@@ -1,5 +1,5 @@
-import { createTypeAssertion } from '../utils';
 import { isUndefined } from '../guards/isUndefined';
+import { createTypeAssertion } from '../utils';
 
 /**
  * @category Type Assertion

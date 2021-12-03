@@ -1,6 +1,6 @@
+import { isGeneratorFunction } from '../guards/isGeneratorFunction';
 import { ErrorMessage, TypedGeneratorFunction } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isGeneratorFunction } from '../guards/isGeneratorFunction';
 
 /**
  * @remarks

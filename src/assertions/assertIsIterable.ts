@@ -1,6 +1,6 @@
+import { isIterable } from '../guards/isIterable';
 import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isIterable } from '../guards/isIterable';
 
 /**
  * @remarks

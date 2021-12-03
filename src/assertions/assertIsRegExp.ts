@@ -1,5 +1,5 @@
-import { createTypeAssertion } from '../utils';
 import { isRegExp } from '../guards/isRegExp';
+import { createTypeAssertion } from '../utils';
 
 /**
  * @category Type Assertion

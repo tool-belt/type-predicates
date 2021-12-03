@@ -1,8 +1,8 @@
-import { ErrorMessage } from '../types';
 import {
-    TypedAsyncGeneratorFunction,
     isAsyncGeneratorFunction,
+    TypedAsyncGeneratorFunction,
 } from '../guards/isAsyncGeneratorFunction';
+import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
 
 /**

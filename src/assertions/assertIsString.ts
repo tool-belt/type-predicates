@@ -1,5 +1,5 @@
-import { createTypeAssertion } from '../utils';
 import { isString } from '../guards/isString';
+import { createTypeAssertion } from '../utils';
 
 /**
  * @category Type Assertion

@@ -1,6 +1,6 @@
+import { isGenerator } from '../guards/isGenerator';
 import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isGenerator } from '../guards/isGenerator';
 
 /**
  * @remarks

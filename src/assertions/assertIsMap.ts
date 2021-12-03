@@ -1,6 +1,6 @@
+import { isMap } from '../guards/isMap';
 import { ErrorMessage, KeyValidator, ValueValidator } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isMap } from '../guards/isMap';
 
 /**
  * @category Type Assertion

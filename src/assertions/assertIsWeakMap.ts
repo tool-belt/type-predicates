@@ -1,6 +1,6 @@
+import { isWeakMap } from '../guards/isWeakMap';
 import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isWeakMap } from '../guards/isWeakMap';
 
 /**
  * @category Type Assertion

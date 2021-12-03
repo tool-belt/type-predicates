@@ -1,4 +1,5 @@
-import { ValueValidator, createTypeAssertion, createTypeGuard } from '../src';
+import { createTypeAssertion, createTypeGuard, ValueValidator } from '../src';
+
 class CustomClass {}
 const customTypeGuard = createTypeGuard<CustomClass>(
     (value) => value instanceof CustomClass,

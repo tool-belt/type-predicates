@@ -1,6 +1,6 @@
-import { ErrorMessage } from '../types';
 import { isNull } from '../guards/isNull';
 import { isUndefined } from '../guards/isUndefined';
+import { ErrorMessage } from '../types';
 
 /**
  * @remarks

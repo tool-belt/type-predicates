@@ -1,5 +1,5 @@
-import { createTypeAssertion } from '../utils';
 import { isBigInt } from '../guards/isBigInt';
+import { createTypeAssertion } from '../utils';
 
 /**
  * @category Type Assertion

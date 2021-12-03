@@ -1,6 +1,6 @@
+import { isWeakSet } from '../guards/isWeakSet';
 import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isWeakSet } from '../guards/isWeakSet';
 
 /**
  * @category Type Assertion

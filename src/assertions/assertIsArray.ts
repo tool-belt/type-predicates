@@ -1,6 +1,6 @@
+import { isArray } from '../guards/isArray';
 import { ErrorMessage, ValueValidator } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isArray } from '../guards/isArray';
 
 /**
  * @category Type Assertion

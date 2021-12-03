@@ -1,19 +1,19 @@
-import { TypedArray } from '../types';
-import { createTypeAssertion } from '../utils';
 import {
     isBigInt64Array,
     isBigUint64Array,
     isFloat32Array,
     isFloat64Array,
+    isInt8Array,
     isInt16Array,
     isInt32Array,
-    isInt8Array,
     isTypedArray,
-    isUint16Array,
-    isUint32Array,
     isUint8Array,
     isUint8ClampedArray,
+    isUint16Array,
+    isUint32Array,
 } from '../guards/isTypedArray';
+import { TypedArray } from '../types';
+import { createTypeAssertion } from '../utils';
 /**
  * @category Type Assertion
  * @throws TypeError

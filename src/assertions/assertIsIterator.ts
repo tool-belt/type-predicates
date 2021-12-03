@@ -1,6 +1,6 @@
+import { isIterator } from '../guards/isIterator';
 import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isIterator } from '../guards/isIterator';
 
 /**
  * @remarks

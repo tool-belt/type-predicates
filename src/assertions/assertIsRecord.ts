@@ -1,6 +1,6 @@
+import { isRecord } from '../guards/isRecord';
 import { ErrorMessage, KeyValidator, ValueValidator } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isRecord } from '../guards/isRecord';
 
 /**
  * @category Type Assertion

@@ -1,6 +1,6 @@
+import { isFunction } from '../guards/isFunction';
 import { ErrorMessage } from '../types';
 import { createTypeAssertion } from '../utils';
-import { isFunction } from '../guards/isFunction';
 
 /**
  * @remarks

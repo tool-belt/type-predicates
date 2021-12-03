@@ -1,5 +1,5 @@
-import { createTypeAssertion } from '../utils';
 import { isBuffer } from '../guards/isBuffer';
+import { createTypeAssertion } from '../utils';
 
 /**
  * @category Type Assertion
