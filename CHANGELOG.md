@@ -22,3 +22,7 @@
 ## 1.2.0
 
 - added support for custom error messages in type assertions
+
+## 1.2.1
+
+- updated dependencies
