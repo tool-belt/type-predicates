@@ -2,23 +2,31 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-    types: [ opened, synchronize, reopened ]
+    branches: [main]
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          fetch-depth: 0
-      - name: Install
-        run: yarn
-      - name: Test
-        run: yarn test:coverage --ci
+          node-version: 18
+      - uses: pnpm/action-setup@v2.2.4
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+      - name: Install Dependencies
+        run: pnpm install
+      - name: test
+        run: pnpm run test:coverage --ci
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_TYPE_GUARDS }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
