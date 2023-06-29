@@ -1,6 +1,6 @@
+import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import { OutputOptions } from 'rollup';
-import { terser } from 'rollup-plugin-terser';
 // eslint-disable-next-line import/no-unresolved
 import { PackageJson } from 'type-fest';
 

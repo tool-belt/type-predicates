@@ -1,13 +1,13 @@
 export type TypeValidator = (input: unknown, ...args: any[]) => boolean;
-export type KeyValidator = {
+export interface KeyValidator {
     keyValidator: TypeValidator;
-};
-export type ValueValidator = {
+}
+export interface ValueValidator {
     valueValidator: TypeValidator;
-};
-export type ErrorMessage = {
+}
+export interface ErrorMessage {
     message: string | undefined;
-};
+}
 export type TypeGuardOptions = Partial<ValueValidator & KeyValidator>;
 export type TypeAssertionOptions = TypeGuardOptions & Partial<ErrorMessage>;
 export type TypeGuard<T, O extends TypeGuardOptions | undefined = undefined> = (

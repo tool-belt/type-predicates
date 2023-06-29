@@ -5,14 +5,11 @@ module.exports = {
     parserOptions: {
         project: './tsconfig.json',
     },
+    ignorePatterns: ['.eslintrc.js', '**/*.js', '*.js'],
     rules: {
+        '@typescript-eslint/unified-signatures': 0,
         '@typescript-eslint/ban-types': 0,
+        '@typescript-eslint/no-extraneous-class': 0,
         'tsdoc/syntax': 0,
-        'jest/expect-expect': [
-            'warn',
-            {
-                assertFunctionNames: ['expect', 'expectTypeOf'],
-            },
-        ],
     },
 };
