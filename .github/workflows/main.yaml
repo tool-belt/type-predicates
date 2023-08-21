@@ -24,7 +24,7 @@ jobs:
             - name: Install Dependencies
               run: pnpm install
             - name: test
-              run: pnpm run test:coverage --ci
+              run: pnpm run test:coverage
             - name: SonarCloud Scan
               uses: sonarsource/sonarcloud-github-action@master
               env:

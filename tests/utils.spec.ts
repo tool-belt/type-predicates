@@ -10,7 +10,7 @@ describe('createTypeGuard', () => {
         expect(customTypeGuard(new CustomClass())).toBeTruthy();
     });
     it('creates a type-guard with options', () => {
-        const mock = jest.fn((value: unknown) => !!value);
+        const mock = vi.fn((value: unknown) => !!value);
         const typeGuard = createTypeGuard<CustomClass, ValueValidator>(
             (value, { valueValidator }: ValueValidator) =>
                 valueValidator(value),
