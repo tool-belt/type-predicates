@@ -46,6 +46,7 @@
         "@rollup/plugin-typescript": "^11.1.2",
         "@tool-belt/eslint-config": "^3.0.3",
         "@types/node": "^20.5.1",
+        "@vitest/coverage-istanbul": "^0.34.2",
         "all-contributors-cli": "^6.26.1",
         "eslint": "^8.47.0",
         "eslint-plugin-tsdoc": "^0.2.17",
