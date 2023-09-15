@@ -1,8 +1,6 @@
 <div align="center">
 
-![CI](https://github.com/tool-belt/type-predicates/actions/workflows/main.yaml/badge.svg)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-predicates&metric=coverage)](https://sonarcloud.io/summary/new_code?id=tool-belt_type-predicates)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-predicates&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tool-belt_type-predicates)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-predicates&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=tool-belt_type-predicates)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-predicates&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=tool-belt_type-predicates)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=tool-belt_type-predicates&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=tool-belt_type-predicates)
