@@ -57,7 +57,7 @@ export function assertIsRecord<K extends string | symbol, V>(
     input: unknown,
     options?: Partial<ValueValidator & KeyValidator & ErrorMessage>,
 ): asserts input is Record<K, V> {
-    return createTypeAssertion<
+    createTypeAssertion<
         Record<K, V>,
         Partial<ValueValidator & KeyValidator & ErrorMessage> | undefined
     >(isRecord)(input, options);

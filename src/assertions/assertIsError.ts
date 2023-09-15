@@ -26,5 +26,5 @@ export function assertIsError<T extends Error = Error>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is T {
-    return createTypeAssertion<T>(isError)(input, options);
+    createTypeAssertion<T>(isError)(input, options);
 }

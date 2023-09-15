@@ -56,7 +56,7 @@ import {
     TypeGuard,
 } from '../src';
 
-const asyncFunction = async () => Promise.resolve(null);
+const asyncFunction = async () => null;
 const regularFunction = () => null;
 const generatorFunction = function* () {
     yield true;
@@ -79,7 +79,9 @@ class CustomClass {}
 const stringRecord = { name: 'xyz' };
 const numberRecord = { 1: 100 };
 const symbolRecord = { [Symbol('a')]: Symbol('b') };
-const promise = new Promise((resolve) => resolve(null));
+const promise = new Promise((resolve) => {
+    resolve(null);
+});
 const primitiveValues = [true, false, 0, 1, '', undefined, Symbol()];
 const iterableObjects = [new Map(), new Set(), new String(), []];
 const buffers = [new ArrayBuffer(8), Buffer.alloc(8), new SharedArrayBuffer(8)];
@@ -230,15 +232,15 @@ describe('isSet', () => {
         expect(isSet<string>({}, { valueValidator: isString })).toBeFalsy();
     });
     it('guards type correctly', () => {
-        const unknownSet: unknown = new Set([...stringArray]);
+        const unknownSet: unknown = new Set(stringArray);
         if (isSet(unknownSet)) {
             expectTypeOf(unknownSet).toMatchTypeOf(
-                new Set<unknown>([...stringArray]),
+                new Set<unknown>(stringArray),
             );
         }
         if (isSet<string>(unknownSet, { valueValidator: isString })) {
             expectTypeOf(unknownSet).toMatchTypeOf(
-                new Set<string>([...stringArray]),
+                new Set<string>(stringArray),
             );
         }
     });
@@ -449,7 +451,7 @@ describe.each([
     [
         'bigint',
         isBigInt,
-        [9007199254740991n, BigInt(9007199254740991)],
+        [9_007_199_254_740_991n, BigInt(9_007_199_254_740_991)],
         [0, 1, 'abc', true, null, ...objectValues, ...functionValues],
     ],
     [

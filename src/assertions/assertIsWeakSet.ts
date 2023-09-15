@@ -10,5 +10,5 @@ export function assertIsWeakSet<T extends object = any>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is WeakSet<T> {
-    return createTypeAssertion<WeakSet<T>>(isWeakSet)(input, options);
+    createTypeAssertion<WeakSet<T>>(isWeakSet)(input, options);
 }

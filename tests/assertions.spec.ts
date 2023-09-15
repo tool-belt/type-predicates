@@ -61,7 +61,7 @@ import {
 } from '../src';
 
 const CUSTOM_MESSAGE = 'CUSTOM';
-const asyncFunction = async () => Promise.resolve(null);
+const asyncFunction = async () => null;
 const regularFunction = () => null;
 const generatorFunction = function* () {
     yield true;
@@ -84,7 +84,9 @@ class CustomClass {}
 const stringRecord = { name: 'xyz' };
 const numberRecord = { 1: 100 };
 const symbolRecord = { [Symbol('a')]: Symbol('b') };
-const promise = new Promise((resolve) => resolve(null));
+const promise = new Promise((resolve) => {
+    resolve(null);
+});
 const primitiveValues = [true, false, 0, 1, '', undefined, Symbol()];
 const iterableObjects = [new Map(), new Set(), new String(), []];
 const buffers = [new ArrayBuffer(8), Buffer.alloc(8), new SharedArrayBuffer(8)];
@@ -130,90 +132,90 @@ const functionValues = [
 
 describe('assertIsArray', () => {
     it('does not throw for positively tested array values', () => {
-        expect(() =>
-            assertIsArray<string>(stringArray, { valueValidator: isString }),
-        ).not.toThrow();
-        expect(() =>
-            assertIsArray<number>(numberArray, { valueValidator: isNumber }),
-        ).not.toThrow();
-        expect(() =>
-            assertIsArray<symbol>(symbolArray, { valueValidator: isSymbol }),
-        ).not.toThrow();
-        expect(() =>
-            assertIsArray<object>(recordArray, { valueValidator: isObject }),
-        ).not.toThrow();
-        expect(() =>
+        expect(() => {
+            assertIsArray<string>(stringArray, { valueValidator: isString });
+        }).not.toThrow();
+        expect(() => {
+            assertIsArray<number>(numberArray, { valueValidator: isNumber });
+        }).not.toThrow();
+        expect(() => {
+            assertIsArray<symbol>(symbolArray, { valueValidator: isSymbol });
+        }).not.toThrow();
+        expect(() => {
+            assertIsArray<object>(recordArray, { valueValidator: isObject });
+        }).not.toThrow();
+        expect(() => {
             assertIsArray<string | number>([...stringArray, ...numberArray], {
                 valueValidator: isUnion<string | number>(isString, isNumber),
-            }),
-        ).not.toThrow();
+            });
+        }).not.toThrow();
     });
     it('throw for negatively tested array values', () => {
-        expect(() =>
-            assertIsArray<string>(stringArray, { valueValidator: isNumber }),
-        ).toThrow();
-        expect(() =>
-            assertIsArray<number>(numberArray, { valueValidator: isString }),
-        ).toThrow();
-        expect(() =>
-            assertIsArray<symbol>(symbolArray, { valueValidator: isObject }),
-        ).toThrow();
-        expect(() =>
-            assertIsArray<object>(recordArray, { valueValidator: isSymbol }),
-        ).toThrow();
-        expect(() =>
+        expect(() => {
+            assertIsArray<string>(stringArray, { valueValidator: isNumber });
+        }).toThrow();
+        expect(() => {
+            assertIsArray<number>(numberArray, { valueValidator: isString });
+        }).toThrow();
+        expect(() => {
+            assertIsArray<symbol>(symbolArray, { valueValidator: isObject });
+        }).toThrow();
+        expect(() => {
+            assertIsArray<object>(recordArray, { valueValidator: isSymbol });
+        }).toThrow();
+        expect(() => {
             assertIsArray<string | number>([...symbolArray, ...recordArray], {
                 valueValidator: isUnion<string | number>(isString, isNumber),
-            }),
-        ).toThrow();
+            });
+        }).toThrow();
     });
     it('throws for non-array values', () => {
-        expect(() =>
-            assertIsArray<string>('', { valueValidator: isString }),
-        ).toThrow();
-        expect(() =>
-            assertIsArray<string>(null, { valueValidator: isString }),
-        ).toThrow();
-        expect(() =>
-            assertIsArray<string>(123, { valueValidator: isString }),
-        ).toThrow();
-        expect(() =>
-            assertIsArray<string>(Symbol(), { valueValidator: isString }),
-        ).toThrow();
-        expect(() =>
-            assertIsArray<string>({}, { valueValidator: isString }),
-        ).toThrow();
+        expect(() => {
+            assertIsArray<string>('', { valueValidator: isString });
+        }).toThrow();
+        expect(() => {
+            assertIsArray<string>(null, { valueValidator: isString });
+        }).toThrow();
+        expect(() => {
+            assertIsArray<string>(123, { valueValidator: isString });
+        }).toThrow();
+        expect(() => {
+            assertIsArray<string>(Symbol(), { valueValidator: isString });
+        }).toThrow();
+        expect(() => {
+            assertIsArray<string>({}, { valueValidator: isString });
+        }).toThrow();
     });
     it('throws custom message', () => {
-        expect(() => assertIsArray({}, { message: CUSTOM_MESSAGE })).toThrow(
-            CUSTOM_MESSAGE,
-        );
+        expect(() => {
+            assertIsArray({}, { message: CUSTOM_MESSAGE });
+        }).toThrow(CUSTOM_MESSAGE);
     });
 });
 
 describe('assertIsSet', () => {
     it('does not throw for positively tested Set values', () => {
-        expect(() =>
+        expect(() => {
             assertIsSet<string>(new Set(stringArray), {
                 valueValidator: isString,
-            }),
-        ).not.toThrow();
-        expect(() =>
+            });
+        }).not.toThrow();
+        expect(() => {
             assertIsSet<number>(new Set(numberArray), {
                 valueValidator: isNumber,
-            }),
-        ).not.toThrow();
-        expect(() =>
+            });
+        }).not.toThrow();
+        expect(() => {
             assertIsSet<symbol>(new Set(symbolArray), {
                 valueValidator: isSymbol,
-            }),
-        ).not.toThrow();
-        expect(() =>
+            });
+        }).not.toThrow();
+        expect(() => {
             assertIsSet<object>(new Set(recordArray), {
                 valueValidator: isObject,
-            }),
-        ).not.toThrow();
-        expect(() =>
+            });
+        }).not.toThrow();
+        expect(() => {
             assertIsSet<string | number>(
                 new Set([...stringArray, ...numberArray]),
                 {
@@ -222,31 +224,31 @@ describe('assertIsSet', () => {
                         isNumber,
                     ),
                 },
-            ),
-        ).not.toThrow();
+            );
+        }).not.toThrow();
     });
     it('throws for negatively tested Set values', () => {
-        expect(() =>
+        expect(() => {
             assertIsSet<string>(new Set(stringArray), {
                 valueValidator: isNumber,
-            }),
-        ).toThrow();
-        expect(() =>
+            });
+        }).toThrow();
+        expect(() => {
             assertIsSet<number>(new Set(numberArray), {
                 valueValidator: isString,
-            }),
-        ).toThrow();
-        expect(() =>
+            });
+        }).toThrow();
+        expect(() => {
             assertIsSet<symbol>(new Set(symbolArray), {
                 valueValidator: isObject,
-            }),
-        ).toThrow();
-        expect(() =>
+            });
+        }).toThrow();
+        expect(() => {
             assertIsSet<object>(new Set(recordArray), {
                 valueValidator: isSymbol,
-            }),
-        ).toThrow();
-        expect(() =>
+            });
+        }).toThrow();
+        expect(() => {
             assertIsSet<string | number>(
                 new Set([...symbolArray, ...recordArray]),
                 {
@@ -255,54 +257,54 @@ describe('assertIsSet', () => {
                         isNumber,
                     ),
                 },
-            ),
-        ).toThrow();
+            );
+        }).toThrow();
     });
     it('throws for non-Set values', () => {
-        expect(() =>
-            assertIsSet<string>('', { valueValidator: isString }),
-        ).toThrow();
-        expect(() =>
-            assertIsSet<string>(null, { valueValidator: isString }),
-        ).toThrow();
-        expect(() =>
-            assertIsSet<string>(123, { valueValidator: isString }),
-        ).toThrow();
-        expect(() =>
-            assertIsSet<string>(Symbol(), { valueValidator: isString }),
-        ).toThrow();
-        expect(() =>
-            assertIsSet<string>({}, { valueValidator: isString }),
-        ).toThrow();
+        expect(() => {
+            assertIsSet<string>('', { valueValidator: isString });
+        }).toThrow();
+        expect(() => {
+            assertIsSet<string>(null, { valueValidator: isString });
+        }).toThrow();
+        expect(() => {
+            assertIsSet<string>(123, { valueValidator: isString });
+        }).toThrow();
+        expect(() => {
+            assertIsSet<string>(Symbol(), { valueValidator: isString });
+        }).toThrow();
+        expect(() => {
+            assertIsSet<string>({}, { valueValidator: isString });
+        }).toThrow();
     });
     it('throws custom message', () => {
-        expect(() => assertIsSet({}, { message: CUSTOM_MESSAGE })).toThrow(
-            CUSTOM_MESSAGE,
-        );
+        expect(() => {
+            assertIsSet({}, { message: CUSTOM_MESSAGE });
+        }).toThrow(CUSTOM_MESSAGE);
     });
 });
 
 describe('assertIsMap', () => {
     it('does not throw for positively tested Map values', () => {
-        expect(() =>
+        expect(() => {
             assertIsMap<string, string>(stringMap, {
                 valueValidator: isString,
                 keyValidator: isString,
-            }),
-        ).not.toThrow();
-        expect(() =>
+            });
+        }).not.toThrow();
+        expect(() => {
             assertIsMap<number, number>(numberMap, {
                 valueValidator: isNumber,
                 keyValidator: isNumber,
-            }),
-        ).not.toThrow();
-        expect(() =>
+            });
+        }).not.toThrow();
+        expect(() => {
             assertIsMap<symbol, symbol>(symbolMap, {
                 valueValidator: isSymbol,
                 keyValidator: isSymbol,
-            }),
-        ).not.toThrow();
-        expect(() =>
+            });
+        }).not.toThrow();
+        expect(() => {
             assertIsMap<string | number | symbol, string | number | symbol>(
                 new Map<string | number | symbol, string | number | symbol>([
                     ...stringMap,
@@ -321,9 +323,9 @@ describe('assertIsMap', () => {
                         isSymbol,
                     ),
                 },
-            ),
-        ).not.toThrow();
-        expect(() =>
+            );
+        }).not.toThrow();
+        expect(() => {
             assertIsMap<object | boolean, object | boolean>(
                 new Map<object | boolean, object | boolean>([
                     ...recordMap,
@@ -339,58 +341,68 @@ describe('assertIsMap', () => {
                         isBoolean,
                     ),
                 },
-            ),
-        ).not.toThrow();
+            );
+        }).not.toThrow();
     });
     it('throws for negatively tested Map values', () => {
-        expect(() =>
+        expect(() => {
             assertIsMap(stringMap, {
                 valueValidator: isNumber,
                 keyValidator: isNumber,
-            }),
-        ).toThrow();
-        expect(() =>
+            });
+        }).toThrow();
+        expect(() => {
             assertIsMap(numberMap, {
                 valueValidator: isString,
                 keyValidator: isString,
-            }),
-        ).toThrow();
+            });
+        }).toThrow();
     });
     it('throws for non-Map values', () => {
-        expect(() => assertIsMap('')).toThrow();
-        expect(() => assertIsMap(true)).toThrow();
-        expect(() => assertIsMap(new Set())).toThrow();
-        expect(() => assertIsMap([])).toThrow();
-        expect(() => assertIsMap(new WeakMap())).toThrow();
+        expect(() => {
+            assertIsMap('');
+        }).toThrow();
+        expect(() => {
+            assertIsMap(true);
+        }).toThrow();
+        expect(() => {
+            assertIsMap(new Set());
+        }).toThrow();
+        expect(() => {
+            assertIsMap([]);
+        }).toThrow();
+        expect(() => {
+            assertIsMap(new WeakMap());
+        }).toThrow();
     });
     it('throws custom message', () => {
-        expect(() => assertIsMap({}, { message: CUSTOM_MESSAGE })).toThrow(
-            CUSTOM_MESSAGE,
-        );
+        expect(() => {
+            assertIsMap({}, { message: CUSTOM_MESSAGE });
+        }).toThrow(CUSTOM_MESSAGE);
     });
 });
 
 describe('assertIsRecord', () => {
     it('returns true for positively tested record values', () => {
-        expect(() =>
+        expect(() => {
             assertIsRecord<string, string>(stringRecord, {
                 valueValidator: isString,
                 keyValidator: isString,
-            }),
-        ).not.toThrow();
-        expect(() =>
+            });
+        }).not.toThrow();
+        expect(() => {
             assertIsRecord<string, number>(numberRecord, {
                 valueValidator: isNumber,
                 keyValidator: isString,
-            }),
-        ).not.toThrow();
-        expect(() =>
+            });
+        }).not.toThrow();
+        expect(() => {
             assertIsRecord<symbol, symbol>(symbolRecord, {
                 valueValidator: isSymbol,
                 keyValidator: isSymbol,
-            }),
-        ).not.toThrow();
-        expect(() =>
+            });
+        }).not.toThrow();
+        expect(() => {
             assertIsRecord<string | symbol, string | symbol>(
                 {
                     ...stringRecord,
@@ -409,34 +421,44 @@ describe('assertIsRecord', () => {
                         isSymbol,
                     ),
                 },
-            ),
-        ).not.toThrow();
+            );
+        }).not.toThrow();
     });
     it('returns false for negatively tested record values', () => {
-        expect(() =>
+        expect(() => {
             assertIsRecord(stringRecord, {
                 valueValidator: isNumber,
                 keyValidator: isNumber,
-            }),
-        ).toThrow();
-        expect(() =>
+            });
+        }).toThrow();
+        expect(() => {
             assertIsRecord(numberRecord, {
                 valueValidator: isString,
                 keyValidator: isString,
-            }),
-        ).toThrow();
+            });
+        }).toThrow();
     });
     it('returns false for non-record values', () => {
-        expect(() => assertIsRecord(CustomClass)).toThrow();
-        expect(() => assertIsRecord(new Map())).toThrow();
-        expect(() => assertIsRecord(new Set())).toThrow();
-        expect(() => assertIsRecord([])).toThrow();
-        expect(() => assertIsRecord(new WeakMap())).toThrow();
+        expect(() => {
+            assertIsRecord(CustomClass);
+        }).toThrow();
+        expect(() => {
+            assertIsRecord(new Map());
+        }).toThrow();
+        expect(() => {
+            assertIsRecord(new Set());
+        }).toThrow();
+        expect(() => {
+            assertIsRecord([]);
+        }).toThrow();
+        expect(() => {
+            assertIsRecord(new WeakMap());
+        }).toThrow();
     });
     it('throws custom message', () => {
-        expect(() => assertIsRecord([], { message: CUSTOM_MESSAGE })).toThrow(
-            CUSTOM_MESSAGE,
-        );
+        expect(() => {
+            assertIsRecord([], { message: CUSTOM_MESSAGE });
+        }).toThrow(CUSTOM_MESSAGE);
     });
 });
 
@@ -456,7 +478,7 @@ describe.each([
     [
         'bigint',
         assertIsBigInt,
-        [9007199254740991n, BigInt(9007199254740991)],
+        [9_007_199_254_740_991n, BigInt(9_007_199_254_740_991)],
         [0, 1, 'abc', true, null, ...objectValues, ...functionValues],
     ],
     [
@@ -900,15 +922,19 @@ describe.each([
         failed: unknown[],
     ) => {
         it.each(expected)(`does not throw for expected values`, (value) => {
-            expect(() => assertion(value)).not.toThrow();
+            expect(() => {
+                assertion(value);
+            }).not.toThrow();
         });
         it.each(failed)(`throws for non-expected values`, (value) => {
-            expect(() => assertion(value)).toThrow();
+            expect(() => {
+                assertion(value);
+            }).toThrow();
         });
         it.each(failed)(`with custom message`, (value) => {
-            expect(() => assertion(value, { message: CUSTOM_MESSAGE })).toThrow(
-                CUSTOM_MESSAGE,
-            );
+            expect(() => {
+                assertion(value, { message: CUSTOM_MESSAGE });
+            }).toThrow(CUSTOM_MESSAGE);
         });
     },
 );

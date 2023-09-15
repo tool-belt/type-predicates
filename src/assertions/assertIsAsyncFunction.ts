@@ -12,8 +12,5 @@ export function assertIsAsyncFunction<T = unknown>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is AsyncFunction<T> {
-    return createTypeAssertion<AsyncFunction<T>>(isAsyncFunction)(
-        input,
-        options,
-    );
+    createTypeAssertion<AsyncFunction<T>>(isAsyncFunction)(input, options);
 }

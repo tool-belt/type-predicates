@@ -11,5 +11,8 @@ module.exports = {
         '@typescript-eslint/ban-types': 0,
         '@typescript-eslint/no-extraneous-class': 0,
         'tsdoc/syntax': 0,
+        'unicorn/new-for-builtins': 0,
+        'unicorn/filename-case': 0,
+        'unicorn/no-array-callback-reference': 0,
     },
 };

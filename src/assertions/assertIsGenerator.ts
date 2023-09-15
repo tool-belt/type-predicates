@@ -12,5 +12,5 @@ export function assertIsGenerator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is Generator<Y, R, N> {
-    return createTypeAssertion<Generator<Y, R, N>>(isGenerator)(input, options);
+    createTypeAssertion<Generator<Y, R, N>>(isGenerator)(input, options);
 }

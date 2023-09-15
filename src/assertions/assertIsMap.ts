@@ -60,7 +60,7 @@ export function assertIsMap<K, V>(
     input: unknown,
     options?: Partial<ValueValidator & KeyValidator & ErrorMessage>,
 ): asserts input is Map<K, V> {
-    return createTypeAssertion<
+    createTypeAssertion<
         Map<K, V>,
         Partial<ValueValidator & KeyValidator & ErrorMessage> | undefined
     >(isMap)(input, options);

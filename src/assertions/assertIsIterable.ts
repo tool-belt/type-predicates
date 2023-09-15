@@ -14,5 +14,5 @@ export function assertIsIterable<T = unknown>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is Iterable<T> {
-    return createTypeAssertion<Iterable<T>>(isIterable)(input, options);
+    createTypeAssertion<Iterable<T>>(isIterable)(input, options);
 }

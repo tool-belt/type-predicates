@@ -13,6 +13,6 @@ export function assertIsDefined<T>(
     options?: ErrorMessage,
 ): asserts input is T {
     if (isUndefined(input)) {
-        throw TypeError(options?.message);
+        throw new TypeError(options?.message);
     }
 }

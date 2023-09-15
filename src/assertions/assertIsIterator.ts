@@ -12,5 +12,5 @@ export function assertIsIterator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is Iterator<Y, R, N> {
-    return createTypeAssertion<Iterator<Y, R, N>>(isIterator)(input, options);
+    createTypeAssertion<Iterator<Y, R, N>>(isIterator)(input, options);
 }

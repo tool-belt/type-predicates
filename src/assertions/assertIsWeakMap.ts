@@ -10,5 +10,5 @@ export function assertIsWeakMap<K extends object = any, V = unknown>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is WeakMap<K, V> {
-    return createTypeAssertion<WeakMap<K, V>>(isWeakMap)(input, options);
+    createTypeAssertion<WeakMap<K, V>>(isWeakMap)(input, options);
 }

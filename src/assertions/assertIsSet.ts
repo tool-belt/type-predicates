@@ -29,7 +29,7 @@ export function assertIsSet<T>(
     input: unknown,
     options?: Partial<ValueValidator & ErrorMessage>,
 ): asserts input is Set<T> {
-    return createTypeAssertion<
+    createTypeAssertion<
         Set<T>,
         Partial<ErrorMessage & ValueValidator> | undefined
     >(isSet)(input, options);

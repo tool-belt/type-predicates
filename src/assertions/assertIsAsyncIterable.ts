@@ -13,8 +13,5 @@ export function assertIsAsyncIterable<T = unknown>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is AsyncIterable<T> {
-    return createTypeAssertion<AsyncIterable<T>>(isAsyncIterable)(
-        input,
-        options,
-    );
+    createTypeAssertion<AsyncIterable<T>>(isAsyncIterable)(input, options);
 }

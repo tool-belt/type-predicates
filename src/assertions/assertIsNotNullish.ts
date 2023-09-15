@@ -13,6 +13,6 @@ export function assertIsNotNullish<T>(
     options?: ErrorMessage,
 ): asserts input is T {
     if (isUndefined(input) || isNull(input)) {
-        throw TypeError(options?.message);
+        throw new TypeError(options?.message);
     }
 }

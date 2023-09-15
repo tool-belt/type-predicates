@@ -17,7 +17,7 @@ export function assertIsAsyncGeneratorFunction<
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is TypedAsyncGeneratorFunction<Y, R, N> {
-    return createTypeAssertion<TypedAsyncGeneratorFunction<Y, R, N>>(
+    createTypeAssertion<TypedAsyncGeneratorFunction<Y, R, N>>(
         isAsyncGeneratorFunction,
     )(input, options);
 }

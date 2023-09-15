@@ -12,7 +12,7 @@ export function assertIsAsyncGenerator<Y = unknown, R = unknown, N = unknown>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is AsyncGenerator<Y, R, N> {
-    return createTypeAssertion<AsyncGenerator<Y, R, N>>(isAsyncGenerator)(
+    createTypeAssertion<AsyncGenerator<Y, R, N>>(isAsyncGenerator)(
         input,
         options,
     );

@@ -16,7 +16,8 @@ export function assertIsGeneratorFunction<
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is TypedGeneratorFunction<Y, R, N> {
-    return createTypeAssertion<TypedGeneratorFunction<Y, R, N>>(
-        isGeneratorFunction,
-    )(input, options);
+    createTypeAssertion<TypedGeneratorFunction<Y, R, N>>(isGeneratorFunction)(
+        input,
+        options,
+    );
 }

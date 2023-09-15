@@ -13,6 +13,6 @@ export function assertIsNotNull<T>(
     options?: ErrorMessage,
 ): asserts input is T {
     if (isNull(input)) {
-        throw TypeError(options?.message);
+        throw new TypeError(options?.message);
     }
 }

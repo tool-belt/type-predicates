@@ -34,5 +34,5 @@ export function assertIsFunction<T extends Function = Function>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is T {
-    return createTypeAssertion<T>(isFunction)(input, options);
+    createTypeAssertion<T>(isFunction)(input, options);
 }

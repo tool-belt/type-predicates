@@ -36,7 +36,7 @@ export function assertIsArray<T>(
     input: unknown,
     options?: Partial<ValueValidator & ErrorMessage>,
 ): asserts input is T[] {
-    return createTypeAssertion<
+    createTypeAssertion<
         T[],
         Partial<ValueValidator & ErrorMessage> | undefined
     >(isArray)(input, options);

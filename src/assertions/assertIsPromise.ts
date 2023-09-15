@@ -12,5 +12,5 @@ export function assertIsPromise<T = unknown>(
     input: unknown,
     options?: ErrorMessage,
 ): asserts input is Promise<T> {
-    return createTypeAssertion<Promise<T>>(isPromise)(input, options);
+    createTypeAssertion<Promise<T>>(isPromise)(input, options);
 }
