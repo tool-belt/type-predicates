@@ -250,20 +250,20 @@ describe('isMap', () => {
     it('returns true for positively tested map values', () => {
         expect(
             isMap<string, string>(stringMap, {
-                valueValidator: isString,
                 keyValidator: isString,
+                valueValidator: isString,
             }),
         ).toBeTruthy();
         expect(
             isMap<number, number>(numberMap, {
-                valueValidator: isNumber,
                 keyValidator: isNumber,
+                valueValidator: isNumber,
             }),
         ).toBeTruthy();
         expect(
             isMap<symbol, symbol>(symbolMap, {
-                valueValidator: isSymbol,
                 keyValidator: isSymbol,
+                valueValidator: isSymbol,
             }),
         ).toBeTruthy();
         expect(
@@ -274,12 +274,12 @@ describe('isMap', () => {
                     ...symbolMap,
                 ]),
                 {
-                    valueValidator: isUnion<string | number | symbol>(
+                    keyValidator: isUnion<string | number | symbol>(
                         isString,
                         isNumber,
                         isSymbol,
                     ),
-                    keyValidator: isUnion<string | number | symbol>(
+                    valueValidator: isUnion<string | number | symbol>(
                         isString,
                         isNumber,
                         isSymbol,
@@ -294,11 +294,11 @@ describe('isMap', () => {
                     ...booleanMap,
                 ]),
                 {
-                    valueValidator: isUnion<object | boolean>(
+                    keyValidator: isUnion<object | boolean>(
                         isObject,
                         isBoolean,
                     ),
-                    keyValidator: isUnion<object | boolean>(
+                    valueValidator: isUnion<object | boolean>(
                         isObject,
                         isBoolean,
                     ),
@@ -309,14 +309,14 @@ describe('isMap', () => {
     it('returns false for negatively tested map values', () => {
         expect(
             isMap(stringMap, {
-                valueValidator: isNumber,
                 keyValidator: isNumber,
+                valueValidator: isNumber,
             }),
         ).toBeFalsy();
         expect(
             isMap(numberMap, {
-                valueValidator: isString,
                 keyValidator: isString,
+                valueValidator: isString,
             }),
         ).toBeFalsy();
     });
@@ -349,20 +349,20 @@ describe('isRecord', () => {
     it('returns true for positively tested record values', () => {
         expect(
             isRecord<string, string>(stringRecord, {
-                valueValidator: isString,
                 keyValidator: isString,
+                valueValidator: isString,
             }),
         ).toBeTruthy();
         expect(
             isRecord<string, number>(numberRecord, {
-                valueValidator: isNumber,
                 keyValidator: isString,
+                valueValidator: isNumber,
             }),
         ).toBeTruthy();
         expect(
             isRecord<symbol, symbol>(symbolRecord, {
-                valueValidator: isSymbol,
                 keyValidator: isSymbol,
+                valueValidator: isSymbol,
             }),
         ).toBeTruthy();
         expect(
@@ -373,12 +373,12 @@ describe('isRecord', () => {
                     ...symbolRecord,
                 },
                 {
-                    valueValidator: isUnion<string | number | symbol>(
+                    keyValidator: isUnion<string | number | symbol>(
                         isString,
                         isNumber,
                         isSymbol,
                     ),
-                    keyValidator: isUnion<string | number | symbol>(
+                    valueValidator: isUnion<string | number | symbol>(
                         isString,
                         isNumber,
                         isSymbol,
@@ -390,14 +390,14 @@ describe('isRecord', () => {
     it('returns false for negatively tested record values', () => {
         expect(
             isRecord(stringRecord, {
-                valueValidator: isNumber,
                 keyValidator: isNumber,
+                valueValidator: isNumber,
             }),
         ).toBeFalsy();
         expect(
             isRecord(numberRecord, {
-                valueValidator: isString,
                 keyValidator: isString,
+                valueValidator: isString,
             }),
         ).toBeFalsy();
     });

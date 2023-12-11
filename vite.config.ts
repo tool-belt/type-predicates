@@ -9,21 +9,21 @@ import manifest from './package.json';
 
 const { name } = manifest as PackageJson;
 export default defineConfig({
-    plugins: [dts({ rollupTypes: true })],
     build: {
-        minify: true,
         lib: {
-            fileName: 'index',
-            name,
             entry: path.resolve(__dirname, 'src/index.ts'),
+            fileName: 'index',
             formats: ['es', 'cjs'],
+            name,
         },
+        minify: true,
     },
+    plugins: [dts({ rollupTypes: true })],
     test: {
-        globals: true,
-        include: ['tests/**/*.spec.ts'],
         coverage: {
             reporter: ['text', 'lcov'],
         },
+        globals: true,
+        include: ['tests/**/*.spec.ts'],
     },
 });
